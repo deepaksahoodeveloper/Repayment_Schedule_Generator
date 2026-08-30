@@ -1,11 +1,654 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Repayment Schedule Generator</title>
+
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
+
 <body>
-    
+
+    <div class="form-container">
+
+        <h1>Loan Details</h1>
+
+        <p class="description">
+            Enter the loan details and repayment configuration.
+        </p>
+
+        <div class="phase-banner">
+            <div class="phase-badge">PHASE 1</div>
+            <div class="phase-content">
+                <strong>Phase 1 is Live</strong>
+                <span>Phase 2 is currently in development and will be live by 15 September 2026.</span>
+            </div>
+        </div>
+        <form id="loanForm">
+
+            <!--1 Loan & Borrower-->
+            <div class="form-section">
+
+                <div class="section-title">
+                    Loan & Borrower
+                </div>
+
+                <div class="form-grid">
+
+                    <!-- Borrower Name -->
+                    <div class="form-group">
+                        <label for="borrowerName">
+                            Borrower Name <span class="required">*</span>
+                        </label>
+
+                        <input type="text" id="borrowerName" name="borrowerName" value="Sunita" required
+                            placeholder="Borrower name">
+
+                        <span class="small-text">
+                            May be automatically filled from Borrower ID.
+                        </span>
+                    </div>
+
+                    <!-- Borrower ID -->
+                    <div class="form-group">
+                        <label for="borrowerId">
+                            Borrower ID <span class="required">*</span>
+                        </label>
+
+                        <input type="text" id="borrowerId" name="borrowerId" value="1000001" required
+                            placeholder="Enter Borrower ID">
+
+                        <span class="small-text">
+                            Enter or search for an existing borrower.
+                        </span>
+                    </div>
+
+                    <!-- Loan ID -->
+                    <div class="form-group">
+                        <label for="loanId">
+                            Loan ID <span class="required">*</span>
+                        </label>
+
+                        <input type="number" id="loanId" name="loanId" value="1000001" required>
+
+                        <span class="small-text">
+                            Unique identifier for the loan. Can be system-generated.
+                        </span>
+                    </div>
+
+                    <!-- Product -->
+                    <div class="form-group">
+                        <label for="productName">
+                            Product Name <span class="required">*</span>
+                        </label>
+
+                        <select id="productName" name="productName" required>
+                            <option value="">Select product</option>
+                            <option value="group-standard" selected>
+                                Group Loan - Standard
+                            </option>
+                            <option value="group-premium">
+                                Group Loan - Premium
+                            </option>
+                            <option value="individual">
+                                Individual Loan
+                            </option>
+                        </select>
+
+                        <span class="small-text">
+                            Select the applicable loan product.
+                        </span>
+                    </div>
+
+                </div>
+            </div>
+
+            <!--2 Loan Amount & Dates-->
+            <div class="form-section">
+
+                <div class="section-title">
+                    Loan Amount & Dates
+                </div>
+
+                <div class="form-grid">
+
+                    <!-- Principal Amount -->
+                    <div class="form-group">
+                        <label for="principalAmount">
+                            Loan Amount (Principal) <span class="required">*</span>
+                        </label>
+
+                        <input type="number" id="principalAmount" name="principalAmount" value="30000" min="0.01"
+                            step="0.01" required>
+
+                        <span class="small-text">
+                            Enter the principal loan amount in INR.
+                        </span>
+                    </div>
+
+                    <!-- Currency -->
+                    <div class="form-group">
+                        <label for="currency">
+                            Currency <span class="required">*</span>
+                        </label>
+
+                        <select id="currency" name="currency" required>
+                            <option value="INR" selected>
+                                INR - Indian Rupee
+                            </option>
+                        </select>
+
+                        <span class="small-text">
+                            Currency used for the loan.
+                        </span>
+                    </div>
+
+                    <!-- Disbursement Date -->
+                    <div class="form-group">
+                        <label for="disbursementDate">
+                            Disbursement Date <span class="required">*</span>
+                        </label>
+
+                        <input type="date" id="disbursementDate" name="disbursementDate" value="2026-01-05" required>
+
+                        <span class="small-text">
+                            Date on which the loan is disbursed.
+                        </span>
+                    </div>
+
+                    <!-- First Repayment Date -->
+                    <div class="form-group">
+                        <label for="firstRepaymentDate">
+                            First Repayment Date <span class="required">*</span>
+                        </label>
+
+                        <input type="date" id="firstRepaymentDate" name="firstRepaymentDate" value="2026-02-05"
+                            required>
+
+                        <span class="small-text">
+                            Must be on or after the disbursement date.
+                        </span>
+                    </div>
+
+                </div>
+            </div>
+
+            <!--3 Repayment -->
+            <div class="form-section">
+
+                <div class="section-title">
+                    Repayment
+                </div>
+
+                <div class="form-grid">
+
+                    <!-- Repayment Frequency -->
+                    <div class="form-group">
+                        <label for="repaymentFrequency">
+                            Repayment Frequency <span class="required">*</span>
+                        </label>
+
+                        <select id="repaymentFrequency" name="repaymentFrequency" required>
+                            <option value="">Select frequency</option>
+                            <option value="weekly">Weekly</option>
+                            <option value="biweekly" selected>
+                                Bi-weekly
+                            </option>
+                            <option value="monthly">Monthly</option>
+                        </select>
+
+                        <span class="small-text">
+                            How often the borrower makes repayments.
+                        </span>
+                    </div>
+
+                    <!-- Number of Installments -->
+                    <div class="form-group">
+                        <label for="numberOfInstallments">
+                            Number of Installments <span class="required">*</span>
+                        </label>
+
+                        <input type="number" id="numberOfInstallments" name="numberOfInstallments" value="26" min="1"
+                            step="1" required>
+
+                        <span class="small-text">
+                            Total number of repayments scheduled.
+                        </span>
+                    </div>
+
+                    <!-- Tenure Unit -->
+                    <div class="form-group">
+                        <label for="tenureUnit">
+                            Tenure Unit <span class="required">*</span>
+                        </label>
+
+                        <select id="tenureUnit" name="tenureUnit" required>
+                            <option value="">Select unit</option>
+                            <option value="days">Days</option>
+                            <option value="weeks">Weeks</option>
+                            <option value="months" selected>
+                                Months
+                            </option>
+                            <option value="years">Years</option>
+                        </select>
+
+                        <span class="small-text">
+                            Select the unit for the loan tenure.
+                        </span>
+                    </div>
+
+                    <!-- Tenure Value -->
+                    <div class="form-group">
+                        <label for="tenureValue">
+                            Tenure Value <span class="required">*</span>
+                        </label>
+
+                        <input type="number" id="tenureValue" name="tenureValue" value="12" min="1" step="1" required>
+
+                        <span class="small-text">
+                            Enter the loan tenure value.
+                        </span>
+                    </div>
+
+                    <!-- Repayment Method -->
+                    <div class="form-group">
+                        <label for="repaymentMethod">
+                            Interest / Repayment Method
+                            <span class="required">*</span>
+                        </label>
+
+                        <select id="repaymentMethod" name="repaymentMethod" required>
+                            <option value="">Select method</option>
+
+                            <option value="reducing-emi" selected>
+                                Reducing Balance - EMI
+                            </option>
+
+                            <option value="flat">
+                                Flat Rate
+                            </option>
+                        </select>
+
+                        <span class="small-text">
+                            Select how interest and repayments are calculated.
+                        </span>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- 4 Interest -->
+            <div class="form-section">
+
+                <div class="section-title">
+                    Interest
+                </div>
+
+
+                <div class="form-grid">
+
+                    <!-- Interest Rate -->
+                    <div class="form-group">
+                        <label for="annualInterestRate">
+                            Annual Interest Rate <span class="required">*</span>
+                        </label>
+
+                        <input type="number" id="annualInterestRate" name="annualInterestRate" value="24" min="0"
+                            step="0.01" required>
+
+                        <span class="small-text">
+                            Annual interest rate. Enter as a percentage.
+                        </span>
+                    </div>
+
+                    <!-- Day Count Convention -->
+                    <div class="form-group">
+                        <label for="dayCountConvention">
+                            Day Count Convention
+                            <span class="required">*</span>
+                        </label>
+
+                        <select id="dayCountConvention" name="dayCountConvention" required>
+                            <option value="">Select convention</option>
+
+                            <option value="actual365" selected>
+                                Actual/365
+                            </option>
+
+                            <option value="actual360">
+                                Actual/360
+                            </option>
+
+                            <option value="30_360">
+                                30/360
+                            </option>
+                        </select>
+
+                        <span class="small-text">
+                            Defines how interest calculation days are determined.
+                        </span>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- 5 Fees & Charges-->
+            <div class="form-section">
+
+                <div class="section-title">
+                    Fees & Charges
+                </div>
+
+                <div class="form-grid">
+
+                    <!-- Fee Application Timing -->
+                    <div class="form-group">
+                        <label for="feeApplicationTiming">
+                            Fee Application Timing <span class="required">*</span>
+                        </label>
+
+                        <select id="feeApplicationTiming" name="feeApplicationTiming" required>
+                            <option value="upfront" selected>
+                                Upfront at Disbursement
+                            </option>
+                            <option value="first-installment">
+                                Added to First Installment
+                            </option>
+                            <option value="spread">
+                                Spread Equally Across Installments
+                            </option>
+                        </select>
+
+                        <span class="small-text">
+                            Determines when fees are applied to the loan.
+                        </span>
+                    </div>
+
+                    <!-- Processing Fee Type -->
+                    <div class="form-group">
+                        <label for="processingFeeType">
+                            Processing Fee Type <span class="required">*</span>
+                        </label>
+
+                        <select id="processingFeeType" name="processingFeeType" required>
+                            <option value="percentage" selected>
+                                % of Principal
+                            </option>
+                            <option value="flat">
+                                Flat Amount
+                            </option>
+                        </select>
+
+                        <span class="small-text">
+                            Select how the processing fee is calculated.
+                        </span>
+                    </div>
+
+                    <!-- Processing Fee Value -->
+                    <div class="form-group">
+                        <label for="processingFeeValue">
+                            Processing Fee Value <span class="required">*</span>
+                        </label>
+
+                        <input type="number" id="processingFeeValue" name="processingFeeValue" value="0.5" min="0"
+                            step="0.01" required>
+
+                        <span class="small-text" id="processingFeeHelp">
+                            Enter the processing fee as a percentage of the principal.
+                        </span>
+                    </div>
+
+                    <!-- Insurance Fee Type -->
+                    <div class="form-group">
+                        <label for="insuranceFeeType">
+                            Insurance Fee Type <span class="required">*</span>
+                        </label>
+
+                        <select id="insuranceFeeType" name="insuranceFeeType" required>
+                            <option value="percentage" selected>
+                                % of Principal
+                            </option>
+                            <option value="flat">
+                                Flat Amount
+                            </option>
+                        </select>
+
+                        <span class="small-text">
+                            Select how the insurance fee is calculated.
+                        </span>
+                    </div>
+
+                    <!-- Insurance Fee Value -->
+                    <div class="form-group">
+                        <label for="insuranceFeeValue">
+                            Insurance Fee Value
+                        </label>
+
+                        <input type="number" id="insuranceFeeValue" name="insuranceFeeValue" value="" min="0"
+                            step="0.01" placeholder="Enter amount">
+
+                        <span class="small-text" id="insuranceFeeHelp">
+                            Enter the insurance fee as a percentage of the principal.
+                        </span>
+                    </div>
+
+                    <!-- Service Fee -->
+                    <div class="form-group">
+                        <label for="serviceFee">
+                            Service Fee (Flat Amount)
+                        </label>
+
+                        <input type="number" id="serviceFee" name="serviceFee" value="" min="0" step="0.01"
+                            placeholder="Enter amount">
+
+                        <span class="small-text">
+                            One-time or spread service fee based on the selected fee application timing.
+                        </span>
+                    </div>
+
+                    <!-- Other Charges -->
+                    <div class="form-group">
+                        <label for="otherCharges">
+                            Other Charges (Flat Amount)
+                        </label>
+
+                        <input type="number" id="otherCharges" name="otherCharges" value="" min="0" step="0.01"
+                            placeholder="Enter amount">
+
+                        <span class="small-text">
+                            Enter any additional one-time or spread charges.
+                        </span>
+                    </div>
+
+                    <!-- Apply Tax/GST -->
+                    <div class="form-group">
+                        <label for="applyTax">
+                            Apply Tax/GST on Fees? <span class="required">*</span>
+                        </label>
+
+                        <select id="applyTax" name="applyTax" required>
+                            <option value="no" selected>
+                                No
+                            </option>
+                            <option value="yes">
+                                Yes
+                            </option>
+                        </select>
+
+                        <span class="small-text">
+                            Apply tax or GST to the applicable fee amounts.
+                        </span>
+                    </div>
+
+                    <!-- Tax/GST Rate -->
+                    <div class="form-group">
+                        <label for="taxRate">
+                            Tax/GST Rate (%)
+                        </label>
+
+                        <input type="number" id="taxRate" name="taxRate" value="18" min="0" max="100" step="0.01"
+                            placeholder="Enter tax rate" disabled>
+
+                        <span class="small-text">
+                            Applied to fee amounts only when Tax/GST is enabled.
+                        </span>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- 6 Advanced Calculation Settings -->
+            <div class="form-section advanced-section">
+
+                <div class="section-title">
+                    Advanced Calculation Settings
+                </div>
+
+                <div class="form-grid">
+
+                    <!-- Rounding Decimal Places -->
+                    <div class="form-group">
+                        <label for="roundingDecimalPlaces">
+                            Rounding Decimal Places
+                            <span class="required">*</span>
+                        </label>
+
+                        <input type="number" id="roundingDecimalPlaces" name="roundingDecimalPlaces" value="-1" step="1"
+                            required>
+
+                        <span class="small-text">
+                            Integer value. -1 means nearest ₹10.
+                        </span>
+                    </div>
+
+                    <!-- Rounding Rule -->
+                    <div class="form-group">
+                        <label for="roundingRule">
+                            Rounding Rule <span class="required">*</span>
+                        </label>
+
+                        <select id="roundingRule" name="roundingRule" required>
+                            <option value="">Select rule</option>
+
+                            <option value="nearest" selected>
+                                Round (Nearest)
+                            </option>
+
+                            <option value="up">
+                                Round Up
+                            </option>
+
+                            <option value="down">
+                                Round Down
+                            </option>
+                        </select>
+
+                        <span class="small-text">
+                            Select how calculated amounts should be rounded.
+                        </span>
+                    </div>
+
+                    <!-- Weekend / Holiday Handling -->
+                    <div class="form-group">
+                        <label for="weekendHolidayHandling">
+                            Weekend / Holiday Handling <span class="required">*</span>
+                        </label>
+
+                        <select id="weekendHolidayHandling" name="weekendHolidayHandling" required>
+                            <option value="no-adjustment" selected>
+                                No Adjustment
+                            </option>
+                            <option value="move-to-next-business-day">
+                                Move to Next Business Day
+                            </option>
+                            <option value="move-to-previous-business-day">
+                                Move to Previous Business Day
+                            </option>
+                        </select>
+
+                        <span class="small-text">
+                            If a repayment date falls on a weekend or holiday, this setting determines how to adjust it.
+                        </span>
+                    </div>
+
+                    <!-- Holiday Weekdays -->
+                    <div class="form-group">
+                        <label>
+                            Holiday Weekdays
+                            <span class="required">*</span>
+                        </label>
+
+                        <div class="weekday-selector">
+
+                            <label>
+                                <input type="checkbox" name="holidayWeekdays[]" value="MONDAY">
+                                <span>Mon</span>
+                            </label>
+
+                            <label>
+                                <input type="checkbox" name="holidayWeekdays[]" value="TUESDAY">
+                                <span>Tue</span>
+                            </label>
+
+                            <label>
+                                <input type="checkbox" name="holidayWeekdays[]" value="WEDNESDAY">
+                                <span>Wed</span>
+                            </label>
+
+                            <label>
+                                <input type="checkbox" name="holidayWeekdays[]" value="THURSDAY">
+                                <span>Thu</span>
+                            </label>
+
+                            <label>
+                                <input type="checkbox" name="holidayWeekdays[]" value="FRIDAY">
+                                <span>Fri</span>
+                            </label>
+
+                            <label>
+                                <input type="checkbox" name="holidayWeekdays[]" value="SATURDAY">
+                                <span>Sat</span>
+                            </label>
+
+                            <label>
+                                <input type="checkbox" name="holidayWeekdays[]" value="SUNDAY">
+                                <span>Sun</span>
+                            </label>
+
+                        </div>
+
+                        <span class="small-text">
+                            Select recurring weekly holidays.
+                        </span>
+                    </div>
+
+
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="form-actions">
+
+                <button type="reset" class="btn-secondary">
+                    Cancel
+                </button>
+
+                <button type="submit" class="btn-primary">
+                    Create Loan Schedule
+                </button>
+
+            </div>
+
+        </form>
+    </div>
+
+    <script src="assets/js/script.js"></script>
+
 </body>
+
 </html>
