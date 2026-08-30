@@ -1,16 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Repayment Schedule Generator</title>
 
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 
 <body>
-
     <div class="form-container">
 
         <h1>Loan Details</h1>
@@ -19,24 +18,31 @@
             Enter the loan details and repayment configuration.
         </p>
 
+        <!-- Phase Banner -->
         <div class="phase-banner">
-            <div class="phase-badge">PHASE 1</div>
+            <div class="phase-badge">
+                PHASE 1
+            </div>
 
             <div class="phase-content">
                 <strong>Phase 1 is Live</strong>
+
                 <span>
-                    Phase 2 is currently in development and will be live by 15 September 2026.
+                    Phase 2 is currently in development and will be live by
+                    15 September 2026.
                 </span>
             </div>
         </div>
 
         <form id="loanForm">
 
-            <!-- 1 Loan & Borrower -->
+            <!-- =========================================
+                 1. LOAN & BORROWER
+            ========================================== -->
             <div class="form-section">
 
                 <div class="section-title">
-                    Loan & Borrower
+                    Loan &amp; Borrower
                 </div>
 
                 <div class="form-grid">
@@ -125,12 +131,13 @@
                 </div>
             </div>
 
-
-            <!-- 2 Loan Amount & Dates -->
+            <!-- =========================================
+                 2. LOAN AMOUNT & DATES
+            ========================================== -->
             <div class="form-section">
 
                 <div class="section-title">
-                    Loan Amount & Dates
+                    Loan Amount &amp; Dates
                 </div>
 
                 <div class="form-grid">
@@ -138,7 +145,8 @@
                     <!-- Principal Amount -->
                     <div class="form-group">
                         <label for="principalAmount">
-                            Loan Amount (Principal) <span class="required">*</span>
+                            Loan Amount (Principal)
+                            <span class="required">*</span>
                         </label>
 
                         <input
@@ -177,7 +185,8 @@
                     <!-- Disbursement Date -->
                     <div class="form-group">
                         <label for="disbursementDate">
-                            Disbursement Date <span class="required">*</span>
+                            Disbursement Date
+                            <span class="required">*</span>
                         </label>
 
                         <input
@@ -195,7 +204,8 @@
                     <!-- First Repayment Date -->
                     <div class="form-group">
                         <label for="firstRepaymentDate">
-                            First Repayment Date <span class="required">*</span>
+                            First Repayment Date
+                            <span class="required">*</span>
                         </label>
 
                         <input
@@ -213,8 +223,9 @@
                 </div>
             </div>
 
-
-            <!-- 3 Repayment -->
+            <!-- =========================================
+                 3. REPAYMENT
+            ========================================== -->
             <div class="form-section">
 
                 <div class="section-title">
@@ -226,7 +237,8 @@
                     <!-- Repayment Frequency -->
                     <div class="form-group">
                         <label for="repaymentFrequency">
-                            Repayment Frequency <span class="required">*</span>
+                            Repayment Frequency
+                            <span class="required">*</span>
                         </label>
 
                         <select
@@ -249,7 +261,8 @@
                     <!-- Number of Installments -->
                     <div class="form-group">
                         <label for="numberOfInstallments">
-                            Number of Installments <span class="required">*</span>
+                            Number of Installments
+                            <span class="required">*</span>
                         </label>
 
                         <input
@@ -273,7 +286,11 @@
                             Tenure Unit <span class="required">*</span>
                         </label>
 
-                        <select id="tenureUnit" name="tenureUnit" required>
+                        <select
+                            id="tenureUnit"
+                            name="tenureUnit"
+                            required
+                        >
                             <option value="">Select unit</option>
                             <option value="days">Days</option>
                             <option value="weeks">Weeks</option>
@@ -320,14 +337,9 @@
                             required
                         >
                             <option value="">Select method</option>
-
-                            <option value="reducing-emi">
-                                Reducing Balance - EMI
-                            </option>
-
-                            <option value="flat">
-                                Flat Rate
-                            </option>
+                            <option value="flat-interest">Flat Interest - Equal Installment</option>
+                            <option value="reducing-emi">Reducing Balance - EMI (Equal Installment)</option>
+                            <option value="reducing-balance">Reducing Balance - Equal Principal</option>
                         </select>
 
                         <span class="small-text">
@@ -336,11 +348,11 @@
                     </div>
 
                 </div>
-
             </div>
 
-
-            <!-- 4 Interest -->
+            <!-- =========================================
+                 4. INTEREST
+            ========================================== -->
             <div class="form-section">
 
                 <div class="section-title">
@@ -352,7 +364,8 @@
                     <!-- Interest Rate -->
                     <div class="form-group">
                         <label for="annualInterestRate">
-                            Annual Interest Rate <span class="required">*</span>
+                            Annual Interest Rate
+                            <span class="required">*</span>
                         </label>
 
                         <input
@@ -383,18 +396,9 @@
                             required
                         >
                             <option value="">Select convention</option>
-
-                            <option value="actual365">
-                                Actual/365
-                            </option>
-
-                            <option value="actual360">
-                                Actual/360
-                            </option>
-
-                            <option value="30_360">
-                                30/360
-                            </option>
+                            <option value="actual365">Actual/365</option>
+                            <option value="actual360">Actual/360</option>
+                            <option value="30_360">30/360</option>
                         </select>
 
                         <span class="small-text">
@@ -403,15 +407,15 @@
                     </div>
 
                 </div>
-
             </div>
 
-
-            <!-- 5 Fees & Charges -->
+            <!-- =========================================
+                 5. FEES & CHARGES
+            ========================================== -->
             <div class="form-section">
 
                 <div class="section-title">
-                    Fees & Charges
+                    Fees &amp; Charges
                 </div>
 
                 <div class="form-grid">
@@ -419,7 +423,8 @@
                     <!-- Fee Application Timing -->
                     <div class="form-group">
                         <label for="feeApplicationTiming">
-                            Fee Application Timing <span class="required">*</span>
+                            Fee Application Timing
+                            <span class="required">*</span>
                         </label>
 
                         <select
@@ -430,15 +435,12 @@
                             <option value="">
                                 Select fee application timing
                             </option>
-
                             <option value="upfront">
                                 Upfront at Disbursement
                             </option>
-
                             <option value="first-installment">
                                 Added to First Installment
                             </option>
-
                             <option value="spread">
                                 Spread Equally Across Installments
                             </option>
@@ -452,7 +454,8 @@
                     <!-- Processing Fee Type -->
                     <div class="form-group">
                         <label for="processingFeeType">
-                            Processing Fee Type <span class="required">*</span>
+                            Processing Fee Type
+                            <span class="required">*</span>
                         </label>
 
                         <select
@@ -461,11 +464,9 @@
                             required
                         >
                             <option value="">Select fee type</option>
-
                             <option value="percentage">
                                 % of Principal
                             </option>
-
                             <option value="flat">
                                 Flat Amount
                             </option>
@@ -479,7 +480,8 @@
                     <!-- Processing Fee Value -->
                     <div class="form-group">
                         <label for="processingFeeValue">
-                            Processing Fee Value <span class="required">*</span>
+                            Processing Fee Value
+                            <span class="required">*</span>
                         </label>
 
                         <input
@@ -503,20 +505,17 @@
                     <!-- Insurance Fee Type -->
                     <div class="form-group">
                         <label for="insuranceFeeType">
-                            Insurance Fee Type <span class="required">*</span>
+                            Insurance Fee Type
                         </label>
 
                         <select
                             id="insuranceFeeType"
                             name="insuranceFeeType"
-                            required
                         >
                             <option value="">Select fee type</option>
-
                             <option value="percentage">
                                 % of Principal
                             </option>
-
                             <option value="flat">
                                 Flat Amount
                             </option>
@@ -566,7 +565,8 @@
                         >
 
                         <span class="small-text">
-                            One-time or spread service fee based on the selected fee application timing.
+                            One-time or spread service fee based on the selected
+                            fee application timing.
                         </span>
                     </div>
 
@@ -590,7 +590,7 @@
                         </span>
                     </div>
 
-                    <!-- Apply Tax/GST -->
+                    <!-- Apply Tax -->
                     <div class="form-group">
                         <label for="applyTax">
                             Apply Tax/GST on Fees?
@@ -612,7 +612,7 @@
                         </span>
                     </div>
 
-                    <!-- Tax/GST Rate -->
+                    <!-- Tax Rate -->
                     <div class="form-group">
                         <label for="taxRate">
                             Tax/GST Rate (%)
@@ -635,11 +635,11 @@
                     </div>
 
                 </div>
-
             </div>
 
-
-            <!-- 6 Advanced Calculation Settings -->
+            <!-- =========================================
+                 6. ADVANCED SETTINGS
+            ========================================== -->
             <div class="form-section advanced-section">
 
                 <div class="section-title">
@@ -672,7 +672,8 @@
                     <!-- Rounding Rule -->
                     <div class="form-group">
                         <label for="roundingRule">
-                            Rounding Rule <span class="required">*</span>
+                            Rounding Rule
+                            <span class="required">*</span>
                         </label>
 
                         <select
@@ -681,15 +682,12 @@
                             required
                         >
                             <option value="">Select rule</option>
-
                             <option value="nearest">
                                 Round (Nearest)
                             </option>
-
                             <option value="up">
                                 Round Up
                             </option>
-
                             <option value="down">
                                 Round Down
                             </option>
@@ -700,7 +698,7 @@
                         </span>
                     </div>
 
-                    <!-- Weekend / Holiday Handling -->
+                    <!-- Weekend Holiday Handling -->
                     <div class="form-group">
                         <label for="weekendHolidayHandling">
                             Weekend / Holiday Handling
@@ -715,15 +713,12 @@
                             <option value="">
                                 Select handling
                             </option>
-
                             <option value="no-adjustment">
                                 No Adjustment
                             </option>
-
                             <option value="move-to-next-business-day">
                                 Move to Next Business Day
                             </option>
-
                             <option value="move-to-previous-business-day">
                                 Move to Previous Business Day
                             </option>
@@ -736,12 +731,12 @@
                     </div>
 
                     <!-- Holiday Weekdays -->
-                    <div class="form-group">
+                    <fieldset class="form-group holiday-group">
 
-                        <label>
+                        <legend>
                             Holiday Weekdays
                             <span class="required">*</span>
-                        </label>
+                        </legend>
 
                         <div class="weekday-selector">
 
@@ -814,14 +809,14 @@
                             Select recurring weekly holidays.
                         </span>
 
-                    </div>
+                    </fieldset>
 
                 </div>
-
             </div>
 
-
-            <!-- Actions -->
+            <!-- =========================================
+                 ACTIONS
+            ========================================== -->
             <div class="form-actions">
 
                 <button
@@ -841,11 +836,8 @@
             </div>
 
         </form>
-
     </div>
 
     <script src="assets/js/script.js"></script>
-
 </body>
-
 </html>
