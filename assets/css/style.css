@@ -39,9 +39,10 @@ h1 {
   align-items: center;
   margin-bottom: 20px;
   padding-bottom: 10px;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid #2563eb;
   font-size: 18px;
   font-weight: 600;
+  color: #2563eb;
 }
 
 .form-grid {

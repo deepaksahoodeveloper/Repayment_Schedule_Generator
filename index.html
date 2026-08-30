@@ -21,14 +21,18 @@
 
         <div class="phase-banner">
             <div class="phase-badge">PHASE 1</div>
+
             <div class="phase-content">
                 <strong>Phase 1 is Live</strong>
-                <span>Phase 2 is currently in development and will be live by 15 September 2026.</span>
+                <span>
+                    Phase 2 is currently in development and will be live by 15 September 2026.
+                </span>
             </div>
         </div>
+
         <form id="loanForm">
 
-            <!--1 Loan & Borrower-->
+            <!-- 1 Loan & Borrower -->
             <div class="form-section">
 
                 <div class="section-title">
@@ -43,8 +47,13 @@
                             Borrower Name <span class="required">*</span>
                         </label>
 
-                        <input type="text" id="borrowerName" name="borrowerName" value="Sunita" required
-                            placeholder="Borrower name">
+                        <input
+                            type="text"
+                            id="borrowerName"
+                            name="borrowerName"
+                            required
+                            placeholder="Borrower name"
+                        >
 
                         <span class="small-text">
                             May be automatically filled from Borrower ID.
@@ -57,8 +66,13 @@
                             Borrower ID <span class="required">*</span>
                         </label>
 
-                        <input type="text" id="borrowerId" name="borrowerId" value="1000001" required
-                            placeholder="Enter Borrower ID">
+                        <input
+                            type="text"
+                            id="borrowerId"
+                            name="borrowerId"
+                            required
+                            placeholder="Enter Borrower ID"
+                        >
 
                         <span class="small-text">
                             Enter or search for an existing borrower.
@@ -71,7 +85,13 @@
                             Loan ID <span class="required">*</span>
                         </label>
 
-                        <input type="number" id="loanId" name="loanId" value="1000001" required>
+                        <input
+                            type="number"
+                            id="loanId"
+                            name="loanId"
+                            required
+                            placeholder="Enter Loan ID"
+                        >
 
                         <span class="small-text">
                             Unique identifier for the loan. Can be system-generated.
@@ -86,7 +106,7 @@
 
                         <select id="productName" name="productName" required>
                             <option value="">Select product</option>
-                            <option value="group-standard" selected>
+                            <option value="group-standard">
                                 Group Loan - Standard
                             </option>
                             <option value="group-premium">
@@ -105,7 +125,8 @@
                 </div>
             </div>
 
-            <!--2 Loan Amount & Dates-->
+
+            <!-- 2 Loan Amount & Dates -->
             <div class="form-section">
 
                 <div class="section-title">
@@ -120,8 +141,15 @@
                             Loan Amount (Principal) <span class="required">*</span>
                         </label>
 
-                        <input type="number" id="principalAmount" name="principalAmount" value="30000" min="0.01"
-                            step="0.01" required>
+                        <input
+                            type="number"
+                            id="principalAmount"
+                            name="principalAmount"
+                            min="0.01"
+                            step="0.01"
+                            required
+                            placeholder="Enter loan amount"
+                        >
 
                         <span class="small-text">
                             Enter the principal loan amount in INR.
@@ -135,7 +163,8 @@
                         </label>
 
                         <select id="currency" name="currency" required>
-                            <option value="INR" selected>
+                            <option value="">Select currency</option>
+                            <option value="INR">
                                 INR - Indian Rupee
                             </option>
                         </select>
@@ -151,7 +180,12 @@
                             Disbursement Date <span class="required">*</span>
                         </label>
 
-                        <input type="date" id="disbursementDate" name="disbursementDate" value="2026-01-05" required>
+                        <input
+                            type="date"
+                            id="disbursementDate"
+                            name="disbursementDate"
+                            required
+                        >
 
                         <span class="small-text">
                             Date on which the loan is disbursed.
@@ -164,8 +198,12 @@
                             First Repayment Date <span class="required">*</span>
                         </label>
 
-                        <input type="date" id="firstRepaymentDate" name="firstRepaymentDate" value="2026-02-05"
-                            required>
+                        <input
+                            type="date"
+                            id="firstRepaymentDate"
+                            name="firstRepaymentDate"
+                            required
+                        >
 
                         <span class="small-text">
                             Must be on or after the disbursement date.
@@ -175,7 +213,8 @@
                 </div>
             </div>
 
-            <!--3 Repayment -->
+
+            <!-- 3 Repayment -->
             <div class="form-section">
 
                 <div class="section-title">
@@ -190,13 +229,16 @@
                             Repayment Frequency <span class="required">*</span>
                         </label>
 
-                        <select id="repaymentFrequency" name="repaymentFrequency" required>
+                        <select
+                            id="repaymentFrequency"
+                            name="repaymentFrequency"
+                            required
+                        >
                             <option value="">Select frequency</option>
                             <option value="weekly">Weekly</option>
-                            <option value="biweekly" selected>
-                                Bi-weekly
-                            </option>
+                            <option value="biweekly">Bi-weekly</option>
                             <option value="monthly">Monthly</option>
+                            <option value="quarterly">Quarterly</option>
                         </select>
 
                         <span class="small-text">
@@ -210,8 +252,15 @@
                             Number of Installments <span class="required">*</span>
                         </label>
 
-                        <input type="number" id="numberOfInstallments" name="numberOfInstallments" value="26" min="1"
-                            step="1" required>
+                        <input
+                            type="number"
+                            id="numberOfInstallments"
+                            name="numberOfInstallments"
+                            min="1"
+                            step="1"
+                            required
+                            placeholder="Enter number of installments"
+                        >
 
                         <span class="small-text">
                             Total number of repayments scheduled.
@@ -228,9 +277,7 @@
                             <option value="">Select unit</option>
                             <option value="days">Days</option>
                             <option value="weeks">Weeks</option>
-                            <option value="months" selected>
-                                Months
-                            </option>
+                            <option value="months">Months</option>
                             <option value="years">Years</option>
                         </select>
 
@@ -245,7 +292,15 @@
                             Tenure Value <span class="required">*</span>
                         </label>
 
-                        <input type="number" id="tenureValue" name="tenureValue" value="12" min="1" step="1" required>
+                        <input
+                            type="number"
+                            id="tenureValue"
+                            name="tenureValue"
+                            min="1"
+                            step="1"
+                            required
+                            placeholder="Enter tenure value"
+                        >
 
                         <span class="small-text">
                             Enter the loan tenure value.
@@ -259,10 +314,14 @@
                             <span class="required">*</span>
                         </label>
 
-                        <select id="repaymentMethod" name="repaymentMethod" required>
+                        <select
+                            id="repaymentMethod"
+                            name="repaymentMethod"
+                            required
+                        >
                             <option value="">Select method</option>
 
-                            <option value="reducing-emi" selected>
+                            <option value="reducing-emi">
                                 Reducing Balance - EMI
                             </option>
 
@@ -280,13 +339,13 @@
 
             </div>
 
+
             <!-- 4 Interest -->
             <div class="form-section">
 
                 <div class="section-title">
                     Interest
                 </div>
-
 
                 <div class="form-grid">
 
@@ -296,8 +355,15 @@
                             Annual Interest Rate <span class="required">*</span>
                         </label>
 
-                        <input type="number" id="annualInterestRate" name="annualInterestRate" value="24" min="0"
-                            step="0.01" required>
+                        <input
+                            type="number"
+                            id="annualInterestRate"
+                            name="annualInterestRate"
+                            min="0"
+                            step="0.01"
+                            required
+                            placeholder="Enter annual interest rate"
+                        >
 
                         <span class="small-text">
                             Annual interest rate. Enter as a percentage.
@@ -311,10 +377,14 @@
                             <span class="required">*</span>
                         </label>
 
-                        <select id="dayCountConvention" name="dayCountConvention" required>
+                        <select
+                            id="dayCountConvention"
+                            name="dayCountConvention"
+                            required
+                        >
                             <option value="">Select convention</option>
 
-                            <option value="actual365" selected>
+                            <option value="actual365">
                                 Actual/365
                             </option>
 
@@ -336,7 +406,8 @@
 
             </div>
 
-            <!-- 5 Fees & Charges-->
+
+            <!-- 5 Fees & Charges -->
             <div class="form-section">
 
                 <div class="section-title">
@@ -351,13 +422,23 @@
                             Fee Application Timing <span class="required">*</span>
                         </label>
 
-                        <select id="feeApplicationTiming" name="feeApplicationTiming" required>
-                            <option value="upfront" selected>
+                        <select
+                            id="feeApplicationTiming"
+                            name="feeApplicationTiming"
+                            required
+                        >
+                            <option value="">
+                                Select fee application timing
+                            </option>
+
+                            <option value="upfront">
                                 Upfront at Disbursement
                             </option>
+
                             <option value="first-installment">
                                 Added to First Installment
                             </option>
+
                             <option value="spread">
                                 Spread Equally Across Installments
                             </option>
@@ -374,10 +455,17 @@
                             Processing Fee Type <span class="required">*</span>
                         </label>
 
-                        <select id="processingFeeType" name="processingFeeType" required>
-                            <option value="percentage" selected>
+                        <select
+                            id="processingFeeType"
+                            name="processingFeeType"
+                            required
+                        >
+                            <option value="">Select fee type</option>
+
+                            <option value="percentage">
                                 % of Principal
                             </option>
+
                             <option value="flat">
                                 Flat Amount
                             </option>
@@ -394,10 +482,20 @@
                             Processing Fee Value <span class="required">*</span>
                         </label>
 
-                        <input type="number" id="processingFeeValue" name="processingFeeValue" value="0.5" min="0"
-                            step="0.01" required>
+                        <input
+                            type="number"
+                            id="processingFeeValue"
+                            name="processingFeeValue"
+                            min="0"
+                            step="0.01"
+                            required
+                            placeholder="Enter processing fee"
+                        >
 
-                        <span class="small-text" id="processingFeeHelp">
+                        <span
+                            class="small-text"
+                            id="processingFeeHelp"
+                        >
                             Enter the processing fee as a percentage of the principal.
                         </span>
                     </div>
@@ -408,10 +506,17 @@
                             Insurance Fee Type <span class="required">*</span>
                         </label>
 
-                        <select id="insuranceFeeType" name="insuranceFeeType" required>
-                            <option value="percentage" selected>
+                        <select
+                            id="insuranceFeeType"
+                            name="insuranceFeeType"
+                            required
+                        >
+                            <option value="">Select fee type</option>
+
+                            <option value="percentage">
                                 % of Principal
                             </option>
+
                             <option value="flat">
                                 Flat Amount
                             </option>
@@ -428,10 +533,19 @@
                             Insurance Fee Value
                         </label>
 
-                        <input type="number" id="insuranceFeeValue" name="insuranceFeeValue" value="" min="0"
-                            step="0.01" placeholder="Enter amount">
+                        <input
+                            type="number"
+                            id="insuranceFeeValue"
+                            name="insuranceFeeValue"
+                            min="0"
+                            step="0.01"
+                            placeholder="Enter amount"
+                        >
 
-                        <span class="small-text" id="insuranceFeeHelp">
+                        <span
+                            class="small-text"
+                            id="insuranceFeeHelp"
+                        >
                             Enter the insurance fee as a percentage of the principal.
                         </span>
                     </div>
@@ -442,8 +556,14 @@
                             Service Fee (Flat Amount)
                         </label>
 
-                        <input type="number" id="serviceFee" name="serviceFee" value="" min="0" step="0.01"
-                            placeholder="Enter amount">
+                        <input
+                            type="number"
+                            id="serviceFee"
+                            name="serviceFee"
+                            min="0"
+                            step="0.01"
+                            placeholder="Enter amount"
+                        >
 
                         <span class="small-text">
                             One-time or spread service fee based on the selected fee application timing.
@@ -456,8 +576,14 @@
                             Other Charges (Flat Amount)
                         </label>
 
-                        <input type="number" id="otherCharges" name="otherCharges" value="" min="0" step="0.01"
-                            placeholder="Enter amount">
+                        <input
+                            type="number"
+                            id="otherCharges"
+                            name="otherCharges"
+                            min="0"
+                            step="0.01"
+                            placeholder="Enter amount"
+                        >
 
                         <span class="small-text">
                             Enter any additional one-time or spread charges.
@@ -467,16 +593,18 @@
                     <!-- Apply Tax/GST -->
                     <div class="form-group">
                         <label for="applyTax">
-                            Apply Tax/GST on Fees? <span class="required">*</span>
+                            Apply Tax/GST on Fees?
+                            <span class="required">*</span>
                         </label>
 
-                        <select id="applyTax" name="applyTax" required>
-                            <option value="no" selected>
-                                No
-                            </option>
-                            <option value="yes">
-                                Yes
-                            </option>
+                        <select
+                            id="applyTax"
+                            name="applyTax"
+                            required
+                        >
+                            <option value="">Select option</option>
+                            <option value="no">No</option>
+                            <option value="yes">Yes</option>
                         </select>
 
                         <span class="small-text">
@@ -490,8 +618,16 @@
                             Tax/GST Rate (%)
                         </label>
 
-                        <input type="number" id="taxRate" name="taxRate" value="18" min="0" max="100" step="0.01"
-                            placeholder="Enter tax rate" disabled>
+                        <input
+                            type="number"
+                            id="taxRate"
+                            name="taxRate"
+                            min="0"
+                            max="100"
+                            step="0.01"
+                            placeholder="Enter tax rate"
+                            disabled
+                        >
 
                         <span class="small-text">
                             Applied to fee amounts only when Tax/GST is enabled.
@@ -501,6 +637,7 @@
                 </div>
 
             </div>
+
 
             <!-- 6 Advanced Calculation Settings -->
             <div class="form-section advanced-section">
@@ -518,8 +655,14 @@
                             <span class="required">*</span>
                         </label>
 
-                        <input type="number" id="roundingDecimalPlaces" name="roundingDecimalPlaces" value="-1" step="1"
-                            required>
+                        <input
+                            type="number"
+                            id="roundingDecimalPlaces"
+                            name="roundingDecimalPlaces"
+                            step="1"
+                            required
+                            placeholder="Enter decimal places"
+                        >
 
                         <span class="small-text">
                             Integer value. -1 means nearest ₹10.
@@ -532,10 +675,14 @@
                             Rounding Rule <span class="required">*</span>
                         </label>
 
-                        <select id="roundingRule" name="roundingRule" required>
+                        <select
+                            id="roundingRule"
+                            name="roundingRule"
+                            required
+                        >
                             <option value="">Select rule</option>
 
-                            <option value="nearest" selected>
+                            <option value="nearest">
                                 Round (Nearest)
                             </option>
 
@@ -556,28 +703,41 @@
                     <!-- Weekend / Holiday Handling -->
                     <div class="form-group">
                         <label for="weekendHolidayHandling">
-                            Weekend / Holiday Handling <span class="required">*</span>
+                            Weekend / Holiday Handling
+                            <span class="required">*</span>
                         </label>
 
-                        <select id="weekendHolidayHandling" name="weekendHolidayHandling" required>
-                            <option value="no-adjustment" selected>
+                        <select
+                            id="weekendHolidayHandling"
+                            name="weekendHolidayHandling"
+                            required
+                        >
+                            <option value="">
+                                Select handling
+                            </option>
+
+                            <option value="no-adjustment">
                                 No Adjustment
                             </option>
+
                             <option value="move-to-next-business-day">
                                 Move to Next Business Day
                             </option>
+
                             <option value="move-to-previous-business-day">
                                 Move to Previous Business Day
                             </option>
                         </select>
 
                         <span class="small-text">
-                            If a repayment date falls on a weekend or holiday, this setting determines how to adjust it.
+                            If a repayment date falls on a weekend or holiday,
+                            this setting determines how to adjust it.
                         </span>
                     </div>
 
                     <!-- Holiday Weekdays -->
                     <div class="form-group">
+
                         <label>
                             Holiday Weekdays
                             <span class="required">*</span>
@@ -586,37 +746,65 @@
                         <div class="weekday-selector">
 
                             <label>
-                                <input type="checkbox" name="holidayWeekdays[]" value="MONDAY">
+                                <input
+                                    type="checkbox"
+                                    name="holidayWeekdays[]"
+                                    value="MONDAY"
+                                >
                                 <span>Mon</span>
                             </label>
 
                             <label>
-                                <input type="checkbox" name="holidayWeekdays[]" value="TUESDAY">
+                                <input
+                                    type="checkbox"
+                                    name="holidayWeekdays[]"
+                                    value="TUESDAY"
+                                >
                                 <span>Tue</span>
                             </label>
 
                             <label>
-                                <input type="checkbox" name="holidayWeekdays[]" value="WEDNESDAY">
+                                <input
+                                    type="checkbox"
+                                    name="holidayWeekdays[]"
+                                    value="WEDNESDAY"
+                                >
                                 <span>Wed</span>
                             </label>
 
                             <label>
-                                <input type="checkbox" name="holidayWeekdays[]" value="THURSDAY">
+                                <input
+                                    type="checkbox"
+                                    name="holidayWeekdays[]"
+                                    value="THURSDAY"
+                                >
                                 <span>Thu</span>
                             </label>
 
                             <label>
-                                <input type="checkbox" name="holidayWeekdays[]" value="FRIDAY">
+                                <input
+                                    type="checkbox"
+                                    name="holidayWeekdays[]"
+                                    value="FRIDAY"
+                                >
                                 <span>Fri</span>
                             </label>
 
                             <label>
-                                <input type="checkbox" name="holidayWeekdays[]" value="SATURDAY">
+                                <input
+                                    type="checkbox"
+                                    name="holidayWeekdays[]"
+                                    value="SATURDAY"
+                                >
                                 <span>Sat</span>
                             </label>
 
                             <label>
-                                <input type="checkbox" name="holidayWeekdays[]" value="SUNDAY">
+                                <input
+                                    type="checkbox"
+                                    name="holidayWeekdays[]"
+                                    value="SUNDAY"
+                                >
                                 <span>Sun</span>
                             </label>
 
@@ -625,26 +813,35 @@
                         <span class="small-text">
                             Select recurring weekly holidays.
                         </span>
+
                     </div>
 
-
                 </div>
+
             </div>
+
 
             <!-- Actions -->
             <div class="form-actions">
 
-                <button type="reset" class="btn-secondary">
+                <button
+                    type="reset"
+                    class="btn-secondary"
+                >
                     Cancel
                 </button>
 
-                <button type="submit" class="btn-primary">
+                <button
+                    type="submit"
+                    class="btn-primary"
+                >
                     Create Loan Schedule
                 </button>
 
             </div>
 
         </form>
+
     </div>
 
     <script src="assets/js/script.js"></script>
