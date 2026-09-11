@@ -234,6 +234,51 @@
 
                 <div class="form-grid">
 
+                    <!-- Tenure Unit -->
+                    <div class="form-group">
+                        <label for="tenureUnit">
+                            Tenure Unit <span class="required">*</span>
+                        </label>
+
+                        <select
+                            id="tenureUnit"
+                            name="tenureUnit"
+                            required
+                        >
+                            <option value="">Select unit</option>
+                            <option value="days">Days</option>
+                            <option value="weeks">Weeks</option>
+                            <option value="months">Months</option>
+                            <option value="years">Years</option>
+                        </select>
+
+                        <span class="small-text">
+                            Select the unit for the loan tenure.
+                        </span>
+                    </div>
+
+                    <!-- Tenure Value -->
+                    <div class="form-group">
+                        <label for="tenureValue">
+                            Tenure Value <span class="required">*</span>
+                        </label>
+
+                        <input
+                            type="number"
+                            id="tenureValue"
+                            name="tenureValue"
+                            min="1"
+                            step="1"
+                            required
+                            placeholder="Enter tenure value"
+                        >
+
+                        <span class="small-text">
+                            Enter the loan tenure value.
+                        </span>
+                    </div>
+
+
                     <!-- Repayment Frequency -->
                     <div class="form-group">
                         <label for="repaymentFrequency">
@@ -277,50 +322,6 @@
 
                         <span class="small-text">
                             Total number of repayments scheduled.
-                        </span>
-                    </div>
-
-                    <!-- Tenure Unit -->
-                    <div class="form-group">
-                        <label for="tenureUnit">
-                            Tenure Unit <span class="required">*</span>
-                        </label>
-
-                        <select
-                            id="tenureUnit"
-                            name="tenureUnit"
-                            required
-                        >
-                            <option value="">Select unit</option>
-                            <option value="days">Days</option>
-                            <option value="weeks">Weeks</option>
-                            <option value="months">Months</option>
-                            <option value="years">Years</option>
-                        </select>
-
-                        <span class="small-text">
-                            Select the unit for the loan tenure.
-                        </span>
-                    </div>
-
-                    <!-- Tenure Value -->
-                    <div class="form-group">
-                        <label for="tenureValue">
-                            Tenure Value <span class="required">*</span>
-                        </label>
-
-                        <input
-                            type="number"
-                            id="tenureValue"
-                            name="tenureValue"
-                            min="1"
-                            step="1"
-                            required
-                            placeholder="Enter tenure value"
-                        >
-
-                        <span class="small-text">
-                            Enter the loan tenure value.
                         </span>
                     </div>
 
