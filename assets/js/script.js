@@ -206,9 +206,11 @@ document.addEventListener("DOMContentLoaded", function () {
         */
         localStorage.setItem("loanData", JSON.stringify(loanData));
 
-        alert(
-            "Loan details are valid and ready to create the repayment schedule."
-        );
+        /*
+        * Go to the next page
+        */
+        window.location.href = "pages/result.html";
+
     });
 
     /* =========================================
