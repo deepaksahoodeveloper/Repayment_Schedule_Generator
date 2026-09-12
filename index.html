@@ -656,18 +656,22 @@
                             Rounding Decimal Places
                             <span class="required">*</span>
                         </label>
-
-                        <input
-                            type="number"
+                        
+                        <select
                             id="roundingDecimalPlaces"
                             name="roundingDecimalPlaces"
-                            step="1"
                             required
-                            placeholder="Enter decimal places"
                         >
+                            <option value="">Select decimal places</option>
+                            <option value="2">Nearest ₹100</option>
+                            <option value="1">Nearest ₹10</option>
+                            <option value="0">Nearest ₹1</option>
+                            <option value="-1">Nearest ₹0.1</option>
+                            <option value="-2">Nearest ₹0.01</option>
+                        </select>
 
                         <span class="small-text">
-                            Integer value. -1 means nearest ₹10.
+                            Controls the precision of rounded amounts.
                         </span>
                     </div>
 
