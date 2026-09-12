@@ -26,18 +26,34 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function updateNumberOfInstallments() {
 
-        const days = {
-            days: 1,
-            weeks: 7,
-            months: 30,
-            years: 365
-        };
+        const periods = {
+            days: {
+                weekly: 1 / 7,
+                biweekly: 1 / 14,
+                monthly: 1 / 30,
+                quarterly: 1 / 90
+            },
 
-        const frequencyDays = {
-            weekly: 7,
-            biweekly: 14,
-            monthly: 30,
-            quarterly: 90
+            weeks: {
+                weekly: 1,
+                biweekly: 1 / 2,
+                monthly: 12 / 52,
+                quarterly: 4 / 52
+            },
+
+            months: {
+                weekly: 52 / 12,
+                biweekly: 26 / 12,
+                monthly: 1,
+                quarterly: 1 / 3
+            },
+
+            years: {
+                weekly: 52,
+                biweekly: 26,
+                monthly: 12,
+                quarterly: 4
+            }
         };
 
         const unit = tenureUnit.value;
@@ -50,11 +66,8 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        const totalDays = days[unit] * value;
-        const installmentDays = frequencyDays[frequency];
-
         numberOfInstallments.value =
-            Math.ceil(totalDays / installmentDays);
+            value * periods[unit][frequency];
     }
 
     tenureUnit.addEventListener("change", updateNumberOfInstallments);
