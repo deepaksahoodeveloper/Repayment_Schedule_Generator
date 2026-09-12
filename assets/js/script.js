@@ -202,14 +202,9 @@ document.addEventListener("DOMContentLoaded", function () {
         const loanData = Object.fromEntries(formData.entries());
 
         /*
-         * Holiday weekdays are multiple values,
-         * so collect them separately.
-         */
-
-        loanData.holidayWeekdays =
-            formData.getAll("holidayWeekdays[]");
-
-        console.log("Loan Data:", loanData);
+        * Save data so the next HTML page can read it
+        */
+        localStorage.setItem("loanData", JSON.stringify(loanData));
 
         alert(
             "Loan details are valid and ready to create the repayment schedule."
