@@ -110,18 +110,13 @@
                             Product Name <span class="required">*</span>
                         </label>
 
-                        <select id="productName" name="productName" required>
-                            <option value="">Select product</option>
-                            <option value="group-standard">
-                                Group Loan - Standard
-                            </option>
-                            <option value="group-premium">
-                                Group Loan - Premium
-                            </option>
-                            <option value="individual">
-                                Individual Loan
-                            </option>
-                        </select>
+                        <input
+                            type="text"
+                            id="productName"
+                            name="productName"
+                            placeholder="Enter product name"
+                            required
+                        >   
 
                         <span class="small-text">
                             Select the applicable loan product.
@@ -455,8 +450,7 @@
 
                     <!-- Processing Fee Type -->
                     <div class="form-group">
-                        <label for="processingFeeType">
-                            Processing Fee Type
+                        <label for="processingFeeType">Processing Fee Type
                             <span class="required">*</span>
                         </label>
 
@@ -465,13 +459,9 @@
                             name="processingFeeType"
                             required
                         >
-                            <option value="">Select fee type</option>
-                            <option value="percentage">
-                                % of Principal
-                            </option>
-                            <option value="flat">
-                                Flat Amount
-                            </option>
+                        <option value="">Select fee type</option>
+                        <option value="percentage">% of Principal</option>
+                        <option value="flat">Flat Amount</option>
                         </select>
 
                         <span class="small-text">
@@ -506,8 +496,7 @@
 
                     <!-- Insurance Fee Type -->
                     <div class="form-group">
-                        <label for="insuranceFeeType">
-                            Insurance Fee Type
+                        <label for="insuranceFeeType">Insurance Fee Type
                         </label>
 
                         <select
@@ -515,12 +504,8 @@
                             name="insuranceFeeType"
                         >
                             <option value="">Select fee type</option>
-                            <option value="percentage">
-                                % of Principal
-                            </option>
-                            <option value="flat">
-                                Flat Amount
-                            </option>
+                            <option value="percentage">% of Principal</option>
+                            <option value="flat">Flat Amount</option>
                         </select>
 
                         <span class="small-text">

@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const firstRepaymentDate = document.getElementById("firstRepaymentDate");
 
     /* =========================================
-    NUMBER OF INSTALLMENTS
+        NUMBER OF INSTALLMENTS
     ========================================= */
 
     function updateNumberOfInstallments() {
