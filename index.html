@@ -318,6 +318,7 @@
                             step="1"
                             required
                             placeholder="Enter number of installments"
+                            disabled="true"
                         >
 
                         <span class="small-text">
@@ -698,119 +699,6 @@
                             Select how calculated amounts should be rounded.
                         </span>
                     </div>
-
-                    <!-- Weekend Holiday Handling -->
-                    <div class="form-group">
-                        <label for="weekendHolidayHandling">
-                            Weekend / Holiday Handling
-                            <span class="required">*</span>
-                        </label>
-
-                        <select
-                            id="weekendHolidayHandling"
-                            name="weekendHolidayHandling"
-                            required
-                        >
-                            <option value="">
-                                Select handling
-                            </option>
-                            <option value="no-adjustment">
-                                No Adjustment
-                            </option>
-                            <option value="move-to-next-business-day">
-                                Move to Next Business Day
-                            </option>
-                            <option value="move-to-previous-business-day">
-                                Move to Previous Business Day
-                            </option>
-                        </select>
-
-                        <span class="small-text">
-                            If a repayment date falls on a weekend or holiday,
-                            this setting determines how to adjust it.
-                        </span>
-                    </div>
-
-                    <!-- Holiday Weekdays -->
-                    <fieldset class="form-group holiday-group">
-
-                        <legend>
-                            Holiday Weekdays
-                            <span class="required">*</span>
-                        </legend>
-
-                        <div class="weekday-selector">
-
-                            <label>
-                                <input
-                                    type="checkbox"
-                                    name="holidayWeekdays[]"
-                                    value="MONDAY"
-                                >
-                                <span>Mon</span>
-                            </label>
-
-                            <label>
-                                <input
-                                    type="checkbox"
-                                    name="holidayWeekdays[]"
-                                    value="TUESDAY"
-                                >
-                                <span>Tue</span>
-                            </label>
-
-                            <label>
-                                <input
-                                    type="checkbox"
-                                    name="holidayWeekdays[]"
-                                    value="WEDNESDAY"
-                                >
-                                <span>Wed</span>
-                            </label>
-
-                            <label>
-                                <input
-                                    type="checkbox"
-                                    name="holidayWeekdays[]"
-                                    value="THURSDAY"
-                                >
-                                <span>Thu</span>
-                            </label>
-
-                            <label>
-                                <input
-                                    type="checkbox"
-                                    name="holidayWeekdays[]"
-                                    value="FRIDAY"
-                                >
-                                <span>Fri</span>
-                            </label>
-
-                            <label>
-                                <input
-                                    type="checkbox"
-                                    name="holidayWeekdays[]"
-                                    value="SATURDAY"
-                                >
-                                <span>Sat</span>
-                            </label>
-
-                            <label>
-                                <input
-                                    type="checkbox"
-                                    name="holidayWeekdays[]"
-                                    value="SUNDAY"
-                                >
-                                <span>Sun</span>
-                            </label>
-
-                        </div>
-
-                        <span class="small-text">
-                            Select recurring weekly holidays.
-                        </span>
-
-                    </fieldset>
 
                 </div>
             </div>

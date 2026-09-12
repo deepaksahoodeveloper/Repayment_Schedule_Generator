@@ -1,6 +1,11 @@
 document.addEventListener("DOMContentLoaded", function () {
     const form = document.getElementById("loanForm");
 
+    const tenureUnit = document.getElementById("tenureUnit");
+    const tenureValue = document.getElementById("tenureValue");
+    const repaymentFrequency = document.getElementById("repaymentFrequency");
+    const numberOfInstallments = document.getElementById("numberOfInstallments");
+
     const processingFeeType = document.getElementById("processingFeeType");
     const processingFeeValue = document.getElementById("processingFeeValue");
     const processingFeeHelp = document.getElementById("processingFeeHelp");
@@ -14,6 +19,47 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const disbursementDate = document.getElementById("disbursementDate");
     const firstRepaymentDate = document.getElementById("firstRepaymentDate");
+
+    /* =========================================
+    NUMBER OF INSTALLMENTS
+    ========================================= */
+
+    function updateNumberOfInstallments() {
+
+        const days = {
+            days: 1,
+            weeks: 7,
+            months: 30,
+            years: 365
+        };
+
+        const frequencyDays = {
+            weekly: 7,
+            biweekly: 14,
+            monthly: 30,
+            quarterly: 90
+        };
+
+        const unit = tenureUnit.value;
+        const value = Number(tenureValue.value);
+        const frequency = repaymentFrequency.value;
+
+        // If inputs are not complete, clear the result
+        if (!unit || !value || !frequency) {
+            numberOfInstallments.value = "";
+            return;
+        }
+
+        const totalDays = days[unit] * value;
+        const installmentDays = frequencyDays[frequency];
+
+        numberOfInstallments.value =
+            Math.ceil(totalDays / installmentDays);
+    }
+
+    tenureUnit.addEventListener("change", updateNumberOfInstallments);
+    tenureValue.addEventListener("input", updateNumberOfInstallments);
+    repaymentFrequency.addEventListener("change", updateNumberOfInstallments);
 
     /* =========================================
        PROCESSING FEE
