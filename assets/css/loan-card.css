@@ -1,11 +1,60 @@
+/* =============================================================
+   Loan Repayment Schedule — Stylesheet
+   -------------------------------------------------------------
+   This sheet styles an A4-sized document that is:
+     1. Displayed in the browser, and
+     2. Converted to a PDF by html2pdf.js (see loan-card.js).
+
+   Because it is rendered twice (screen + PDF snapshot), most
+   rules are written to look correct in both contexts. Rules
+   that should ONLY apply to the PDF/print output live inside
+   the `@media print` block near the bottom.
+============================================================= */
+
 * {
     box-sizing: border-box;
 }
 
+/* -------------------------------------------------------------
+   Design tokens
+   Centralising colors/spacing here means a re-theme only
+   touches this block instead of every selector below.
+------------------------------------------------------------- */
 
-/* =========================================
+:root {
+    /* Text */
+    --color-text-primary: #20242a;
+    --color-text-heading: #292e35;
+    --color-text-value: #272c32;
+    --color-text-muted: #707780;
+    --color-text-label: #7a818a;
+    --color-text-table-heading: #555d66;
+    --color-text-table-cell: #30353b;
+
+    /* Surfaces & borders */
+    --color-bg-page: #f5f6f8;
+    --color-bg-card: #ffffff;
+    --color-bg-section-title: #fafbfc;
+    --color-bg-table-heading: #f8f9fa;
+    --color-border-card: #e2e5e9;
+    --color-border-section-title: #e7e9ec;
+    --color-border-grid: #edf0f2;
+
+    /* Brand / action */
+    --color-primary: #2563eb;
+    --color-primary-hover: #1d4ed8;
+    --color-on-primary: #ffffff;
+
+    /* Layout */
+    --page-width: 210mm;
+    --page-min-height: 297mm;
+    --page-padding: 15mm;
+    --grid-columns: 4;
+}
+
+/* =============================================================
    Base
-========================================= */
+============================================================= */
 
 html,
 body {
@@ -14,10 +63,8 @@ body {
 }
 
 body {
-    background: #f5f6f8;
-
-    color: #20242a;
-
+    background: var(--color-bg-page);
+    color: var(--color-text-primary);
     font-family:
         -apple-system,
         BlinkMacSystemFont,
@@ -25,485 +72,326 @@ body {
         Roboto,
         Arial,
         sans-serif;
-
     font-size: 14px;
 }
 
-
-/* =========================================
-   A4 Page
-========================================= */
-
-/*
-   A4 Portrait:
-
-   Width  = 210mm
-   Height = 297mm
-
-   We use min-height instead of height.
-
-   This is important because if the content
-   becomes longer than one page, html2pdf
-   can continue onto another A4 page.
-*/
+/* =============================================================
+   A4 page
+   -------------------------------------------------------------
+   Width/height follow the real A4 paper size (210mm x 297mm).
+   `min-height` (not `height`) is used deliberately: if the
+   content grows past one page, html2pdf.js can flow the
+   overflow onto additional A4 pages instead of clipping it.
+============================================================= */
 
 .page-container {
-
-    width: 210mm;
-
-    min-height: 297mm;
-
+    width: var(--page-width);
+    min-height: var(--page-min-height);
     margin: 20px auto;
-
-    padding: 15mm;
-
-    background: #ffffff;
-
-    box-sizing: border-box;
+    padding: var(--page-padding);
+    background: var(--color-bg-card);
 }
 
-
-/* =========================================
+/* =============================================================
    Header
-========================================= */
+============================================================= */
 
 .page-header {
-
     display: flex;
-
     align-items: center;
-
     justify-content: space-between;
-
     margin-bottom: 22px;
 }
 
-
 .page-header h1 {
-
     margin: 0 0 5px;
-
     font-size: 24px;
-
     font-weight: 650;
-
     line-height: 1.3;
-
     letter-spacing: -0.3px;
-
-    color: #20242a;
+    color: var(--color-text-primary);
 }
 
-
 .page-header p {
-
     margin: 0;
-
-    color: #707780;
-
+    color: var(--color-text-muted);
     font-size: 13px;
-
     line-height: 1.5;
 }
 
-
-/* =========================================
+/* =============================================================
    Cards
-========================================= */
+   -------------------------------------------------------------
+   `.card` is the base look shared by every section.
+   `.card--schedule` is a *modifier* on top of `.card` for the
+   one section (the installment table) that must be allowed to
+   split across PDF pages rather than being kept on one page.
+
+   NOTE: previously this modifier was a completely separate
+   class (`.card_schedule`) that duplicated every rule from
+   `.card`. That meant the two card types could quietly drift
+   apart over time. Using `.card .card--schedule` together
+   avoids the duplication.
+============================================================= */
 
 .card {
-
     margin-bottom: 18px;
-
-    background: #ffffff;
-
-    border: 1px solid #e2e5e9;
-
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border-card);
     border-radius: 8px;
-
     overflow: hidden;
 
-
-    /*
-       Try to keep a complete card together
-       when possible.
-    */
-
+    /* Keep a whole card on one PDF page when there's room. */
     break-inside: avoid;
-
     page-break-inside: avoid;
 }
 
-.card_schedule {
-
-    margin-bottom: 18px;
-
-    background: #ffffff;
-
-    border: 1px solid #e2e5e9;
-
-    border-radius: 8px;
-
-    overflow: hidden;
-
-
-    /*
-       Try to keep a complete card together
-       when possible.
-    */
-
+.card--schedule {
+    /* The schedule table can legitimately be many rows long,
+       so — unlike other cards — it is allowed to break across
+       PDF pages. Individual <tr> elements are still protected
+       from being split (see ".schedule-table tr" below). */
     break-inside: auto;
-
     page-break-inside: auto;
 }
 
-/* =========================================
-   Section Title
-========================================= */
+/* =============================================================
+   Section title
+============================================================= */
 
 .section-title {
-
     padding: 15px 20px;
-
-    border-bottom: 1px solid #e7e9ec;
-
-    background: #fafbfc;
+    border-bottom: 1px solid var(--color-border-section-title);
+    background: var(--color-bg-section-title);
 }
-
 
 .section-title h2 {
-
     margin: 0;
-
     font-size: 15px;
-
     font-weight: 650;
-
-    color: #292e35;
+    color: var(--color-text-heading);
 }
 
-
-/* =========================================
-   Information Grid
-========================================= */
+/* =============================================================
+   Information grid (label/value pairs inside a card)
+============================================================= */
 
 .info-grid {
-
     display: grid;
-
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(var(--grid-columns), 1fr);
 }
 
-
 .info-item {
-
     min-height: 72px;
-
     padding: 15px 20px;
+    border-right: 1px solid var(--color-border-grid);
+    border-bottom: 1px solid var(--color-border-grid);
 
-    border-right: 1px solid #edf0f2;
-
-    border-bottom: 1px solid #edf0f2;
-
-
-    /*
-       Prevent individual information
-       blocks from being split.
-    */
-
+    /* Never let a single label/value pair split across pages. */
     break-inside: avoid;
-
     page-break-inside: avoid;
 }
 
-
-/*
-   Remove right border from every
-   fourth item.
-*/
-
+/* Rightmost column in every full row has no right border. */
 .info-item:nth-child(4n) {
-
     border-right: none;
 }
 
+/* The very last item never needs a right border either — this
+   matters when a section's item count isn't a multiple of 4
+   (e.g. a trailing row with just 1 or 2 items). */
+.info-item:last-child {
+    border-right: none;
+}
 
 /*
-   Remove bottom border from last
-   four items.
+   Bottom border removal for the LAST ROW only.
+   -----------------------------------------------------------
+   BUG FIX: the previous rule was `:nth-last-child(-n + 4)`,
+   which always strips the border from the last 4 items in the
+   DOM — regardless of how many columns those items actually
+   span. That's only correct when a section's item count is an
+   exact multiple of 4. Several sections here have 2, 5, or 9
+   items, so the old rule silently removed borders from items
+   that were still in the middle of the grid (Fees & Charges,
+   for example, has 9 items — 9 is not a multiple of 4).
+
+   The fix below finds the first item of the last row —
+   `:nth-child(4n + 1)` (a row-starter) that is also within the
+   last 4 items overall (`:nth-last-child(-n + 4)`) — and then
+   removes the border from it and every item after it. This
+   correctly handles a final row of any length (1, 2, 3, or 4
+   items), not just full rows.
 */
-
-.info-item:nth-last-child(-n + 4) {
-
+.info-item:nth-child(4n + 1):nth-last-child(-n + 4),
+.info-item:nth-child(4n + 1):nth-last-child(-n + 4) ~ .info-item {
     border-bottom: none;
 }
 
-
-/* =========================================
-   Labels
-========================================= */
+/* =============================================================
+   Labels & values
+============================================================= */
 
 .label {
-
     display: block;
-
     margin-bottom: 7px;
-
-    color: #7a818a;
-
+    color: var(--color-text-label);
     font-size: 11px;
-
     font-weight: 500;
-
     text-transform: uppercase;
-
     letter-spacing: 0.35px;
 }
 
-
-/* =========================================
-   Values
-========================================= */
-
 .value {
-
     display: block;
-
-    color: #272c32;
-
+    color: var(--color-text-value);
     font-size: 13px;
-
     font-weight: 550;
-
     line-height: 1.4;
 }
 
-
-/* =========================================
-   Amount
-========================================= */
-
 .amount {
-
+    /* Keeps digits aligned when currency values stack in a column. */
     font-variant-numeric: tabular-nums;
 }
 
-
-/* =========================================
-   Schedule Table
-========================================= */
+/* =============================================================
+   Repayment schedule table
+============================================================= */
 
 .schedule-wrapper {
-
     width: 100%;
-
     overflow-x: auto;
 }
 
-
 .schedule-table {
-
     width: 100%;
-
     border-collapse: collapse;
-
     font-size: 12px;
 }
 
-
 .schedule-table th {
-
     padding: 10px 12px;
-
     text-align: left;
-
-    color: #555d66;
-
+    color: var(--color-text-table-heading);
     font-size: 10px;
-
     font-weight: 650;
-
     text-transform: uppercase;
-
     letter-spacing: 0.3px;
-
-    background: #f8f9fa;
-
-    border-bottom: 1px solid #e2e5e9;
+    background: var(--color-bg-table-heading);
+    border-bottom: 1px solid var(--color-border-card);
 }
 
-
 .schedule-table td {
-
     padding: 10px 12px;
-
-    color: #30353b;
-
-    border-bottom: 1px solid #edf0f2;
-
+    color: var(--color-text-table-cell);
+    border-bottom: 1px solid var(--color-border-grid);
     vertical-align: middle;
 }
 
-
-/*
-   Try not to split table rows.
-*/
-
+/* Never split a single installment row across two PDF pages. */
 .schedule-table tr {
-
     break-inside: avoid;
-
     page-break-inside: avoid;
 }
 
-
-/* =========================================
-   Download Button
-========================================= */
+/* =============================================================
+   Download button
+============================================================= */
 
 .download-container {
-
     display: flex;
-
     justify-content: center;
-
     margin: 20px 0;
 }
 
-
 #downloadBtn {
-
     padding: 10px 22px;
-
     border: none;
-
     border-radius: 6px;
-
-    background: #2563eb;
-
-    color: #ffffff;
-
+    background: var(--color-primary);
+    color: var(--color-on-primary);
     font-size: 14px;
-
     font-weight: 600;
-
     cursor: pointer;
-
     transition:
         background 0.2s ease,
         transform 0.1s ease;
 }
 
-
 #downloadBtn:hover {
-
-    background: #1d4ed8;
+    background: var(--color-primary-hover);
 }
 
-
 #downloadBtn:active {
-
     transform: translateY(1px);
 }
 
-
 #downloadBtn:disabled {
-
     opacity: 0.6;
-
     cursor: not-allowed;
 }
 
-
-/* =========================================
-   Print
-========================================= */
+/* =============================================================
+   Print / PDF-capture styles
+============================================================= */
 
 @media print {
-
     @page {
-
         size: A4 portrait;
-
         margin: 0;
     }
-
 
     body {
-
-        background: #ffffff;
+        background: var(--color-bg-card);
     }
-
 
     .page-container {
-
-        width: 210mm;
-
-        min-height: 297mm;
-
+        width: var(--page-width);
+        min-height: var(--page-min-height);
         margin: 0;
-
-        padding: 15mm;
-
-        background: #ffffff;
+        padding: var(--page-padding);
+        background: var(--color-bg-card);
     }
 
-
+    /* The download button is a UI control, not document content. */
     .download-container {
-
         display: none;
     }
 }
 
-
-/* =========================================
-   Responsive Browser View
-========================================= */
-
-/*
-   On a small screen, don't force the
-   browser to display a 210mm-wide page.
-*/
+/* =============================================================
+   Responsive browser view
+   -------------------------------------------------------------
+   These rules only affect how the page looks on-screen at
+   small widths; the print/PDF output always stays at the fixed
+   A4 size defined above.
+============================================================= */
 
 @media screen and (max-width: 800px) {
-
     .page-container {
-
         width: 100%;
-
         min-height: auto;
-
         margin: 0;
-
         padding: 20px;
     }
 
-
     .info-grid {
-
         grid-template-columns: repeat(2, 1fr);
     }
 }
 
-
 @media screen and (max-width: 500px) {
-
     .info-grid {
-
         grid-template-columns: 1fr;
     }
 
-
     .info-item {
-
         border-right: none !important;
-
-        border-bottom: 1px solid #edf0f2 !important;
+        border-bottom: 1px solid var(--color-border-grid) !important;
     }
 
-
     .info-item:last-child {
-
         border-bottom: none !important;
     }
 }

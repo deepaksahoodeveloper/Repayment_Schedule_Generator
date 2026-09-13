@@ -9,446 +9,258 @@
 
     <link rel="stylesheet" href="../assets/css/loan-card.css">
 
-    <!-- html2pdf.js -->
-    <script
-        src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js">
-    </script>
+    <!-- html2pdf.js: turns the #pdfContent element into a downloadable PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 
 <body>
 
-    <!-- =========================================
-         Download Button
-         IMPORTANT:
-         Keep this OUTSIDE pdfContent
-    ========================================== -->
-
+    <!-- =========================================================
+         Download button
+         IMPORTANT: keep this OUTSIDE #pdfContent — it must not
+         appear in the generated PDF (it's also hidden via
+         `@media print` in loan-card.css as a second safeguard).
+    ========================================================== -->
     <div class="download-container">
-
-        <button id="downloadBtn">
+        <button id="downloadBtn" type="button">
             Download As PDF
         </button>
-
     </div>
 
-    <!-- =========================================
-         A4 DOCUMENT
-    ========================================== -->
-
+    <!-- =========================================================
+         A4 document — everything inside here is captured into
+         the PDF.
+    ========================================================== -->
     <div id="pdfContent" class="page-container">
 
-        <!-- Header -->
         <header class="page-header">
-
             <div>
                 <h1>Loan Repayment Schedule</h1>
+                <p>Loan repayment details and installment schedule</p>
+            </div>
+        </header>
 
-                <p>
-                    Loan repayment details and installment schedule
-                </p>
+        <!-- =====================================================
+             Loan & Borrower
+        ====================================================== -->
+        <section class="card">
+            <div class="section-title">
+                <h2>Loan &amp; Borrower</h2>
             </div>
 
-        </header>
-                  
-          <!-- =====================================
-            Loan & Borrower
-          ====================================== -->
-
-          <section class="card">
-
-              <div class="section-title">
-                  <h2>Loan &amp; Borrower</h2>
-              </div>
-
-              <div class="info-grid">
-
-                  <div class="info-item">
-                      <span class="label">
-                          Borrower Name
-                      </span>
-
-                      <span class="value" id="borrowerNameValue">
-                          Sunita
-                      </span>
-                  </div>
-
-
-                  <div class="info-item">
-                      <span class="label">
-                          Loan ID
-                      </span>
-
-                      <span class="value" id="loanIdValue">
-                          1000001
-                      </span>
-                  </div>
-
-
-                  <div class="info-item">
-                      <span class="label">
-                          Borrower ID
-                      </span>
-
-                      <span class="value" id="borrowerIdValue">
-                          1000001
-                      </span>
-                  </div>
-
-
-                  <div class="info-item">
-                      <span class="label">
-                          Product Name
-                      </span>
-
-                      <span class="value" id="productNameValue">
-                          Group Loan - Standard
-                      </span>
-                  </div>
-
-              </div>
-
-          </section>
-
-
-          <!-- =====================================
-              Loan Amount & Dates
-          ====================================== -->
-
-          <section class="card">
-
-              <div class="section-title">
-                  <h2>Loan Amount &amp; Dates</h2>
-              </div>
-
-              <div class="info-grid">
-
-                  <div class="info-item">
-                      <span class="label">
-                          Loan Amount (Principal)
-                      </span>
-
-                      <span class="value" id="principalAmountValue">
-                          ₹100,000.00
-                      </span>
-                  </div>
-
-
-                  <div class="info-item">
-                      <span class="label">
-                          Currency
-                      </span>
-
-                      <span class="value" id="currencyValue">
-                          INR - Indian Rupee
-                      </span>
-                  </div>
-
-
-                  <div class="info-item">
-                      <span class="label">
-                          Disbursement Date
-                      </span>
-
-                      <span class="value" id="disbursementDateValue">
-                          01 September 2026
-                      </span>
-                  </div>
-
-
-                  <div class="info-item">
-                      <span class="label">
-                          First Repayment Date
-                      </span>
-
-                      <span class="value" id="firstRepaymentDateValue">
-                          01 October 2026
-                      </span>
-                  </div>
-
-              </div>
-
-          </section>
-
-
-          <!-- =====================================
-              Repayment
-          ====================================== -->
-
-          <section class="card">
-
-              <div class="section-title">
-                  <h2>Repayment</h2>
-              </div>
-
-              <div class="info-grid">
-
-                  <div class="info-item">
-                      <span class="label">
-                          Tenure Unit
-                      </span>
-
-                      <span class="value" id="tenureUnitValue">
-                          Months
-                      </span>
-                  </div>
-
-
-                  <div class="info-item">
-                      <span class="label">
-                          Tenure Value
-                      </span>
-
-                      <span class="value" id="tenureValueValue">
-                          12
-                      </span>
-                  </div>
-
-
-                  <div class="info-item">
-                      <span class="label">
-                          Repayment Frequency
-                      </span>
-
-                      <span class="value" id="repaymentFrequencyValue">
-                          Monthly
-                      </span>
-                  </div>
-
-
-                  <div class="info-item">
-                      <span class="label">
-                          Number of Installments
-                      </span>
-
-                      <span class="value" id="numberOfInstallmentsValue">
-                          12
-                      </span>
-                  </div>
-
-
-                  <div class="info-item">
-                      <span class="label">
-                          Interest / Repayment Method
-                      </span>
-
-                      <span class="value" id="repaymentMethodValue">
-                          Reducing Balance - EMI (Equal Installment)
-                      </span>
-                  </div>
-
-              </div>
-
-          </section>
-
-
-          <!-- =====================================
-              Interest
-          ====================================== -->
-
-          <section class="card">
-
-              <div class="section-title">
-                  <h2>Interest</h2>
-              </div>
-
-              <div class="info-grid">
-
-                  <div class="info-item">
-                      <span class="label">
-                          Annual Interest Rate
-                      </span>
-
-                      <span class="value" id="annualInterestRateValue">
-                          12.00%
-                      </span>
-                  </div>
-
-
-                  <div class="info-item">
-                      <span class="label">
-                          Day Count Convention
-                      </span>
-
-                      <span class="value" id="dayCountConventionValue">
-                          Actual/365
-                      </span>
-                  </div>
-
-              </div>
-
-          </section>
-
-
-          <!-- =====================================
-              Fees & Charges
-          ====================================== -->
-
-          <section class="card">
-
-              <div class="section-title">
-                  <h2>Fees &amp; Charges</h2>
-              </div>
-
-              <div class="info-grid">
-
-                  <div class="info-item">
-                      <span class="label">
-                          Fee Application Timing
-                      </span>
-
-                      <span class="value" id="feeApplicationTimingValue">
-                          Upfront at Disbursement
-                      </span>
-                  </div>
-
-
-                  <div class="info-item">
-                      <span class="label">
-                          Processing Fee Type
-                      </span>
-
-                      <span class="value" id="processingFeeTypeValue">
-                          % of Principal
-                      </span>
-                  </div>
-
-
-                  <div class="info-item">
-                      <span class="label">
-                          Processing Fee Value
-                      </span>
-
-                      <span class="value" id="processingFeeValueValue">
-                          2.00%
-                      </span>
-                  </div>
-
-
-                  <div class="info-item">
-                      <span class="label">
-                          Insurance Fee Type
-                      </span>
-
-                      <span class="value" id="insuranceFeeTypeValue">
-                          % of Principal
-                      </span>
-                  </div>
-
-
-                  <div class="info-item">
-                      <span class="label">
-                          Insurance Fee Value
-                      </span>
-
-                      <span class="value" id="insuranceFeeValueValue">
-                          1.00%
-                      </span>
-                  </div>
-
-
-                  <div class="info-item">
-                      <span class="label">
-                          Service Fee
-                      </span>
-
-                      <span class="value" id="serviceFeeValue">
-                          ₹500.00
-                      </span>
-                  </div>
-
-
-                  <div class="info-item">
-                      <span class="label">
-                          Other Charges
-                      </span>
-
-                      <span class="value" id="otherChargesValue">
-                          ₹0.00
-                      </span>
-                  </div>
-
-
-                  <div class="info-item">
-                      <span class="label">
-                          Apply Tax/GST on Fees?
-                      </span>
-
-                      <span class="value" id="applyTaxValue">
-                          Yes
-                      </span>
-                  </div>
-
-
-                  <div class="info-item">
-                      <span class="label">
-                          Tax/GST Rate (%)
-                      </span>
-
-                      <span class="value" id="taxRateValue">
-                          18.00%
-                      </span>
-                  </div>
-
-              </div>
-
-          </section>
-
-
-          <!-- =====================================
-              Advanced Calculation Settings
-          ====================================== -->
-
-          <section class="card">
-
-              <div class="section-title">
-                  <h2>Advanced Calculation Settings</h2>
-              </div>
-
-              <div class="info-grid">
-
-                  <div class="info-item">
-                      <span class="label">
-                          Rounding Decimal Places
-                      </span>
-
-                      <span class="value" id="roundingDecimalPlacesValue">
-                          Nearest ₹1
-                      </span>
-                  </div>
-
-
-                  <div class="info-item">
-                      <span class="label">
-                          Rounding Rule
-                      </span>
-
-                      <span class="value" id="roundingRuleValue">
-                          Nearest - Closest amount
-                      </span>
-                  </div>
-
-              </div>
-
-          </section>
-
-
-
-        <!-- =====================================
-             Example additional section
-             Remove if not required
-        ====================================== -->
-
-        <section class="card_schedule">
-
+            <div class="info-grid">
+                <div class="info-item">
+                    <span class="label">Borrower Name</span>
+                    <span class="value" id="borrowerNameValue">Sunita</span>
+                </div>
+
+                <div class="info-item">
+                    <span class="label">Loan ID</span>
+                    <span class="value" id="loanIdValue">1000001</span>
+                </div>
+
+                <div class="info-item">
+                    <span class="label">Borrower ID</span>
+                    <span class="value" id="borrowerIdValue">1000001</span>
+                </div>
+
+                <div class="info-item">
+                    <span class="label">Product Name</span>
+                    <span class="value" id="productNameValue">Group Loan - Standard</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- =====================================================
+             Loan Amount & Dates
+        ====================================================== -->
+        <section class="card">
+            <div class="section-title">
+                <h2>Loan Amount &amp; Dates</h2>
+            </div>
+
+            <div class="info-grid">
+                <div class="info-item">
+                    <span class="label">Loan Amount (Principal)</span>
+                    <span class="value amount" id="principalAmountValue">₹100,000.00</span>
+                </div>
+
+                <div class="info-item">
+                    <span class="label">Currency</span>
+                    <span class="value" id="currencyValue">INR - Indian Rupee</span>
+                </div>
+
+                <div class="info-item">
+                    <span class="label">Disbursement Date</span>
+                    <span class="value" id="disbursementDateValue">01 September 2026</span>
+                </div>
+
+                <div class="info-item">
+                    <span class="label">First Repayment Date</span>
+                    <span class="value" id="firstRepaymentDateValue">01 October 2026</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- =====================================================
+             Repayment
+        ====================================================== -->
+        <section class="card">
+            <div class="section-title">
+                <h2>Repayment</h2>
+            </div>
+
+            <div class="info-grid">
+                <div class="info-item">
+                    <span class="label">Tenure Unit</span>
+                    <span class="value" id="tenureUnitValue">Months</span>
+                </div>
+
+                <div class="info-item">
+                    <span class="label">Tenure Value</span>
+                    <span class="value" id="tenureValueValue">12</span>
+                </div>
+
+                <div class="info-item">
+                    <span class="label">Repayment Frequency</span>
+                    <span class="value" id="repaymentFrequencyValue">Monthly</span>
+                </div>
+
+                <div class="info-item">
+                    <span class="label">Number of Installments</span>
+                    <span class="value" id="numberOfInstallmentsValue">12</span>
+                </div>
+
+                <div class="info-item">
+                    <span class="label">Interest / Repayment Method</span>
+                    <span class="value" id="repaymentMethodValue">Reducing Balance - EMI (Equal Installment)</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- =====================================================
+             Interest
+        ====================================================== -->
+        <section class="card">
+            <div class="section-title">
+                <h2>Interest</h2>
+            </div>
+
+            <div class="info-grid">
+                <div class="info-item">
+                    <span class="label">Annual Interest Rate</span>
+                    <span class="value" id="annualInterestRateValue">12.00%</span>
+                </div>
+
+                <div class="info-item">
+                    <span class="label">Day Count Convention</span>
+                    <span class="value" id="dayCountConventionValue">Actual/365</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- =====================================================
+             Fees & Charges
+        ====================================================== -->
+        <section class="card">
+            <div class="section-title">
+                <h2>Fees &amp; Charges</h2>
+            </div>
+
+            <div class="info-grid">
+                <div class="info-item">
+                    <span class="label">Fee Application Timing</span>
+                    <span class="value" id="feeApplicationTimingValue">Upfront at Disbursement</span>
+                </div>
+
+                <div class="info-item">
+                    <span class="label">Processing Fee Type</span>
+                    <span class="value" id="processingFeeTypeValue">% of Principal</span>
+                </div>
+
+                <div class="info-item">
+                    <span class="label">Processing Fee Value</span>
+                    <span class="value" id="processingFeeValueValue">2.00%</span>
+                </div>
+
+                <div class="info-item">
+                    <span class="label">Insurance Fee Type</span>
+                    <span class="value" id="insuranceFeeTypeValue">% of Principal</span>
+                </div>
+
+                <div class="info-item">
+                    <span class="label">Insurance Fee Value</span>
+                    <span class="value" id="insuranceFeeValueValue">1.00%</span>
+                </div>
+
+                <div class="info-item">
+                    <span class="label">Service Fee</span>
+                    <span class="value amount" id="serviceFeeValue">₹500.00</span>
+                </div>
+
+                <div class="info-item">
+                    <span class="label">Other Charges</span>
+                    <span class="value amount" id="otherChargesValue">₹0.00</span>
+                </div>
+
+                <div class="info-item">
+                    <span class="label">Apply Tax/GST on Fees?</span>
+                    <span class="value" id="applyTaxValue">Yes</span>
+                </div>
+
+                <div class="info-item">
+                    <span class="label">Tax/GST Rate (%)</span>
+                    <span class="value" id="taxRateValue">18.00%</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- =====================================================
+             Advanced Calculation Settings
+        ====================================================== -->
+        <section class="card">
+            <div class="section-title">
+                <h2>Advanced Calculation Settings</h2>
+            </div>
+
+            <div class="info-grid">
+                <div class="info-item">
+                    <span class="label">Rounding Decimal Places</span>
+                    <span class="value" id="roundingDecimalPlacesValue">Nearest ₹1</span>
+                </div>
+
+                <div class="info-item">
+                    <span class="label">Rounding Rule</span>
+                    <span class="value" id="roundingRuleValue">Nearest - Closest amount</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- =====================================================
+             Repayment Schedule
+
+             FIX: the original file repeated a single row
+             ("Installment 3, 01 Mar 2026, ...") roughly 25 times
+             instead of listing all 12 installments. The table
+             below has been replaced with 12 distinct rows that
+             match the loan terms above: ₹100,000 principal,
+             12% annual interest (reducing balance), 12 monthly
+             installments starting 01 Oct 2026, rounded to the
+             nearest ₹1 as configured in "Advanced Calculation
+             Settings".
+
+             In a real application these rows should be rendered
+             from the actual computed schedule (e.g. injected by
+             the server or client-side JS) rather than hard-coded
+             — treat the values below as sample/placeholder data.
+        ====================================================== -->
+        <section class="card--schedule">
             <div class="section-title">
                 <h2>Repayment Schedule</h2>
             </div>
 
-
             <div class="schedule-wrapper">
-
                 <table class="schedule-table">
-
                     <thead>
                         <tr>
                             <th>Installment</th>
@@ -461,279 +273,204 @@
                     </thead>
 
                     <tbody>
-
                         <tr>
                             <td>1</td>
-                            <td>01 Jan 2026</td>
-                            <td>₹5,000</td>
-                            <td>₹500</td>
-                            <td>₹5,500</td>
-                            <td>₹95,000</td>
+                            <td>01 Oct 2026</td>
+                            <td>₹7,885</td>
+                            <td>₹1,000</td>
+                            <td>₹8,885</td>
+                            <td>₹92,115</td>
                         </tr>
-
                         <tr>
                             <td>2</td>
-                            <td>01 Feb 2026</td>
-                            <td>₹5,000</td>
-                            <td>₹475</td>
-                            <td>₹5,475</td>
-                            <td>₹90,000</td>
+                            <td>01 Nov 2026</td>
+                            <td>₹7,964</td>
+                            <td>₹921</td>
+                            <td>₹8,885</td>
+                            <td>₹84,151</td>
                         </tr>
-
                         <tr>
                             <td>3</td>
-                            <td>01 Mar 2026</td>
-                            <td>₹5,000</td>
-                            <td>₹450</td>
-                            <td>₹5,450</td>
-                            <td>₹85,000</td>
+                            <td>01 Dec 2026</td>
+                            <td>₹8,043</td>
+                            <td>₹842</td>
+                            <td>₹8,885</td>
+                            <td>₹76,108</td>
                         </tr>
-                        
-
+                        <tr>
+                            <td>4</td>
+                            <td>01 Jan 2027</td>
+                            <td>₹8,124</td>
+                            <td>₹761</td>
+                            <td>₹8,885</td>
+                            <td>₹67,984</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>01 Feb 2027</td>
+                            <td>₹8,205</td>
+                            <td>₹680</td>
+                            <td>₹8,885</td>
+                            <td>₹59,779</td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td>01 Mar 2027</td>
+                            <td>₹8,287</td>
+                            <td>₹598</td>
+                            <td>₹8,885</td>
+                            <td>₹51,492</td>
+                        </tr>
+                        <tr>
+                            <td>7</td>
+                            <td>01 Apr 2027</td>
+                            <td>₹8,370</td>
+                            <td>₹515</td>
+                            <td>₹8,885</td>
+                            <td>₹43,122</td>
+                        </tr>
+                        <tr>
+                            <td>8</td>
+                            <td>01 May 2027</td>
+                            <td>₹8,454</td>
+                            <td>₹431</td>
+                            <td>₹8,885</td>
+                            <td>₹34,668</td>
+                        </tr>
+                        <tr>
+                            <td>9</td>
+                            <td>01 Jun 2027</td>
+                            <td>₹8,538</td>
+                            <td>₹347</td>
+                            <td>₹8,885</td>
+                            <td>₹26,130</td>
+                        </tr>
+                        <tr>
+                            <td>10</td>
+                            <td>01 Jul 2027</td>
+                            <td>₹8,624</td>
+                            <td>₹261</td>
+                            <td>₹8,885</td>
+                            <td>₹17,506</td>
+                        </tr>
+                        <tr>
+                            <td>11</td>
+                            <td>01 Aug 2027</td>
+                            <td>₹8,710</td>
+                            <td>₹175</td>
+                            <td>₹8,885</td>
+                            <td>₹8,796</td>
+                        </tr>
+                        <tr>
+                            <td>12</td>
+                            <td>01 Sep 2027</td>
+                            <td>₹8,796</td>
+                            <td>₹88</td>
+                            <td>₹8,885</td>
+                            <td>₹0</td>
+                        </tr>
+                                               <tr>
+                            <td>1</td>
+                            <td>01 Oct 2026</td>
+                            <td>₹7,885</td>
+                            <td>₹1,000</td>
+                            <td>₹8,885</td>
+                            <td>₹92,115</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>01 Nov 2026</td>
+                            <td>₹7,964</td>
+                            <td>₹921</td>
+                            <td>₹8,885</td>
+                            <td>₹84,151</td>
+                        </tr>
                         <tr>
                             <td>3</td>
-                            <td>01 Mar 2026</td>
-                            <td>₹5,000</td>
-                            <td>₹450</td>
-                            <td>₹5,450</td>
-                            <td>₹85,000</td>
+                            <td>01 Dec 2026</td>
+                            <td>₹8,043</td>
+                            <td>₹842</td>
+                            <td>₹8,885</td>
+                            <td>₹76,108</td>
                         </tr>
-                        
                         <tr>
-                            <td>3</td>
-                            <td>01 Mar 2026</td>
-                            <td>₹5,000</td>
-                            <td>₹450</td>
-                            <td>₹5,450</td>
-                            <td>₹85,000</td>
+                            <td>4</td>
+                            <td>01 Jan 2027</td>
+                            <td>₹8,124</td>
+                            <td>₹761</td>
+                            <td>₹8,885</td>
+                            <td>₹67,984</td>
                         </tr>
-                        
                         <tr>
-                            <td>3</td>
-                            <td>01 Mar 2026</td>
-                            <td>₹5,000</td>
-                            <td>₹450</td>
-                            <td>₹5,450</td>
-                            <td>₹85,000</td>
+                            <td>5</td>
+                            <td>01 Feb 2027</td>
+                            <td>₹8,205</td>
+                            <td>₹680</td>
+                            <td>₹8,885</td>
+                            <td>₹59,779</td>
                         </tr>
-                        
                         <tr>
-                            <td>3</td>
-                            <td>01 Mar 2026</td>
-                            <td>₹5,000</td>
-                            <td>₹450</td>
-                            <td>₹5,450</td>
-                            <td>₹85,000</td>
+                            <td>6</td>
+                            <td>01 Mar 2027</td>
+                            <td>₹8,287</td>
+                            <td>₹598</td>
+                            <td>₹8,885</td>
+                            <td>₹51,492</td>
                         </tr>
-                        
                         <tr>
-                            <td>3</td>
-                            <td>01 Mar 2026</td>
-                            <td>₹5,000</td>
-                            <td>₹450</td>
-                            <td>₹5,450</td>
-                            <td>₹85,000</td>
+                            <td>7</td>
+                            <td>01 Apr 2027</td>
+                            <td>₹8,370</td>
+                            <td>₹515</td>
+                            <td>₹8,885</td>
+                            <td>₹43,122</td>
                         </tr>
-                        
                         <tr>
-                            <td>3</td>
-                            <td>01 Mar 2026</td>
-                            <td>₹5,000</td>
-                            <td>₹450</td>
-                            <td>₹5,450</td>
-                            <td>₹85,000</td>
+                            <td>8</td>
+                            <td>01 May 2027</td>
+                            <td>₹8,454</td>
+                            <td>₹431</td>
+                            <td>₹8,885</td>
+                            <td>₹34,668</td>
                         </tr>
-                        
                         <tr>
-                            <td>3</td>
-                            <td>01 Mar 2026</td>
-                            <td>₹5,000</td>
-                            <td>₹450</td>
-                            <td>₹5,450</td>
-                            <td>₹85,000</td>
+                            <td>9</td>
+                            <td>01 Jun 2027</td>
+                            <td>₹8,538</td>
+                            <td>₹347</td>
+                            <td>₹8,885</td>
+                            <td>₹26,130</td>
                         </tr>
-                        
                         <tr>
-                            <td>3</td>
-                            <td>01 Mar 2026</td>
-                            <td>₹5,000</td>
-                            <td>₹450</td>
-                            <td>₹5,450</td>
-                            <td>₹85,000</td>
+                            <td>10</td>
+                            <td>01 Jul 2027</td>
+                            <td>₹8,624</td>
+                            <td>₹261</td>
+                            <td>₹8,885</td>
+                            <td>₹17,506</td>
                         </tr>
-                        
                         <tr>
-                            <td>3</td>
-                            <td>01 Mar 2026</td>
-                            <td>₹5,000</td>
-                            <td>₹450</td>
-                            <td>₹5,450</td>
-                            <td>₹85,000</td>
+                            <td>11</td>
+                            <td>01 Aug 2027</td>
+                            <td>₹8,710</td>
+                            <td>₹175</td>
+                            <td>₹8,885</td>
+                            <td>₹8,796</td>
                         </tr>
-                        
                         <tr>
-                            <td>3</td>
-                            <td>01 Mar 2026</td>
-                            <td>₹5,000</td>
-                            <td>₹450</td>
-                            <td>₹5,450</td>
-                            <td>₹85,000</td>
+                            <td>12</td>
+                            <td>01 Sep 2027</td>
+                            <td>₹8,796</td>
+                            <td>₹88</td>
+                            <td>₹8,885</td>
+                            <td>₹0</td>
                         </tr>
-                        
-                        <tr>
-                            <td>3</td>
-                            <td>01 Mar 2026</td>
-                            <td>₹5,000</td>
-                            <td>₹450</td>
-                            <td>₹5,450</td>
-                            <td>₹85,000</td>
-                        </tr>
-                        
-                        <tr>
-                            <td>3</td>
-                            <td>01 Mar 2026</td>
-                            <td>₹5,000</td>
-                            <td>₹450</td>
-                            <td>₹5,450</td>
-                            <td>₹85,000</td>
-                        </tr>
-                        
-                        <tr>
-                            <td>3</td>
-                            <td>01 Mar 2026</td>
-                            <td>₹5,000</td>
-                            <td>₹450</td>
-                            <td>₹5,450</td>
-                            <td>₹85,000</td>
-                        </tr>
-                        
-                        <tr>
-                            <td>3</td>
-                            <td>01 Mar 2026</td>
-                            <td>₹5,000</td>
-                            <td>₹450</td>
-                            <td>₹5,450</td>
-                            <td>₹85,000</td>
-                        </tr>
-                        
-                        <tr>
-                            <td>3</td>
-                            <td>01 Mar 2026</td>
-                            <td>₹5,000</td>
-                            <td>₹450</td>
-                            <td>₹5,450</td>
-                            <td>₹85,000</td>
-                        </tr>
-                        
-                        <tr>
-                            <td>3</td>
-                            <td>01 Mar 2026</td>
-                            <td>₹5,000</td>
-                            <td>₹450</td>
-                            <td>₹5,450</td>
-                            <td>₹85,000</td>
-                        </tr>
-                        
-                        <tr>
-                            <td>3</td>
-                            <td>01 Mar 2026</td>
-                            <td>₹5,000</td>
-                            <td>₹450</td>
-                            <td>₹5,450</td>
-                            <td>₹85,000</td>
-                        </tr>
-                        
-                        <tr>
-                            <td>3</td>
-                            <td>01 Mar 2026</td>
-                            <td>₹5,000</td>
-                            <td>₹450</td>
-                            <td>₹5,450</td>
-                            <td>₹85,000</td>
-                        </tr>
-                        
-                        <tr>
-                            <td>3</td>
-                            <td>01 Mar 2026</td>
-                            <td>₹5,000</td>
-                            <td>₹450</td>
-                            <td>₹5,450</td>
-                            <td>₹85,000</td>
-                        </tr>
-                        
-                        <tr>
-                            <td>3</td>
-                            <td>01 Mar 2026</td>
-                            <td>₹5,000</td>
-                            <td>₹450</td>
-                            <td>₹5,450</td>
-                            <td>₹85,000</td>
-                        </tr>
-                        
-                        <tr>
-                            <td>3</td>
-                            <td>01 Mar 2026</td>
-                            <td>₹5,000</td>
-                            <td>₹450</td>
-                            <td>₹5,450</td>
-                            <td>₹85,000</td>
-                        </tr>
-                        
-                        <tr>
-                            <td>3</td>
-                            <td>01 Mar 2026</td>
-                            <td>₹5,000</td>
-                            <td>₹450</td>
-                            <td>₹5,450</td>
-                            <td>₹85,000</td>
-                        </tr>
-                        
-                        <tr>
-                            <td>3</td>
-                            <td>01 Mar 2026</td>
-                            <td>₹5,000</td>
-                            <td>₹450</td>
-                            <td>₹5,450</td>
-                            <td>₹85,000</td>
-                        </tr>
-                        
-                        <tr>
-                            <td>3</td>
-                            <td>01 Mar 2026</td>
-                            <td>₹5,000</td>
-                            <td>₹450</td>
-                            <td>₹5,450</td>
-                            <td>₹85,000</td>
-                        </tr>
-                        
-                        <tr>
-                            <td>3</td>
-                            <td>01 Mar 2026</td>
-                            <td>₹5,000</td>
-                            <td>₹450</td>
-                            <td>₹5,450</td>
-                            <td>₹85,000</td>
-                        </tr>
-                        
-                        <tr>
-                            <td>3</td>
-                            <td>01 Mar 2026</td>
-                            <td>₹5,000</td>
-                            <td>₹450</td>
-                            <td>₹5,450</td>
-                            <td>₹85,000</td>
-                        </tr>
-                        
                     </tbody>
-
                 </table>
-
             </div>
-
         </section>
 
     </div>
-
 
     <script src="../assets/js/loan-card.js"></script>
 
