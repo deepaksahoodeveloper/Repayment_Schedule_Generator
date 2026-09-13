@@ -1,6 +1,303 @@
+
 /**
  * loan-card.js
  * -----------------------------------------------------------------
+ * Page 2 (loan-card.html) has two jobs:
+ *   1. Read the loan data the user submitted on Page 1 (index.html)
+ *      out of localStorage and use it to fill in the 6 info cards.
+ *   2. Let the user download the filled-in card as a PDF (unchanged
+ *      from before).
+ *
+ * NOTE: the repayment schedule table is NOT populated by this file
+ * yet — that's a separate follow-up once the amortization logic is
+ * ready. Its rows are still the placeholder sample data in result.html.
+ */
+ 
+const LOAN_DATA_STORAGE_KEY = "loanData";
+ 
+// Where to send the user if there's no data to show (e.g. they
+// opened this page directly instead of coming from the form).
+const FORM_PAGE_URL = "../index.html";
+ 
+document.addEventListener("DOMContentLoaded", function () {
+    const loanData = getLoanData();
+ 
+    if (!loanData) {
+        window.location.href = FORM_PAGE_URL;
+        return;
+    }
+ 
+    populateLoanCard(loanData);
+    initDownloadButton();
+});
+ 
+/* =========================================================
+   READ STORED DATA
+========================================================= */
+ 
+/**
+ * Reads and parses the loan data saved by index.html.
+ * @returns {Object|null} the parsed loan data, or null if it's
+ *                         missing or corrupted.
+ */
+function getLoanData() {
+    const raw = localStorage.getItem(LOAN_DATA_STORAGE_KEY);
+ 
+    if (!raw) {
+        console.warn("loan-card.js: no loan data found in localStorage.");
+        return null;
+    }
+ 
+    try {
+        return JSON.parse(raw);
+    } catch (error) {
+        console.error("loan-card.js: stored loan data is not valid JSON.", error);
+        return null;
+    }
+}
+ 
+/* =========================================================
+   LABEL LOOKUPS
+   -----------------------------------------------------------
+   index.html stores the raw <option value="..."> CODES (e.g.
+   "percentage", "reducing-emi"), not the text a person reads on
+   the form. These tables translate each code to its label for
+   display, so the mapping lives in exactly one place.
+========================================================= */
+ 
+const LABELS = {
+    currency: {
+        INR: "INR - Indian Rupee",
+    },
+ 
+    tenureUnit: {
+        days: "Days",
+        weeks: "Weeks",
+        months: "Months",
+        years: "Years",
+    },
+ 
+    repaymentFrequency: {
+        weekly: "Weekly",
+        biweekly: "Bi-weekly",
+        monthly: "Monthly",
+        quarterly: "Quarterly",
+    },
+ 
+    repaymentMethod: {
+        "flat-interest": "Flat Interest - Equal Installment",
+        "reducing-emi": "Reducing Balance - EMI (Equal Installment)",
+        "reducing-balance": "Reducing Balance - Equal Principal",
+    },
+ 
+    dayCountConvention: {
+        actual365: "Actual/365",
+        actual360: "Actual/360",
+        "30_360": "30/360",
+    },
+ 
+    feeApplicationTiming: {
+        upfront: "Upfront at Disbursement",
+        "first-installment": "Added to First Installment",
+        spread: "Spread Equally Across Installments",
+    },
+ 
+    // Shared by both processingFeeType and insuranceFeeType — they
+    // use the same two option values on Page 1.
+    feeType: {
+        percentage: "% of Principal",
+        flat: "Flat Amount",
+    },
+ 
+    applyTax: {
+        yes: "Yes",
+        no: "No",
+    },
+ 
+    roundingDecimalPlaces: {
+        "2": "Nearest ₹100",
+        "1": "Nearest ₹10",
+        "0": "Nearest ₹1",
+        "-1": "Nearest ₹0.1",
+        "-2": "Nearest ₹0.01",
+    },
+ 
+    roundingRule: {
+        nearest: "Nearest - Closest amount",
+        up: "Round Up - Higher amount",
+        down: "Round Down - Lower amount",
+    },
+};
+ 
+/**
+ * Looks up the display label for a stored option code.
+ * Falls back to the raw code itself if it's not found, so a future
+ * option value added on Page 1 without a matching label here still
+ * shows *something* instead of going blank.
+ * @param {string} group - key into LABELS (e.g. "tenureUnit")
+ * @param {string} code - the raw stored value (e.g. "months")
+ */
+function lookupLabel(group, code) {
+    if (!code) {
+        return "";
+    }
+ 
+    const groupLabels = LABELS[group];
+    return (groupLabels && groupLabels[code]) || code;
+}
+ 
+/* =========================================================
+   FORMATTING HELPERS
+========================================================= */
+ 
+/**
+ * Formats a number as INR currency, e.g. 100000 -> "₹100,000.00".
+ * @param {string|number} rawValue
+ * @param {{ fallbackToZero?: boolean }} [options] - when true,
+ *   an empty/missing value renders as "₹0.00" instead of "—".
+ *   Use this for optional amount fields (Service Fee, Other
+ *   Charges) that are meant to default to zero, not "not entered".
+ */
+function formatCurrency(rawValue, options = {}) {
+    const number = Number(rawValue);
+ 
+    if (rawValue === undefined || rawValue === null || rawValue === "" || Number.isNaN(number)) {
+        return options.fallbackToZero ? "₹0.00" : "";
+    }
+ 
+    return "₹" + number.toLocaleString("en-IN", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+    });
+}
+ 
+/**
+ * Formats a number as a percentage, e.g. 12 -> "12.00%".
+ * @param {string|number} rawValue
+ */
+function formatPercentage(rawValue) {
+    const number = Number(rawValue);
+ 
+    if (rawValue === undefined || rawValue === null || rawValue === "" || Number.isNaN(number)) {
+        return "";
+    }
+ 
+    return number.toFixed(2) + "%";
+}
+ 
+/**
+ * Formats a fee amount as either a percentage or currency,
+ * depending on that fee's selected type — mirrors how
+ * Processing/Insurance Fee Value are entered on Page 1.
+ * @param {string|number} rawValue
+ * @param {string} feeTypeCode - "percentage" or "flat"
+ */
+function formatFeeAmount(rawValue, feeTypeCode) {
+    return feeTypeCode === "percentage"
+        ? formatPercentage(rawValue)
+        : formatCurrency(rawValue);
+}
+ 
+/**
+ * Formats an ISO date string (from an <input type="date">, e.g.
+ * "2026-10-01") as "01 October 2026".
+ * @param {string} isoDateString
+ */
+function formatDate(isoDateString) {
+    if (!isoDateString) {
+        return "";
+    }
+ 
+    // Appending a fixed time avoids the date shifting by a day due
+    // to the browser's local timezone offset.
+    const date = new Date(isoDateString + "T00:00:00");
+ 
+    if (Number.isNaN(date.getTime())) {
+        return isoDateString;
+    }
+ 
+    return date.toLocaleDateString("en-GB", {
+        day: "2-digit",
+        month: "long",
+        year: "numeric",
+    });
+}
+ 
+/* =========================================================
+   POPULATE THE CARDS
+========================================================= */
+ 
+/**
+ * Sets the text content of a value element by id.
+ * Missing/empty values fall back to an em dash rather than being
+ * left blank, so a skipped optional field is visibly intentional
+ * rather than looking like a bug.
+ * @param {string} elementId
+ * @param {string} value
+ */
+function setValueText(elementId, value) {
+    const element = document.getElementById(elementId);
+ 
+    if (!element) {
+        console.warn(`loan-card.js: no element found with id "${elementId}".`);
+        return;
+    }
+ 
+    element.textContent = (value === undefined || value === null || value === "") ? "—" : value;
+}
+ 
+/**
+ * Fills in every info card (1 through 6) using the submitted loan
+ * data. The repayment schedule table is deliberately not touched
+ * here — see the note at the top of this file.
+ * @param {Object} data - parsed loanData from localStorage
+ */
+function populateLoanCard(data) {
+ 
+    // 1. Loan & Borrower
+    setValueText("borrowerNameValue", data.borrowerName);
+    setValueText("loanIdValue", data.loanId);
+    setValueText("borrowerIdValue", data.borrowerId);
+    setValueText("productNameValue", data.productName);
+ 
+    // 2. Loan Amount & Dates
+    setValueText("principalAmountValue", formatCurrency(data.principalAmount));
+    setValueText("currencyValue", lookupLabel("currency", data.currency));
+    setValueText("disbursementDateValue", formatDate(data.disbursementDate));
+    setValueText("firstRepaymentDateValue", formatDate(data.firstRepaymentDate));
+ 
+    // 3. Repayment
+    setValueText("tenureUnitValue", lookupLabel("tenureUnit", data.tenureUnit));
+    setValueText("tenureValueValue", data.tenureValue);
+    setValueText("repaymentFrequencyValue", lookupLabel("repaymentFrequency", data.repaymentFrequency));
+    setValueText("numberOfInstallmentsValue", data.numberOfInstallments);
+    setValueText("repaymentMethodValue", lookupLabel("repaymentMethod", data.repaymentMethod));
+ 
+    // 4. Interest
+    setValueText("annualInterestRateValue", formatPercentage(data.annualInterestRate));
+    setValueText("dayCountConventionValue", lookupLabel("dayCountConvention", data.dayCountConvention));
+ 
+    // 5. Fees & Charges
+    setValueText("feeApplicationTimingValue", lookupLabel("feeApplicationTiming", data.feeApplicationTiming));
+    setValueText("processingFeeTypeValue", lookupLabel("feeType", data.processingFeeType));
+    setValueText("processingFeeValueValue", formatFeeAmount(data.processingFeeValue, data.processingFeeType));
+    setValueText("insuranceFeeTypeValue", lookupLabel("feeType", data.insuranceFeeType));
+    setValueText("insuranceFeeValueValue", formatFeeAmount(data.insuranceFeeValue, data.insuranceFeeType));
+    setValueText("serviceFeeValue", formatCurrency(data.serviceFee, { fallbackToZero: true }));
+    setValueText("otherChargesValue", formatCurrency(data.otherCharges, { fallbackToZero: true }));
+    setValueText("applyTaxValue", lookupLabel("applyTax", data.applyTax));
+    setValueText(
+        "taxRateValue",
+        data.applyTax === "yes" ? formatPercentage(data.taxRate) : "Not Applied"
+    );
+ 
+    // 6. Advanced Calculation Settings
+    setValueText("roundingDecimalPlacesValue", lookupLabel("roundingDecimalPlaces", data.roundingDecimalPlaces));
+    setValueText("roundingRuleValue", lookupLabel("roundingRule", data.roundingRule));
+}
+
+
+/**
  * Wires up the "Download As PDF" button. Clicking it snapshots the
  * #pdfContent element and turns it into a downloadable A4 PDF using
  * the html2pdf.js library (loaded via <script> tag in loan-card.html).
