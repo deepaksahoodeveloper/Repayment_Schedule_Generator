@@ -1,60 +1,41 @@
 /* =============================================================
-   Loan Repayment Schedule — Stylesheet
-   -------------------------------------------------------------
-   This sheet styles an A4-sized document that is:
-     1. Displayed in the browser, and
-     2. Converted to a PDF by html2pdf.js (see loan-card.js).
+   LOAN REPAYMENT SCHEDULE
+   =============================================================
 
-   Because it is rendered twice (screen + PDF snapshot), most
-   rules are written to look correct in both contexts. Rules
-   that should ONLY apply to the PDF/print output live inside
-   the `@media print` block near the bottom.
+   Purpose
+   -------
+   This stylesheet is designed for a professional loan
+   repayment statement that is:
+
+   1. Clean and easy to scan
+   2. Compact enough for A4 PDF output
+   3. Comfortable to read on screen
+   4. Compatible with html2pdf.js
+   5. Responsive on tablets and mobile devices
+
+   Layout strategy
+   ---------------
+   - A4 page: 210mm × 297mm
+   - Compact information cards
+   - 2-column information layout
+   - Horizontal label/value pairs
+   - Small and consistent spacing
+   - Clear section hierarchy
+   - Right-aligned financial values
+   - Repayment table optimized for PDF
+   - Individual information rows do not split
+     across PDF pages
+
+============================================================= */
+
+
+/* =============================================================
+   1. GLOBAL RESET
 ============================================================= */
 
 * {
     box-sizing: border-box;
 }
-
-/* -------------------------------------------------------------
-   Design tokens
-   Centralising colors/spacing here means a re-theme only
-   touches this block instead of every selector below.
-------------------------------------------------------------- */
-
-:root {
-    /* Text */
-    --color-text-primary: #20242a;
-    --color-text-heading: #292e35;
-    --color-text-value: #272c32;
-    --color-text-muted: #707780;
-    --color-text-label: #7a818a;
-    --color-text-table-heading: #555d66;
-    --color-text-table-cell: #30353b;
-
-    /* Surfaces & borders */
-    --color-bg-page: #f5f6f8;
-    --color-bg-card: #ffffff;
-    --color-bg-section-title: #fafbfc;
-    --color-bg-table-heading: #f8f9fa;
-    --color-border-card: #e2e5e9;
-    --color-border-section-title: #e7e9ec;
-    --color-border-grid: #edf0f2;
-
-    /* Brand / action */
-    --color-primary: #2563eb;
-    --color-primary-hover: #1d4ed8;
-    --color-on-primary: #ffffff;
-
-    /* Layout */
-    --page-width: 210mm;
-    --page-min-height: 297mm;
-    --page-padding: 15mm;
-    --grid-columns: 4;
-}
-
-/* =============================================================
-   Base
-============================================================= */
 
 html,
 body {
@@ -62,9 +43,86 @@ body {
     padding: 0;
 }
 
+
+/* =============================================================
+   2. DESIGN TOKENS
+   -------------------------------------------------------------
+   Centralized variables make it easy to change the entire
+   visual theme without editing every selector.
+============================================================= */
+
+:root {
+
+    /* ---------------------------------------------------------
+       Text colors
+    --------------------------------------------------------- */
+
+    --color-text-primary: #20242a;
+    --color-text-heading: #292e35;
+    --color-text-value: #272c32;
+    --color-text-muted: #707780;
+    --color-text-label: #747b84;
+
+    --color-text-table-heading: #555d66;
+    --color-text-table-cell: #30353b;
+
+
+    /* ---------------------------------------------------------
+       Background colors
+    --------------------------------------------------------- */
+
+    --color-bg-page: #f3f5f7;
+    --color-bg-card: #ffffff;
+    --color-bg-section-title: #f8fafb;
+    --color-bg-table-heading: #f5f7f9;
+
+
+    /* ---------------------------------------------------------
+       Border colors
+    --------------------------------------------------------- */
+
+    --color-border-card: #dfe3e7;
+    --color-border-section-title: #e5e8eb;
+    --color-border-grid: #eceff2;
+
+
+    /* ---------------------------------------------------------
+       Primary/action colors
+    --------------------------------------------------------- */
+
+    --color-primary: #2563eb;
+    --color-primary-hover: #1d4ed8;
+    --color-on-primary: #ffffff;
+
+
+    /* ---------------------------------------------------------
+       Page dimensions
+    --------------------------------------------------------- */
+
+    --page-width: 210mm;
+    --page-height: 297mm;
+    --page-padding: 13mm;
+
+
+    /* ---------------------------------------------------------
+       Layout
+    --------------------------------------------------------- */
+
+    --grid-columns: 2;
+
+    --card-radius: 7px;
+    --card-spacing: 10px;
+}
+
+
+/* =============================================================
+   3. BASE PAGE
+============================================================= */
+
 body {
     background: var(--color-bg-page);
     color: var(--color-text-primary);
+
     font-family:
         -apple-system,
         BlinkMacSystemFont,
@@ -72,327 +130,941 @@ body {
         Roboto,
         Arial,
         sans-serif;
+
     font-size: 14px;
+    line-height: 1.4;
+
+    -webkit-font-smoothing: antialiased;
 }
 
+
 /* =============================================================
-   A4 page
+   4. A4 DOCUMENT CONTAINER
    -------------------------------------------------------------
-   Width/height follow the real A4 paper size (210mm x 297mm).
-   `min-height` (not `height`) is used deliberately: if the
-   content grows past one page, html2pdf.js can flow the
-   overflow onto additional A4 pages instead of clipping it.
+   The page is intentionally set to A4 width.
+
+   `min-height` is used instead of fixed `height` so content
+   can naturally continue onto additional PDF pages.
 ============================================================= */
 
 .page-container {
+
     width: var(--page-width);
-    min-height: var(--page-min-height);
-    margin: auto auto;
+    min-height: var(--page-height);
+
+    margin: 0 auto;
     padding: var(--page-padding);
+
     background: var(--color-bg-card);
 }
 
+
 /* =============================================================
-   Header
+   5. DOCUMENT HEADER
 ============================================================= */
 
 .page-header {
+
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 22px;
+
+    margin-bottom: 14px;
 }
+
+
+/* Main document title */
 
 .page-header h1 {
-    margin: 0 0 5px;
-    font-size: 24px;
-    font-weight: 650;
-    line-height: 1.3;
-    letter-spacing: -0.3px;
+
+    margin: 0 0 3px;
+
     color: var(--color-text-primary);
+
+    font-size: 22px;
+    font-weight: 650;
+    line-height: 1.25;
+
+    letter-spacing: -0.25px;
 }
+
+
+/* Header subtitle */
 
 .page-header p {
+
     margin: 0;
+
     color: var(--color-text-muted);
-    font-size: 13px;
-    line-height: 1.5;
+
+    font-size: 12px;
+    line-height: 1.4;
 }
 
-/* =============================================================
-   Cards
-   -------------------------------------------------------------
-   `.card` is the base look shared by every section.
-   `.card--schedule` is a *modifier* on top of `.card` for the
-   one section (the installment table) that must be allowed to
-   split across PDF pages rather than being kept on one page.
 
-   NOTE: previously this modifier was a completely separate
-   class (`.card_schedule`) that duplicated every rule from
-   `.card`. That meant the two card types could quietly drift
-   apart over time. Using `.card .card--schedule` together
-   avoids the duplication.
+/* =============================================================
+   6. INFORMATION CARDS
+   -------------------------------------------------------------
+   All six information sections use the same card design.
+
+   The cards are intentionally compact so the document does
+   not waste vertical space.
 ============================================================= */
 
 .card {
-    margin-top: 18px;
-    margin-bottom: 18px;
+
+    margin-top: var(--card-spacing);
+    margin-bottom: var(--card-spacing);
+
     background: var(--color-bg-card);
+
     border: 1px solid var(--color-border-card);
-    border-radius: 8px;
+    border-radius: var(--card-radius);
+
     overflow: hidden;
 
-    /* Keep a whole card on one PDF page when there's room. */
+    /*
+       Keep normal cards together when there is enough room
+       on the current PDF page.
+    */
+
     break-inside: avoid;
     page-break-inside: avoid;
 }
 
-.card--schedule {
-    /* The schedule table can legitimately be many rows long,
-       so — unlike other cards — it is allowed to break across
-       PDF pages. Individual <tr> elements are still protected
-       from being split (see ".schedule-table tr" below). */
-    break-inside: auto;
-    page-break-inside: auto;
-}
 
 /* =============================================================
-   Section title
+   7. SECTION TITLE
+   -------------------------------------------------------------
+   Example:
+
+   ┌─────────────────────────────────────────────┐
+   │ Loan & Borrower                             │
+   ├─────────────────────────────────────────────┤
+   │ Borrower Name    John Doe | Loan ID  LN001  │
+   └─────────────────────────────────────────────┘
 ============================================================= */
 
 .section-title {
-    padding: 15px 20px;
-    border-bottom: 1px solid var(--color-border-section-title);
+
+    padding: 9px 16px;
+
     background: var(--color-bg-section-title);
+
+    border-bottom: 1px solid var(--color-border-section-title);
 }
+
+
+/* Section heading */
 
 .section-title h2 {
+
     margin: 0;
-    font-size: 15px;
-    font-weight: 650;
+
     color: var(--color-text-heading);
+
+    font-size: 13px;
+    font-weight: 650;
+
+    line-height: 1.3;
 }
 
+
 /* =============================================================
-   Information grid (label/value pairs inside a card)
+   8. INFORMATION GRID
+   -------------------------------------------------------------
+   Two columns are used instead of four.
+
+   Why?
+
+   A 4-column layout creates narrow areas and causes labels
+   and values to wrap unnecessarily.
+
+   The 2-column layout gives each information item enough
+   horizontal space while keeping the card compact.
 ============================================================= */
 
 .info-grid {
+
     display: grid;
-    grid-template-columns: repeat(var(--grid-columns), 1fr);
+
+    grid-template-columns:
+        repeat(var(--grid-columns), minmax(0, 1fr));
+
+    width: 100%;
 }
 
+
+/* =============================================================
+   9. INDIVIDUAL INFORMATION ITEM
+   -------------------------------------------------------------
+   Each item is displayed as:
+
+   LABEL                  VALUE
+   --------------------------------
+   LOAN ID                LN-2026-001
+
+   This is much more compact than stacking the label and value
+   vertically.
+============================================================= */
+
 .info-item {
-    min-height: 72px;
-    padding: 15px 20px;
+
+    display: grid;
+
+    /*
+       The first column is the label.
+       The second column contains the actual value.
+    */
+
+    grid-template-columns:
+        minmax(145px, 42%)
+        minmax(0, 1fr);
+
+    align-items: center;
+
+    min-height: 0;
+
+    padding: 10px 16px;
+
     border-right: 1px solid var(--color-border-grid);
     border-bottom: 1px solid var(--color-border-grid);
 
-    /* Never let a single label/value pair split across pages. */
+    /*
+       Prevent an individual information item from being split
+       between two PDF pages.
+    */
+
     break-inside: avoid;
     page-break-inside: avoid;
 }
 
-/* Rightmost column in every full row has no right border. */
-.info-item:nth-child(4n) {
+
+/* =============================================================
+   10. INFORMATION ITEM BORDERS
+   -------------------------------------------------------------
+   Since the grid has two columns, every second item is at the
+   right edge and does not need a right border.
+============================================================= */
+
+.info-item:nth-child(2n) {
     border-right: none;
 }
 
-/* The very last item never needs a right border either — this
-   matters when a section's item count isn't a multiple of 4
-   (e.g. a trailing row with just 1 or 2 items). */
+
+/* Last item also does not need a right border */
+
 .info-item:last-child {
     border-right: none;
 }
 
-/*
-   Bottom border removal for the LAST ROW only.
-   -----------------------------------------------------------
-   BUG FIX: the previous rule was `:nth-last-child(-n + 4)`,
-   which always strips the border from the last 4 items in the
-   DOM — regardless of how many columns those items actually
-   span. That's only correct when a section's item count is an
-   exact multiple of 4. Several sections here have 2, 5, or 9
-   items, so the old rule silently removed borders from items
-   that were still in the middle of the grid (Fees & Charges,
-   for example, has 9 items — 9 is not a multiple of 4).
 
-   The fix below finds the first item of the last row —
-   `:nth-child(4n + 1)` (a row-starter) that is also within the
-   last 4 items overall (`:nth-last-child(-n + 4)`) — and then
-   removes the border from it and every item after it. This
-   correctly handles a final row of any length (1, 2, 3, or 4
-   items), not just full rows.
-*/
-.info-item:nth-child(4n + 1):nth-last-child(-n + 4),
-.info-item:nth-child(4n + 1):nth-last-child(-n + 4) ~ .info-item {
+/* =============================================================
+   11. REMOVE BOTTOM BORDER FROM FINAL ROW
+   -------------------------------------------------------------
+   For a two-column grid:
+
+   Even number of items:
+       last 2 items = final row
+
+   Odd number of items:
+       last item = final row
+
+   We remove the bottom border from the last two items first,
+   then restore it for the last item when the item count is odd.
+============================================================= */
+
+
+/* Even-item sections */
+
+.info-item:nth-last-child(-n + 2) {
     border-bottom: none;
 }
 
+
+/*
+   When there is an odd number of items, the last item occupies
+   a new row by itself.
+
+   Keep the visual appearance clean by removing its bottom
+   border as well.
+*/
+
+.info-item:last-child {
+    border-bottom: none;
+}
+
+
 /* =============================================================
-   Labels & values
+   12. LABEL
+   -------------------------------------------------------------
+   Labels are intentionally small and uppercase.
+
+   This creates a clear visual distinction between:
+   "what is this?"
+   and
+   "what is the value?"
 ============================================================= */
 
 .label {
+
     display: block;
-    margin-bottom: 7px;
+
+    margin: 0;
+
+    padding-right: 12px;
+
     color: var(--color-text-label);
-    font-size: 11px;
-    font-weight: 500;
+
+    font-size: 9.5px;
+    font-weight: 600;
+
+    line-height: 1.3;
+
     text-transform: uppercase;
-    letter-spacing: 0.35px;
+    letter-spacing: 0.3px;
 }
 
-.value {
-    display: block;
-    color: var(--color-text-value);
-    font-size: 13px;
-    font-weight: 550;
-    line-height: 1.4;
-}
-
-.amount {
-    /* Keeps digits aligned when currency values stack in a column. */
-    font-variant-numeric: tabular-nums;
-}
 
 /* =============================================================
-   Repayment schedule table
+   13. VALUE
+============================================================= */
+
+.value {
+
+    display: block;
+
+    min-width: 0;
+
+    color: var(--color-text-value);
+
+    font-size: 12px;
+    font-weight: 550;
+
+    line-height: 1.35;
+
+    /*
+       Long IDs, names, product names, etc. should wrap rather
+       than overflow outside the card.
+    */
+
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+
+/* =============================================================
+   14. MONEY / NUMERIC VALUES
+   -------------------------------------------------------------
+   Tabular numbers make financial figures easier to compare.
+============================================================= */
+
+.amount {
+
+    font-variant-numeric: tabular-nums;
+
+    font-weight: 650;
+
+    white-space: nowrap;
+}
+
+
+/* =============================================================
+   15. REPAYMENT SCHEDULE CARD
+   -------------------------------------------------------------
+   Unlike the normal information cards, the repayment schedule
+   is allowed to continue across multiple PDF pages.
+============================================================= */
+
+.card--schedule {
+
+    /*
+       Allow the schedule to flow across pages.
+    */
+
+    break-inside: auto;
+    page-break-inside: auto;
+
+    margin-top: 12px;
+}
+
+
+/* =============================================================
+   16. SCHEDULE WRAPPER
+   -------------------------------------------------------------
+   Horizontal scrolling is useful on small screens.
+
+   During PDF generation, the table naturally uses the full
+   available width.
 ============================================================= */
 
 .schedule-wrapper {
+
     width: 100%;
+
     overflow-x: auto;
 }
 
+
+/* =============================================================
+   17. REPAYMENT TABLE
+============================================================= */
+
 .schedule-table {
+
     width: 100%;
+
     border-collapse: collapse;
-    font-size: 12px;
+
+    table-layout: fixed;
+
+    font-size: 11px;
 }
+
+
+/* =============================================================
+   18. TABLE HEADER
+============================================================= */
 
 .schedule-table th {
-    padding: 10px 12px;
-    text-align: left;
-    color: var(--color-text-table-heading);
-    font-size: 10px;
-    font-weight: 650;
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
+
+    padding: 8px 9px;
+
     background: var(--color-bg-table-heading);
+
+    color: var(--color-text-table-heading);
+
     border-bottom: 1px solid var(--color-border-card);
+
+    font-size: 9px;
+    font-weight: 650;
+
+    line-height: 1.3;
+
+    text-align: left;
+
+    text-transform: uppercase;
+    letter-spacing: 0.25px;
 }
+
+
+/* =============================================================
+   19. TABLE CELLS
+============================================================= */
 
 .schedule-table td {
-    padding: 10px 12px;
+
+    padding: 8px 9px;
+
     color: var(--color-text-table-cell);
+
     border-bottom: 1px solid var(--color-border-grid);
+
+    font-size: 11px;
+
+    line-height: 1.3;
+
     vertical-align: middle;
+
+    font-variant-numeric: tabular-nums;
 }
 
-/* Never split a single installment row across two PDF pages. */
+
+/* =============================================================
+   20. TABLE COLUMN ALIGNMENT
+   -------------------------------------------------------------
+   Installment number is centered.
+
+   Financial columns are right aligned because numbers are much
+   easier to scan this way.
+============================================================= */
+
+
+/* Installment number */
+
+.schedule-table th:first-child,
+.schedule-table td:first-child {
+
+    width: 10%;
+
+    text-align: center;
+}
+
+
+/* Due date */
+
+.schedule-table th:nth-child(2),
+.schedule-table td:nth-child(2) {
+
+    width: 18%;
+}
+
+
+/* Financial columns */
+
+.schedule-table th:nth-child(3),
+.schedule-table th:nth-child(4),
+.schedule-table th:nth-child(5),
+.schedule-table th:nth-child(6),
+
+.schedule-table td:nth-child(3),
+.schedule-table td:nth-child(4),
+.schedule-table td:nth-child(5),
+.schedule-table td:nth-child(6) {
+
+    text-align: right;
+}
+
+
+/* =============================================================
+   21. TABLE ROW PAGE BREAK PROTECTION
+   -------------------------------------------------------------
+   A single installment should never be split across two
+   different PDF pages.
+============================================================= */
+
 .schedule-table tr {
+
     break-inside: avoid;
     page-break-inside: avoid;
 }
 
+
 /* =============================================================
-   Download button
+   22. LAST TABLE ROW
+============================================================= */
+
+.schedule-table tbody tr:last-child td {
+
+    border-bottom: none;
+}
+
+
+/* =============================================================
+   23. DOWNLOAD BUTTON AREA
+   -------------------------------------------------------------
+   This is visible in the browser but hidden during printing
+   and PDF generation.
 ============================================================= */
 
 .download-container {
+
     display: flex;
+
     justify-content: center;
-    margin: 20px 0;
+
+    margin: 18px 0;
 }
 
+
+/* =============================================================
+   24. DOWNLOAD BUTTON
+============================================================= */
+
 #downloadBtn {
-    padding: 10px 22px;
+
+    padding: 9px 20px;
+
     border: none;
     border-radius: 6px;
+
     background: var(--color-primary);
     color: var(--color-on-primary);
-    font-size: 14px;
+
+    font-family: inherit;
+
+    font-size: 13px;
     font-weight: 600;
+
     cursor: pointer;
+
     transition:
         background 0.2s ease,
         transform 0.1s ease;
 }
 
+
+/* Hover */
+
 #downloadBtn:hover {
+
     background: var(--color-primary-hover);
 }
 
+
+/* Click */
+
 #downloadBtn:active {
+
     transform: translateY(1px);
 }
 
+
+/* Disabled state */
+
 #downloadBtn:disabled {
+
     opacity: 0.6;
+
     cursor: not-allowed;
 }
 
+
 /* =============================================================
-   Print / PDF-capture styles
+   25. PRINT / PDF STYLES
+   -------------------------------------------------------------
+   These rules apply when the browser prints the page.
+
+   They also help when a PDF engine relies on print styles.
 ============================================================= */
 
 @media print {
+
+    /* ---------------------------------------------------------
+       A4 page configuration
+    --------------------------------------------------------- */
+
     @page {
+
         size: A4 portrait;
+
         margin: 0;
     }
+
+
+    /* ---------------------------------------------------------
+       Remove gray browser background
+    --------------------------------------------------------- */
+
+    html,
+    body {
+
+        background: #ffffff;
+    }
+
 
     body {
-        background: var(--color-bg-card);
+
+        color: var(--color-text-primary);
     }
+
+
+    /* ---------------------------------------------------------
+       Hide download button
+    --------------------------------------------------------- */
+
+    .download-container {
+
+        display: none !important;
+    }
+
+
+    /* ---------------------------------------------------------
+       A4 document
+    --------------------------------------------------------- */
 
     .page-container {
+
         width: var(--page-width);
-        min-height: var(--page-min-height);
+
+        min-height: var(--page-height);
+
         margin: 0;
+
         padding: var(--page-padding);
-        background: var(--color-bg-card);
+
+        background: #ffffff;
     }
 
-    /* The download button is a UI control, not document content. */
-    .download-container {
-        display: none;
+
+    /* ---------------------------------------------------------
+       Keep normal cards together where possible
+    --------------------------------------------------------- */
+
+    .card {
+
+        break-inside: avoid;
+
+        page-break-inside: avoid;
+    }
+
+
+    /* ---------------------------------------------------------
+       Schedule is allowed to span pages
+    --------------------------------------------------------- */
+
+    .card--schedule {
+
+        break-inside: auto;
+
+        page-break-inside: auto;
+    }
+
+
+    /* ---------------------------------------------------------
+       Prevent individual rows from breaking
+    --------------------------------------------------------- */
+
+    .info-item,
+    .schedule-table tr {
+
+        break-inside: avoid;
+
+        page-break-inside: avoid;
+    }
+
+
+    /* ---------------------------------------------------------
+       Prevent unnecessary links/controls from appearing
+    --------------------------------------------------------- */
+
+    button {
+
+        display: none !important;
     }
 }
 
+
 /* =============================================================
-   Responsive browser view
+   26. LARGE SCREEN / NORMAL BROWSER VIEW
    -------------------------------------------------------------
-   These rules only affect how the page looks on-screen at
-   small widths; the print/PDF output always stays at the fixed
-   A4 size defined above.
+   The main A4 design is already used above.
+
+   A subtle shadow makes the document look like a physical
+   sheet of paper when viewed in the browser.
+============================================================= */
+
+@media screen and (min-width: 801px) {
+
+    .page-container {
+
+        margin-top: 20px;
+        margin-bottom: 20px;
+
+        box-shadow:
+            0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+}
+
+
+/* =============================================================
+   27. TABLET RESPONSIVE LAYOUT
+   -------------------------------------------------------------
+   At smaller browser widths the A4 fixed width is removed.
+
+   The PDF layout is NOT affected because these rules only
+   apply to `screen`.
 ============================================================= */
 
 @media screen and (max-width: 800px) {
+
     .page-container {
+
         width: 100%;
+
         min-height: auto;
+
         margin: 0;
-        padding: 20px;
+
+        padding: 18px;
     }
 
+
+    /*
+       Keep two information columns on tablets where possible.
+    */
+
     .info-grid {
-        grid-template-columns: repeat(2, 1fr);
+
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+
+    /*
+       Slightly reduce horizontal padding.
+    */
+
+    .info-item {
+
+        grid-template-columns:
+            minmax(120px, 42%)
+            minmax(0, 1fr);
+
+        padding: 10px 13px;
     }
 }
 
-@media screen and (max-width: 500px) {
+
+/* =============================================================
+   28. MOBILE RESPONSIVE LAYOUT
+   -------------------------------------------------------------
+   On narrow screens, one information item per row is easier
+   to read than squeezing two columns together.
+============================================================= */
+
+@media screen and (max-width: 600px) {
+
+    .page-container {
+
+        padding: 14px;
+    }
+
+
+    /* ---------------------------------------------------------
+       Header
+    --------------------------------------------------------- */
+
+    .page-header {
+
+        margin-bottom: 12px;
+    }
+
+
+    .page-header h1 {
+
+        font-size: 20px;
+    }
+
+
+    .page-header p {
+
+        font-size: 11px;
+    }
+
+
+    /* ---------------------------------------------------------
+       One-column information cards
+    --------------------------------------------------------- */
+
     .info-grid {
+
         grid-template-columns: 1fr;
     }
 
+
+    /* ---------------------------------------------------------
+       Information item becomes a simple horizontal pair
+    --------------------------------------------------------- */
+
     .info-item {
+
+        grid-template-columns:
+            minmax(125px, 40%)
+            minmax(0, 1fr);
+
         border-right: none !important;
-        border-bottom: 1px solid var(--color-border-grid) !important;
+
+        border-bottom: 1px solid var(--color-border-grid);
     }
 
+
+    /*
+       Override the desktop last-row rule because there is now
+       only one item per row.
+    */
+
+    .info-item:nth-last-child(-n + 2) {
+
+        border-bottom: 1px solid var(--color-border-grid);
+    }
+
+
     .info-item:last-child {
-        border-bottom: none !important;
+
+        border-bottom: none;
+    }
+
+
+    /* ---------------------------------------------------------
+       Smaller section headers
+    --------------------------------------------------------- */
+
+    .section-title {
+
+        padding: 9px 13px;
+    }
+
+
+    .section-title h2 {
+
+        font-size: 12.5px;
+    }
+
+
+    /* ---------------------------------------------------------
+       Schedule table
+    --------------------------------------------------------- */
+
+    .schedule-table {
+
+        min-width: 620px;
+    }
+
+
+    .schedule-wrapper {
+
+        overflow-x: auto;
+
+        -webkit-overflow-scrolling: touch;
     }
 }
+
+
+/* =============================================================
+   29. VERY SMALL MOBILE DEVICES
+============================================================= */
+
+@media screen and (max-width: 400px) {
+
+    .page-container {
+
+        padding: 10px;
+    }
+
+
+    .info-item {
+
+        grid-template-columns: 1fr;
+
+        gap: 3px;
+
+        padding: 9px 11px;
+    }
+
+
+    .label {
+
+        padding-right: 0;
+
+        font-size: 9px;
+    }
+
+
+    .value {
+
+        font-size: 12.5px;
+    }
+
+
+    .page-header h1 {
+
+        font-size: 19px;
+    }
+}
+
+
+/* =============================================================
+   30. ACCESSIBILITY / FOCUS STATE
+============================================================= */
+
+#downloadBtn:focus-visible {
+
+    outline: 2px solid var(--color-primary);
+
+    outline-offset: 2px;
+}
+
+
+/* =============================================================
+   END OF STYLESHEET
+============================================================= */
