@@ -85,16 +85,29 @@
                         </span>
                     </div>
 
-                    <!-- Loan ID -->
+                    <!--
+                        Loan ID
+                        FIX: this was previously type="number". IDs are
+                        identifiers, not quantities — a number input lets
+                        the browser add spinner arrows, silently strips
+                        leading zeros, and accepts things like "1e5" or
+                        a leading minus sign, none of which make sense
+                        for an ID. Using type="text" with a numeric
+                        inputmode/pattern keeps the numeric keyboard on
+                        mobile while treating the value as an opaque
+                        identifier, consistent with Borrower ID above.
+                    -->
                     <div class="form-group">
                         <label for="loanId">
                             Loan ID <span class="required">*</span>
                         </label>
 
                         <input
-                            type="number"
+                            type="text"
                             id="loanId"
                             name="loanId"
+                            inputmode="numeric"
+                            pattern="[0-9]+"
                             required
                             placeholder="Enter Loan ID"
                         >
@@ -104,7 +117,13 @@
                         </span>
                     </div>
 
-                    <!-- Product -->
+                    <!--
+                        Product Name
+                        FIX: the help text said "Select the applicable
+                        loan product", but this is a free-text field, not
+                        a dropdown. Reworded to match what the field
+                        actually does.
+                    -->
                     <div class="form-group">
                         <label for="productName">
                             Product Name <span class="required">*</span>
@@ -116,10 +135,10 @@
                             name="productName"
                             placeholder="Enter product name"
                             required
-                        >   
+                        >
 
                         <span class="small-text">
-                            Select the applicable loan product.
+                            Enter the applicable loan product name.
                         </span>
                     </div>
 
@@ -298,7 +317,23 @@
                         </span>
                     </div>
 
-                    <!-- Number of Installments -->
+                    <!--
+                        Number of Installments
+                        FIX: this field was `disabled`. Disabled fields
+                        are excluded from BOTH form submission and
+                        constraint validation, which meant:
+                          1. The computed value never reached FormData,
+                             so the next page received "undefined" for
+                             numberOfInstallments — a silent data-loss
+                             bug.
+                          2. The `required` attribute below was inert,
+                             so the form could be submitted even before
+                             a value was calculated.
+                        `readonly` fixes both: the field still can't be
+                        typed into directly, but its value is included
+                        in the submitted form data and is still checked
+                        by the browser's built-in validation.
+                    -->
                     <div class="form-group">
                         <label for="numberOfInstallments">
                             Number of Installments
@@ -313,11 +348,12 @@
                             step="1"
                             required
                             placeholder="Enter number of installments"
-                            disabled="true"
+                            readonly
                         >
 
                         <span class="small-text">
-                            Total number of repayments scheduled.
+                            Automatically calculated from tenure and repayment
+                            frequency.
                         </span>
                     </div>
 
@@ -459,9 +495,9 @@
                             name="processingFeeType"
                             required
                         >
-                        <option value="">Select fee type</option>
-                        <option value="percentage">% of Principal</option>
-                        <option value="flat">Flat Amount</option>
+                            <option value="">Select fee type</option>
+                            <option value="percentage">% of Principal</option>
+                            <option value="flat">Flat Amount</option>
                         </select>
 
                         <span class="small-text">
@@ -643,7 +679,7 @@
                             Rounding Decimal Places
                             <span class="required">*</span>
                         </label>
-                        
+
                         <select
                             id="roundingDecimalPlaces"
                             name="roundingDecimalPlaces"
@@ -692,6 +728,57 @@
                     </div>
 
                 </div>
+
+                <!--
+                    Repayment Holiday Weekdays
+                    FIX: style.css already ships full styling for
+                    ".holiday-group" and ".weekday-selector" (pill-style
+                    weekday toggles) but no markup in this file ever
+                    used them — dead CSS with no way to reach it. Added
+                    the matching fieldset here. Saturday and Sunday are
+                    checked by default since they're the most common
+                    non-business days, but any combination can be toggled.
+                -->
+                <fieldset class="holiday-group">
+                    <legend>Repayment Holiday Weekdays</legend>
+
+                    <div class="weekday-selector">
+                        <label>
+                            <input type="checkbox" name="holidayWeekdays" value="mon">
+                            <span>Mon</span>
+                        </label>
+                        <label>
+                            <input type="checkbox" name="holidayWeekdays" value="tue">
+                            <span>Tue</span>
+                        </label>
+                        <label>
+                            <input type="checkbox" name="holidayWeekdays" value="wed">
+                            <span>Wed</span>
+                        </label>
+                        <label>
+                            <input type="checkbox" name="holidayWeekdays" value="thu">
+                            <span>Thu</span>
+                        </label>
+                        <label>
+                            <input type="checkbox" name="holidayWeekdays" value="fri">
+                            <span>Fri</span>
+                        </label>
+                        <label>
+                            <input type="checkbox" name="holidayWeekdays" value="sat" checked>
+                            <span>Sat</span>
+                        </label>
+                        <label>
+                            <input type="checkbox" name="holidayWeekdays" value="sun" checked>
+                            <span>Sun</span>
+                        </label>
+                    </div>
+
+                    <span class="small-text">
+                        Installments due on the selected weekdays are moved to
+                        the next available business day.
+                    </span>
+                </fieldset>
+
             </div>
 
             <!-- =========================================

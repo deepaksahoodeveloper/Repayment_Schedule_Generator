@@ -87,7 +87,7 @@ body {
 .page-container {
     width: var(--page-width);
     min-height: var(--page-min-height);
-    margin: 20px auto;
+    margin: auto auto;
     padding: var(--page-padding);
     background: var(--color-bg-card);
 }
@@ -135,6 +135,7 @@ body {
 ============================================================= */
 
 .card {
+    margin-top: 18px;
     margin-bottom: 18px;
     background: var(--color-bg-card);
     border: 1px solid var(--color-border-card);

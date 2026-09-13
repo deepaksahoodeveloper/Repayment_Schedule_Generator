@@ -1,4 +1,19 @@
-document.addEventListener("DOMContentLoaded", function () {
+/**
+ * script.js
+ * -----------------------------------------------------------------
+ * Behaviour for the "Loan Details" form:
+ *   - Auto-calculates the number of installments from tenure + frequency.
+ *   - Swaps help text (and validation limits) for the fee fields based
+ *     on whether they're a percentage or a flat amount.
+ *   - Enables/disables the tax rate field based on the "Apply Tax" choice.
+ *   - Validates that the first repayment date isn't before disbursement.
+ *   - On submit, saves the form data to localStorage and moves to the
+ *     results page.
+ */
+
+document.addEventListener("DOMContentLoaded", initLoanForm);
+
+function initLoanForm() {
     const form = document.getElementById("loanForm");
 
     const tenureUnit = document.getElementById("tenureUnit");
@@ -22,6 +37,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     /* =========================================
         NUMBER OF INSTALLMENTS
+       -----------------------------------------
+       Each table entry is "installments per 1 unit of tenure" for a
+       given frequency, based on averaged calendar lengths (30-day
+       month, 90-day quarter). Because these are approximations, the
+       raw result is frequently a fraction (e.g. a 30-day tenure paid
+       weekly = 30 * (1/7) ≈ 4.29) — it's rounded to the nearest whole
+       installment below, since you can't schedule a fractional one.
     ========================================= */
 
     function updateNumberOfInstallments() {
@@ -60,14 +82,18 @@ document.addEventListener("DOMContentLoaded", function () {
         const value = Number(tenureValue.value);
         const frequency = repaymentFrequency.value;
 
-        // If inputs are not complete, clear the result
+        // If inputs are not complete, clear the result.
         if (!unit || !value || !frequency) {
             numberOfInstallments.value = "";
             return;
         }
 
-        numberOfInstallments.value =
-            value * periods[unit][frequency];
+        const rawInstallments = value * periods[unit][frequency];
+
+        // FIX: round to a whole installment and never go below 1 —
+        // the previous version stored the raw (often fractional)
+        // result directly, e.g. "4.285714285714286".
+        numberOfInstallments.value = Math.max(1, Math.round(rawInstallments));
     }
 
     tenureUnit.addEventListener("change", updateNumberOfInstallments);
@@ -81,16 +107,19 @@ document.addEventListener("DOMContentLoaded", function () {
     function updateProcessingFee() {
         if (processingFeeType.value === "percentage") {
             processingFeeValue.placeholder = "Enter percentage";
+            processingFeeValue.max = "100";
 
             processingFeeHelp.textContent =
                 "Enter the processing fee as a percentage of the principal.";
         } else if (processingFeeType.value === "flat") {
             processingFeeValue.placeholder = "Enter amount";
+            processingFeeValue.removeAttribute("max");
 
             processingFeeHelp.textContent =
                 "Enter the processing fee as a flat INR amount.";
         } else {
             processingFeeValue.placeholder = "Enter processing fee";
+            processingFeeValue.removeAttribute("max");
 
             processingFeeHelp.textContent =
                 "Select a fee type to determine how the fee is calculated.";
@@ -106,16 +135,19 @@ document.addEventListener("DOMContentLoaded", function () {
     function updateInsuranceFee() {
         if (insuranceFeeType.value === "percentage") {
             insuranceFeeValue.placeholder = "Enter percentage";
+            insuranceFeeValue.max = "100";
 
             insuranceFeeHelp.textContent =
                 "Enter the insurance fee as a percentage of the principal.";
         } else if (insuranceFeeType.value === "flat") {
             insuranceFeeValue.placeholder = "Enter amount";
+            insuranceFeeValue.removeAttribute("max");
 
             insuranceFeeHelp.textContent =
                 "Enter the insurance fee as a flat INR amount.";
         } else {
             insuranceFeeValue.placeholder = "Enter amount";
+            insuranceFeeValue.removeAttribute("max");
 
             insuranceFeeHelp.textContent =
                 "Select a fee type to determine how the fee is calculated.";
@@ -166,6 +198,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
     /* =========================================
        RESET
+       -----------------------------------------
+       Checkbox/radio defaults (like the holiday weekday pills)
+       are restored automatically by the browser's native reset
+       behaviour, based on each checkbox's `checked` attribute in
+       the HTML — no extra handling is needed for those here.
     ========================================== */
 
     form.addEventListener("reset", function () {
@@ -192,25 +229,15 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        /*
-         * Collect form values.
-         * This object can later be sent to your backend/API.
-         */
+        // Collect form values. This object can later be sent to
+        // your backend/API.
+        const loanData = formDataToObject(new FormData(form));
 
-        const formData = new FormData(form);
-
-        const loanData = Object.fromEntries(formData.entries());
-
-        /*
-        * Save data so the next HTML page can read it
-        */
+        // Save data so the next HTML page can read it.
         localStorage.setItem("loanData", JSON.stringify(loanData));
 
-        /*
-        * Go to the next page
-        */
-        window.location.href = "pages/result.html";
-
+        // Go to the next page.
+        window.location.href = "pages/loan-card.html";
     });
 
     /* =========================================
@@ -220,4 +247,35 @@ document.addEventListener("DOMContentLoaded", function () {
     updateProcessingFee();
     updateInsuranceFee();
     updateTaxField();
-});
+}
+
+/**
+ * Converts a FormData instance into a plain object.
+ *
+ * FIX: `Object.fromEntries(formData.entries())` — the previous
+ * approach — silently keeps only the LAST value for any field name
+ * that appears more than once. That's exactly what happens with a
+ * group of same-named checkboxes (e.g. `holidayWeekdays`): checking
+ * three weekday boxes would silently save just one of them. This
+ * version detects repeated keys and collects them into an array
+ * instead of dropping any of them, while leaving single-value fields
+ * (text inputs, selects, etc.) as plain strings.
+ *
+ * @param {FormData} formData
+ * @returns {Object<string, string | string[]>}
+ */
+function formDataToObject(formData) {
+    const result = {};
+
+    for (const [key, value] of formData.entries()) {
+        if (!(key in result)) {
+            result[key] = value;
+        } else if (Array.isArray(result[key])) {
+            result[key].push(value);
+        } else {
+            result[key] = [result[key], value];
+        }
+    }
+
+    return result;
+}
