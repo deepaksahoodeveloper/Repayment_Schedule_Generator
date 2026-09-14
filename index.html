@@ -727,58 +727,28 @@
                         </span>
                     </div>
 
+                    <!-- Weekend / Holiday Handling -->
+                    <div class="form-group">
+                        <label for="weekendHolidayHandling">
+                            Adjust for Weekends / Holidays?
+                            <span class="required">*</span>
+                        </label>
+
+                        <select
+                            id="weekendHolidayHandling"
+                            name="weekendHolidayHandling"
+                            required
+                        >
+                            <option value="">Select option</option>
+                            <option value="no">No Adjustment</option>
+                            <option value="next">Move to Next Business Day</option>
+                            <option value="previous">Move to Previous Business Day</option>
+                        </select>
+
+                        <span class="small-text">
+                            Adjust repayment dates that fall on weekends or holidays.
+                        </span>
                 </div>
-
-                <!--
-                    Repayment Holiday Weekdays
-                    FIX: style.css already ships full styling for
-                    ".holiday-group" and ".weekday-selector" (pill-style
-                    weekday toggles) but no markup in this file ever
-                    used them — dead CSS with no way to reach it. Added
-                    the matching fieldset here. Saturday and Sunday are
-                    checked by default since they're the most common
-                    non-business days, but any combination can be toggled.
-                -->
-                <fieldset class="holiday-group">
-                    <legend>Repayment Holiday Weekdays</legend>
-
-                    <div class="weekday-selector">
-                        <label>
-                            <input type="checkbox" name="holidayWeekdays" value="mon">
-                            <span>Mon</span>
-                        </label>
-                        <label>
-                            <input type="checkbox" name="holidayWeekdays" value="tue">
-                            <span>Tue</span>
-                        </label>
-                        <label>
-                            <input type="checkbox" name="holidayWeekdays" value="wed">
-                            <span>Wed</span>
-                        </label>
-                        <label>
-                            <input type="checkbox" name="holidayWeekdays" value="thu">
-                            <span>Thu</span>
-                        </label>
-                        <label>
-                            <input type="checkbox" name="holidayWeekdays" value="fri">
-                            <span>Fri</span>
-                        </label>
-                        <label>
-                            <input type="checkbox" name="holidayWeekdays" value="sat" checked>
-                            <span>Sat</span>
-                        </label>
-                        <label>
-                            <input type="checkbox" name="holidayWeekdays" value="sun" checked>
-                            <span>Sun</span>
-                        </label>
-                    </div>
-
-                    <span class="small-text">
-                        Installments due on the selected weekdays are moved to
-                        the next available business day.
-                    </span>
-                </fieldset>
-
             </div>
 
             <!-- =========================================
