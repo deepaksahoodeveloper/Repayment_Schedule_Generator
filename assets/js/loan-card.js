@@ -13,6 +13,7 @@
  * ready. Its rows are still the placeholder sample data in result.html.
  */
  
+const LOAN_PARAMETERS = prepareLoanParameters();
 const LOAN_DATA_STORAGE_KEY = "loanData";
  
 // Where to send the user if there's no data to show (e.g. they
