@@ -237,7 +237,7 @@ function initLoanForm() {
         localStorage.setItem("loanData", JSON.stringify(loanData));
 
         // Go to the next page.
-        window.location.href = "pages/loan-card.html";
+        window.location.href = "./001-custom-loan-output.html";
     });
 
     /* =========================================
