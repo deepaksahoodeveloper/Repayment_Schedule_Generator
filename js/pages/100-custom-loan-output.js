@@ -14,7 +14,7 @@
  */
 
 import { getLoanData } from "../utils_helpers/getLoanData.js";
-import { getLoanParameters } from "../utils/101-prepareLoanParameters.js";
+import { prepareLoanParameters } from "../utils/101-prepareLoanParameters.js";
 
 const RAW_DATA_KEY = "LOAN_DATA";
 const FORM_PAGE_URL = "../index.html";
@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Get calculated/processed loan parameters.
-    const loanParameters = getLoanParameters(loanData);
+    const loanParameters = prepareLoanParameters(loanData);
 
     // These functions must exist in your project.
     populateLoanCard(loanData, loanParameters);
