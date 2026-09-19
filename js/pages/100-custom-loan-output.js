@@ -12,50 +12,29 @@
  * yet — that's a separate follow-up once the amortization logic is
  * ready. Its rows are still the placeholder sample data in result.html.
  */
- 
-const LOAN_PARAMETERS = prepareLoanParameters();
-const LOAN_DATA_STORAGE_KEY = "loanData";
- 
-// Where to send the user if there's no data to show (e.g. they
-// opened this page directly instead of coming from the form).
+
+import { getLoanData } from "../utils_helpers/getLoanData.js";
+import { getLoanParameters } from "../utils/101-prepareLoanParameters.js";
+
+const RAW_DATA_KEY = "LOAN_DATA";
 const FORM_PAGE_URL = "../index.html";
- 
-document.addEventListener("DOMContentLoaded", function () {
-    const loanData = getLoanData();
- 
+
+document.addEventListener("DOMContentLoaded", () => {
+    const loanData = getLoanData(RAW_DATA_KEY);
+    // If there is no valid loan data, return to the form.
     if (!loanData) {
+        console.warn("No loan data found. Redirecting to form.");
         window.location.href = FORM_PAGE_URL;
         return;
     }
- 
-    populateLoanCard(loanData);
+
+    // Get calculated/processed loan parameters.
+    const loanParameters = getLoanParameters(loanData);
+
+    // These functions must exist in your project.
+    populateLoanCard(loanData, loanParameters);
     initDownloadButton();
 });
- 
-/* =========================================================
-   READ STORED DATA
-========================================================= */
- 
-/**
- * Reads and parses the loan data saved by index.html.
- * @returns {Object|null} the parsed loan data, or null if it's
- *                         missing or corrupted.
- */
-function getLoanData() {
-    const raw = localStorage.getItem(LOAN_DATA_STORAGE_KEY);
- 
-    if (!raw) {
-        console.warn("loan-card.js: no loan data found in localStorage.");
-        return null;
-    }
- 
-    try {
-        return JSON.parse(raw);
-    } catch (error) {
-        console.error("loan-card.js: stored loan data is not valid JSON.", error);
-        return null;
-    }
-}
  
 /* =========================================================
    LABEL LOOKUPS

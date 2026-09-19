@@ -1,10 +1,10 @@
 /**
- * helper_params.js
+ * 101-prepareLoanParameters.js
  * --------------------------------------------------
  * Prepares loan data for use throughout the application.
  *
  * Responsibilities:
- * 1. Read raw loan data from localStorage
+ * 1. Check raw loan data recived
  * 2. Parse and convert values into the required data types
  * 3. Calculate derived loan parameters
  * 4. Create the final LOAN_PARAMETERS object
@@ -15,67 +15,27 @@
  * separate modules.
  */
 
-/**
- * Small logging wrapper so every message from this file is
- * consistently tagged and easy to filter/grep in devtools.
- *
- * Usage: Logger.info("readLoanData", "No data found");
- */
-const Logger = {
-    _prefix: "[helper_params]",
- 
-    info(step, message, data) {
-        console.log(`${this._prefix} [${step}]`, message, data ?? "");
-    },
- 
-    warn(step, message, data) {
-        console.warn(`${this._prefix} [${step}]`, message, data ?? "");
-    },
- 
-    error(step, message, data) {
-        console.error(`${this._prefix} [${step}]`, message, data ?? "");
-    }
-};
-
+// Import the Logger utility for consistent logging.
+import { Logger } from "../utils_helpers/logger.js";
 
 // Reads, validates and prepares all loan parameters.
-function prepareLoanParameters() {
+export function getLoanParameters(loanData) {
 
-    // 1. READ SAVED LOAN DATA
-    const rawData = localStorage.getItem("loanData");
-    // No data found.
-    if (!rawData) {
-        Logger.warn("prepareLoanParameters", "No loan data found in localStorage.");
-        return null;
-    }
-    Logger.info("prepareLoanParameters", "1. READ SAVED LOAN DATA SUCCESSFUL");
-
-    // 2. PARSE JSON
-    let loanData;
-    try {
-        loanData = JSON.parse(rawData);
-        Logger.info("prepareLoanParameters", "2. PARSE JSON SUCCESSFUL", loanData);
-
-    } catch (error) {
-        Logger.error("prepareLoanParameters", "Loan data is not valid JSON.", error);
-        return null;
-    }
-
-    // 3. BORROWER DETAILS
+    // 1. BORROWER DETAILS
     const borrowerName = loanData.borrowerName;
     const borrowerId = loanData.borrowerId;
     const loanId = loanData.loanId;
     const productName = loanData.productName;
-    Logger.info("prepareLoanParameters", "3. BORROWER DETAILS INITIALIZED");
+    Logger.info("101-prepareLoanParameters.js","getLoanParameters", "1. BORROWER DETAILS INITIALIZED");
 
-    // 4. LOAN AMOUNT & DATES
+    // 2. LOAN AMOUNT & DATES
     const principalAmount = Number(loanData.principalAmount);
     const currency = loanData.currency;
     const disbursementDate = loanData.disbursementDate;
     const firstRepaymentDate = loanData.firstRepaymentDate;
-    Logger.info("prepareLoanParameters", "4. LOAN AMOUNT AND DATES INITIALIZED");
+    Logger.info("101-prepareLoanParameters.js", "getLoanParameters", "2. LOAN AMOUNT AND DATES INITIALIZED");
 
-    // 5. REPAYMENT
+    // 3. REPAYMENT
     const tenureUnit = loanData.tenureUnit;
     const tenureValue = Number(loanData.tenureValue);
     const repaymentFrequency = loanData.repaymentFrequency;
@@ -86,22 +46,22 @@ function prepareLoanParameters() {
     const periodsPerYear = lookupFrequencies[repaymentFrequency] || 0;
     // Prevent invalid frequency from causing division by zero.
     if (!periodsPerYear) {
-        Logger.error("prepareLoanParameters", "Invalid repayment frequency.", repaymentFrequency);
+        Logger.error("getLoanParameters", "Invalid repayment frequency.", repaymentFrequency);
         return null;
     }
-    Logger.info("prepareLoanParameters", "5. REPAYMENT PARAMETERS INITIALIZED");
+    Logger.info("101-prepareLoanParameters.js", "getLoanParameters", "3. REPAYMENT PARAMETERS INITIALIZED");
 
-    // 6. INTEREST
+    // 4. INTEREST
     const annualInterestRate = Number(loanData.annualInterestRate);
     const dayCountConvention = loanData.dayCountConvention;
     // Calculated value
     const periodicRate = annualInterestRate / periodsPerYear;
     const lookupDayCountDenominators = {actual365: 365, actual360: 360, "30_360": 360 };
     const dayCountDenominator = lookupDayCountDenominators[dayCountConvention] || 0;
-    Logger.info("prepareLoanParameters", "6. INTEREST PARAMETERS INITIALIZED");
+    Logger.info("101-prepareLoanParameters.js", "getLoanParameters", "4. INTEREST PARAMETERS INITIALIZED");
 
 
-    // 7. FEES & CHARGES
+    // 5. FEES & CHARGES
     const feeApplicationTiming = loanData.feeApplicationTiming;
     const processingFeeType = loanData.processingFeeType;
     const processingFeeValue = Number(loanData.processingFeeValue);
@@ -125,24 +85,25 @@ function prepareLoanParameters() {
         insuranceFeeAmount +
         serviceFee +
         otherCharges;
-    Logger.info("prepareLoanParameters", "7. FEES AND CHARGES INITIALIZED");
+    Logger.info("101-prepareLoanParameters.js", "getLoanParameters", "5. FEES AND CHARGES INITIALIZED");
 
-    // 8. TAX / GST
+    // 6. TAX / GST
     const applyTax = loanData.applyTax;
     const taxRate = Number(loanData.taxRate) || 0;
     const taxAmount =
         applyTax === "yes"
             ? (taxRate / 100) * totalFeesAndCharges
             : 0;
-    Logger.info("prepareLoanParameters", "8. TAX / GST INITIALIZED", { applyTax, taxRate, taxAmount });
+    Logger.info("101-prepareLoanParameters.js", "getLoanParameters", "6. TAX / GST INITIALIZED");
 
-    // 9. ADVANCED SETTINGS
+    // 7. ADVANCED SETTINGS
     const roundingDecimalPlaces = Number(loanData.roundingDecimalPlaces);
     const roundingRule = loanData.roundingRule;
     const weekendHolidayHandling = loanData.weekendHolidayHandling;
-    Logger.info("prepareLoanParameters", "9. ADVANCED SETTINGS INITIALIZED");
+    const holidayList = loanData.holidayList || []; // Default to empty array if not provided.
+    Logger.info("101-prepareLoanParameters.js", "getLoanParameters", "7. ADVANCED SETTINGS INITIALIZED");
 
-    // 10. CREATE FINAL LOAN PARAMETERS
+    // 8. CREATE FINAL LOAN PARAMETERS
     const LOAN_PARAMETERS = {
 
         // Borrower details
@@ -193,10 +154,12 @@ function prepareLoanParameters() {
         roundingRule,
 
         // Weekend / holiday handling
-        weekendHolidayHandling
-    };
-    Logger.info("prepareLoanParameters", "10. FINAL LOAN PARAMETERS CREATED", LOAN_PARAMETERS);
+        weekendHolidayHandling,
+        holidayList
 
-    // 12. RETURN FINAL OBJECT
+    };
+    Logger.info("101-prepareLoanParameters.js", "getLoanParameters", "8. FINAL LOAN PARAMETERS CREATED", LOAN_PARAMETERS);
+
+    // 11. RETURN FINAL OBJECT
     return LOAN_PARAMETERS;
 }

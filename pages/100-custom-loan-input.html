@@ -6,7 +6,7 @@
 
     <title>Custom Loan Input</title>
     <link rel="icon" type="image/x-icon" href="../assets/icons/favicon.ico">
-    <link rel="stylesheet" href="../css/001-custom-loan-input.css">
+    <link rel="stylesheet" href="../css/100-custom-loan-input.css">
 </head>
 
 <body>
@@ -306,6 +306,7 @@
                             required
                         >
                             <option value="">Select frequency</option>
+                            <option value="daily">Daily</option>
                             <option value="weekly">Weekly</option>
                             <option value="biweekly">Bi-weekly</option>
                             <option value="monthly">Monthly</option>
@@ -740,14 +741,15 @@
                             required
                         >
                             <option value="">Select option</option>
-                            <option value="no">No Adjustment</option>
-                            <option value="next">Move to Next Business Day</option>
-                            <option value="previous">Move to Previous Business Day</option>
+                            <option value="0">No Adjustment</option>
+                            <option value="1">Move to Next Business Day</option>
+                            <option value="-1">Move to Previous Business Day</option>
                         </select>
 
                         <span class="small-text">
                             Adjust repayment dates that fall on weekends or holidays.
                         </span>
+                    </div>
                 </div>
             </div>
 
@@ -756,25 +758,17 @@
             ========================================== -->
             <div class="form-actions">
 
-                <button
-                    type="reset"
-                    class="btn-secondary"
-                >
+                <button type="reset" class="btn-secondary">
                     Cancel
                 </button>
 
-                <button
-                    type="submit"
-                    class="btn-primary"
-                >
+                <button type="submit" class="btn-primary">
                     Create Loan Schedule
                 </button>
-
             </div>
-
         </form>
     </div>
 
-    <script src="../js/pages/001-custom-loan-input.js"></script>
+    <script type="module" src="../js/pages/100-custom-loan-input.js"></script>
 </body>
 </html>
