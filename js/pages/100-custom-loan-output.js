@@ -1,6 +1,6 @@
 
 /**
- * loan-card.js
+ * 100-custom-loan-output.js
  * -----------------------------------------------------------------
  * Page 2 (loan-card.html) has two jobs:
  *   1. Read the loan data the user submitted on Page 1 (index.html)
@@ -12,7 +12,10 @@
  * yet — that's a separate follow-up once the amortization logic is
  * ready. Its rows are still the placeholder sample data in result.html.
  */
-
+import { Logger } from "../utils_helpers/logger.js";
+import { getDateDifference } from "../utils_helpers/DateDifference.js";
+import { calculateSimpleInterest } from "../utils_helpers/calculateSimpleInterest.js";
+import { calculateEMI } from "../utils_helpers/calculateEMI.js";
 import { getLoanData } from "../utils_helpers/getLoanData.js";
 import { prepareLoanParameters } from "../utils/101-loan-parameters.js";
 import { generateInstallmentDates } from "../utils/102-installment-dates.js";
@@ -34,6 +37,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Generate installment dates using the prepared loan parameters.
     const installmentDates = generateInstallmentDates(loanParameters);
+    
+    // Total Tenure Days
+    const lastInstallment = installmentDates[loanParameters.numberOfInstallments - 1].finalDueDateAdjusted;
+    const totalTenureDays = getDateDifference(lastInstallment, loanParameters.disbursementDate);
+
+    Logger.info("100-custom-loan-output.js","info", totalTenureDays);
+    
+    // Total Flat Interest
+    const principal = loanParameters.principalAmount;
+    const annualRate = loanParameters.annualInterestRate;
+    const dayCountDenominator = loanParameters.dayCountDenominator;
+    const totalFlatInterest = calculateSimpleInterest(principal, annualRate, totalTenureDays, dayCountDenominator)
+
+    Logger.info("100-custom-loan-output.js","info", totalFlatInterest);
+
+
+    // Calculate periodic rate: 0.12 / 52 ≈ 0.0023076923
+    const periodicRate = (annualRate / 100) / loanParameters.periodsPerYear; 
+    const emiAmount = calculateEMI(principal, periodicRate, loanParameters.numberOfInstallments);
+
+    Logger.info("100-custom-loan-output.js","info", emiAmount);
 
     // These functions must exist in your project.
     populateLoanCard(loanData, loanParameters);
