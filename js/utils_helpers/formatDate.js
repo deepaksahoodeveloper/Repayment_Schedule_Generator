@@ -10,7 +10,7 @@
  * @param {string|Date} date - Date to format
  * @returns {string} Date in YYYY-MM-DD format
  */
-function formatDate(date) {
+export function formatDate(date) {
   // Convert the input into a Date object.
   const d = new Date(date);
 

@@ -9,7 +9,9 @@
  * @param {Set<string>} holidays - Set containing formatted holiday dates
  * @returns {boolean} True if the date is a business day, otherwise false
  */
-function isBusinessDay(date, holidays) {
+
+import { formatDate } from "../utils_helpers/formatDate.js";
+export function isBusinessDay(date, holidays) {
   // getDay() returns:
   // 0 = Sunday
   // 1 = Monday

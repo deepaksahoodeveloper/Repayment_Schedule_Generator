@@ -14,7 +14,8 @@
  */
 
 import { getLoanData } from "../utils_helpers/getLoanData.js";
-import { prepareLoanParameters } from "../utils/101-prepareLoanParameters.js";
+import { prepareLoanParameters } from "../utils/101-loan-parameters.js";
+import { generateInstallmentDates } from "../utils/102-installment-dates.js";
 
 const RAW_DATA_KEY = "LOAN_DATA";
 const FORM_PAGE_URL = "../index.html";
@@ -30,6 +31,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Get calculated/processed loan parameters.
     const loanParameters = prepareLoanParameters(loanData);
+
+    // Generate installment dates using the prepared loan parameters.
+    const installmentDates = generateInstallmentDates(loanParameters);
 
     // These functions must exist in your project.
     populateLoanCard(loanData, loanParameters);
