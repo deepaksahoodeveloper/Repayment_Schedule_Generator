@@ -38,7 +38,7 @@ function initLoanForm() {
     // 3. REPAYMENT
     const tenureUnit = document.getElementById("tenureUnit"); // Value: "days", "weeks", "months", or "years"
     const tenureValue = document.getElementById("tenureValue");
-    const repaymentFrequency = document.getElementById("repaymentFrequency"); // Value: "daily", "weekly", "monthly", or "Quarterly"
+    const repaymentFrequency = document.getElementById("repaymentFrequency"); // Value: "daily", "weekly", "biweekly", "monthly", or "Quarterly" 
     const numberOfInstallments = document.getElementById("numberOfInstallments");
     const repaymentMethod = document.getElementById("repaymentMethod"); // Value: "flat-interest", reducing-emi, reducing-balance
 

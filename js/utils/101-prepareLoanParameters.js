@@ -19,21 +19,21 @@
 import { Logger } from "../utils_helpers/logger.js";
 
 // Reads, validates and prepares all loan parameters.
-export function getLoanParameters(loanData) {
+export function prepareLoanParameters(loanData) {
 
     // 1. BORROWER DETAILS
     const borrowerName = loanData.borrowerName;
     const borrowerId = loanData.borrowerId;
     const loanId = loanData.loanId;
     const productName = loanData.productName;
-    Logger.info("101-prepareLoanParameters.js","getLoanParameters", "1. BORROWER DETAILS INITIALIZED");
+    Logger.info("101-prepareLoanParameters.js","prepareLoanParameters", "1. BORROWER DETAILS INITIALIZED");
 
     // 2. LOAN AMOUNT & DATES
     const principalAmount = Number(loanData.principalAmount);
     const currency = loanData.currency;
     const disbursementDate = loanData.disbursementDate;
     const firstRepaymentDate = loanData.firstRepaymentDate;
-    Logger.info("101-prepareLoanParameters.js", "getLoanParameters", "2. LOAN AMOUNT AND DATES INITIALIZED");
+    Logger.info("101-prepareLoanParameters.js", "prepareLoanParameters", "2. LOAN AMOUNT AND DATES INITIALIZED");
 
     // 3. REPAYMENT
     const tenureUnit = loanData.tenureUnit;
@@ -42,14 +42,14 @@ export function getLoanParameters(loanData) {
     const numberOfInstallments = Number(loanData.numberOfInstallments);
     const repaymentMethod = loanData.repaymentMethod;
     // Calculated value
-    const lookupFrequencies = {weekly: 52, biweekly: 26, monthly: 12, quarterly: 4 };
+    const lookupFrequencies = {daily: 365, weekly: 52, biweekly: 26, monthly: 12, quarterly: 4 };
     const periodsPerYear = lookupFrequencies[repaymentFrequency] || 0;
     // Prevent invalid frequency from causing division by zero.
     if (!periodsPerYear) {
-        Logger.error("getLoanParameters", "Invalid repayment frequency.", repaymentFrequency);
+        Logger.error("101-prepareLoanParameters.js","prepareLoanParameters", "Invalid repayment frequency.", repaymentFrequency);
         return null;
     }
-    Logger.info("101-prepareLoanParameters.js", "getLoanParameters", "3. REPAYMENT PARAMETERS INITIALIZED");
+    Logger.info("101-prepareLoanParameters.js", "prepareLoanParameters", "3. REPAYMENT PARAMETERS INITIALIZED");
 
     // 4. INTEREST
     const annualInterestRate = Number(loanData.annualInterestRate);
@@ -58,7 +58,7 @@ export function getLoanParameters(loanData) {
     const periodicRate = annualInterestRate / periodsPerYear;
     const lookupDayCountDenominators = {actual365: 365, actual360: 360, "30_360": 360 };
     const dayCountDenominator = lookupDayCountDenominators[dayCountConvention] || 0;
-    Logger.info("101-prepareLoanParameters.js", "getLoanParameters", "4. INTEREST PARAMETERS INITIALIZED");
+    Logger.info("101-prepareLoanParameters.js", "prepareLoanParameters", "4. INTEREST PARAMETERS INITIALIZED");
 
 
     // 5. FEES & CHARGES
@@ -85,7 +85,7 @@ export function getLoanParameters(loanData) {
         insuranceFeeAmount +
         serviceFee +
         otherCharges;
-    Logger.info("101-prepareLoanParameters.js", "getLoanParameters", "5. FEES AND CHARGES INITIALIZED");
+    Logger.info("101-prepareLoanParameters.js", "prepareLoanParameters", "5. FEES AND CHARGES INITIALIZED");
 
     // 6. TAX / GST
     const applyTax = loanData.applyTax;
@@ -94,14 +94,14 @@ export function getLoanParameters(loanData) {
         applyTax === "yes"
             ? (taxRate / 100) * totalFeesAndCharges
             : 0;
-    Logger.info("101-prepareLoanParameters.js", "getLoanParameters", "6. TAX / GST INITIALIZED");
+    Logger.info("101-prepareLoanParameters.js", "prepareLoanParameters", "6. TAX / GST INITIALIZED");
 
     // 7. ADVANCED SETTINGS
     const roundingDecimalPlaces = Number(loanData.roundingDecimalPlaces);
     const roundingRule = loanData.roundingRule;
     const weekendHolidayHandling = loanData.weekendHolidayHandling;
     const holidayList = loanData.holidayList || []; // Default to empty array if not provided.
-    Logger.info("101-prepareLoanParameters.js", "getLoanParameters", "7. ADVANCED SETTINGS INITIALIZED");
+    Logger.info("101-prepareLoanParameters.js", "prepareLoanParameters", "7. ADVANCED SETTINGS INITIALIZED");
 
     // 8. CREATE FINAL LOAN PARAMETERS
     const LOAN_PARAMETERS = {
@@ -158,7 +158,7 @@ export function getLoanParameters(loanData) {
         holidayList
 
     };
-    Logger.info("101-prepareLoanParameters.js", "getLoanParameters", "8. FINAL LOAN PARAMETERS CREATED", LOAN_PARAMETERS);
+    Logger.info("101-prepareLoanParameters.js", "prepareLoanParameters", "8. FINAL LOAN PARAMETERS CREATED", LOAN_PARAMETERS);
 
     // 11. RETURN FINAL OBJECT
     return LOAN_PARAMETERS;
