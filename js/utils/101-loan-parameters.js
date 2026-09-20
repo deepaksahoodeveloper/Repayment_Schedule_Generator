@@ -26,14 +26,12 @@ export function prepareLoanParameters(loanData) {
     const borrowerId = loanData.borrowerId;
     const loanId = loanData.loanId;
     const productName = loanData.productName;
-    Logger.info("101-loan-Parameters.js","prepareLoanParameters", "1. BORROWER DETAILS INITIALIZED");
 
     // 2. LOAN AMOUNT & DATES
     const principalAmount = Number(loanData.principalAmount);
     const currency = loanData.currency;
     const disbursementDate = loanData.disbursementDate;
     const firstRepaymentDate = loanData.firstRepaymentDate;
-    Logger.info("101-loan-Parameters.js", "prepareLoanParameters", "2. LOAN AMOUNT AND DATES INITIALIZED");
 
     // 3. REPAYMENT
     const tenureUnit = loanData.tenureUnit;
@@ -49,7 +47,6 @@ export function prepareLoanParameters(loanData) {
         Logger.error("101-loan-Parameters.js","prepareLoanParameters", "Invalid repayment frequency.", repaymentFrequency);
         return null;
     }
-    Logger.info("101-loan-Parameters.js", "prepareLoanParameters", "3. REPAYMENT PARAMETERS INITIALIZED");
 
     // 4. INTEREST
     const annualInterestRate = Number(loanData.annualInterestRate);
@@ -58,8 +55,6 @@ export function prepareLoanParameters(loanData) {
     const periodicRate = annualInterestRate / periodsPerYear;
     const lookupDayCountDenominators = {actual365: 365, actual360: 360, "30_360": 360 };
     const dayCountDenominator = lookupDayCountDenominators[dayCountConvention] || 0;
-    Logger.info("101-loan-Parameters.js", "prepareLoanParameters", "4. INTEREST PARAMETERS INITIALIZED");
-
 
     // 5. FEES & CHARGES
     const feeApplicationTiming = loanData.feeApplicationTiming;
@@ -85,7 +80,6 @@ export function prepareLoanParameters(loanData) {
         insuranceFeeAmount +
         serviceFee +
         otherCharges;
-    Logger.info("101-loan-Parameters.js", "prepareLoanParameters", "5. FEES AND CHARGES INITIALIZED");
 
     // 6. TAX / GST
     const applyTax = loanData.applyTax;
@@ -94,14 +88,12 @@ export function prepareLoanParameters(loanData) {
         applyTax === "yes"
             ? (taxRate / 100) * totalFeesAndCharges
             : 0;
-    Logger.info("101-loan-Parameters.js", "prepareLoanParameters", "6. TAX / GST INITIALIZED");
 
     // 7. ADVANCED SETTINGS
     const roundingDecimalPlaces = Number(loanData.roundingDecimalPlaces);
     const roundingRule = loanData.roundingRule;
     const weekendHolidayHandling = Number(loanData.weekendHolidayHandling);
     const holidayList = loanData.holidayList || []; // Default to empty array if not provided.
-    Logger.info("101-loan-Parameters.js", "prepareLoanParameters", "7. ADVANCED SETTINGS INITIALIZED");
 
     // 8. CREATE FINAL LOAN PARAMETERS
     const LOAN_PARAMETERS = {
@@ -158,7 +150,7 @@ export function prepareLoanParameters(loanData) {
         holidayList
 
     };
-    Logger.info("101-loan-Parameters.js", "prepareLoanParameters", "8. FINAL LOAN PARAMETERS CREATED", LOAN_PARAMETERS);
+    Logger.info("101-loan-Parameters.js", "prepareLoanParameters", "FINAL LOAN PARAMETERS CREATED", LOAN_PARAMETERS);
 
     // 11. RETURN FINAL OBJECT
     return LOAN_PARAMETERS;

@@ -19,6 +19,7 @@ import { calculateEMI } from "../utils_helpers/calculateEMI.js";
 import { getLoanData } from "../utils_helpers/getLoanData.js";
 import { prepareLoanParameters } from "../utils/101-loan-parameters.js";
 import { generateInstallmentDates } from "../utils/102-installment-dates.js";
+import { generatePrincipalInterestAmount } from "../utils/103-principal-interest-engine.js"
 
 const RAW_DATA_KEY = "LOAN_DATA";
 const FORM_PAGE_URL = "../index.html";
@@ -42,22 +43,18 @@ document.addEventListener("DOMContentLoaded", () => {
     const lastInstallment = installmentDates[loanParameters.numberOfInstallments - 1].finalDueDateAdjusted;
     const totalTenureDays = getDateDifference(lastInstallment, loanParameters.disbursementDate);
 
-    Logger.info("100-custom-loan-output.js","info", totalTenureDays);
-    
     // Total Flat Interest
     const principal = loanParameters.principalAmount;
     const annualRate = loanParameters.annualInterestRate;
     const dayCountDenominator = loanParameters.dayCountDenominator;
     const totalFlatInterest = calculateSimpleInterest(principal, annualRate, totalTenureDays, dayCountDenominator)
 
-    Logger.info("100-custom-loan-output.js","info", totalFlatInterest);
-
-
     // Calculate periodic rate: 0.12 / 52 ≈ 0.0023076923
     const periodicRate = (annualRate / 100) / loanParameters.periodsPerYear; 
     const emiAmount = calculateEMI(principal, periodicRate, loanParameters.numberOfInstallments);
 
-    Logger.info("100-custom-loan-output.js","info", emiAmount);
+    // 
+    const principalInterestAmount = generatePrincipalInterestAmount(loanParameters);
 
     // These functions must exist in your project.
     populateLoanCard(loanData, loanParameters);

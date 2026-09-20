@@ -40,7 +40,7 @@ function initLoanForm() {
     const tenureValue = document.getElementById("tenureValue");
     const repaymentFrequency = document.getElementById("repaymentFrequency"); // Value: "daily", "weekly", "biweekly", "monthly", or "quarterly" 
     const numberOfInstallments = document.getElementById("numberOfInstallments");
-    const repaymentMethod = document.getElementById("repaymentMethod"); // Value: "flat-interest", reducing-emi, reducing-balance
+    const repaymentMethod = document.getElementById("repaymentMethod"); // Value: "flat-interest", "reducing-emi", "reducing-balance"
 
     // 4. INTEREST
     const annualInterestRate = document.getElementById("annualInterestRate");
