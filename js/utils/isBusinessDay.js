@@ -11,7 +11,7 @@
  */
 
 import { formatDate } from "../utils_helpers/formatDate.js";
-export function isBusinessDay(date, holidays) {
+export function isBusinessDay(date, holidayList = new Set()) {
   // getDay() returns:
   // 0 = Sunday
   // 1 = Monday
@@ -21,6 +21,9 @@ export function isBusinessDay(date, holidays) {
 
   // Check whether the date falls on Saturday or Sunday.
   const isWeekend = day === 0 || day === 6;
+
+  // Convert to a Set if an array is passed, otherwise use as is
+  const holidays = holidayList instanceof Set ? holidayList : new Set(holidayList);
 
   // Check whether the date exists in the holiday list.
   const isHoliday = holidays.has(formatDate(date));

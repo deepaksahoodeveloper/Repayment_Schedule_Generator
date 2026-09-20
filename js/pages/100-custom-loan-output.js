@@ -13,7 +13,7 @@
  * ready. Its rows are still the placeholder sample data in result.html.
  */
 import { Logger } from "../utils_helpers/logger.js";
-import { getDateDifference } from "../utils_helpers/DateDifference.js";
+import { getDateDifference } from "../utils_helpers/dateDifference.js";
 import { calculateSimpleInterest } from "../utils_helpers/calculateSimpleInterest.js";
 import { calculateEMI } from "../utils_helpers/calculateEMI.js";
 import { getLoanData } from "../utils_helpers/getLoanData.js";
