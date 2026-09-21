@@ -53,8 +53,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const periodicRate = (annualRate / 100) / loanParameters.periodsPerYear; 
     const emiAmount = calculateEMI(principal, periodicRate, loanParameters.numberOfInstallments);
 
-    // 
-    const principalInterestAmount = generatePrincipalInterestAmount(loanParameters);
+    // Generate principal and interest amount using the prepared loan parameters and installmentDates.
+    const principalInterestAmount = generatePrincipalInterestAmount(loanParameters, installmentDates, totalFlatInterest, emiAmount);
 
     // These functions must exist in your project.
     populateLoanCard(loanData, loanParameters);

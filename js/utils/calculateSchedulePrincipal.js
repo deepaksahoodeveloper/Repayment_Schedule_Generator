@@ -9,7 +9,7 @@
  * @param {number} interestAmount - From HELPER_INTEREST!I3 (Interest calculated for this period)
  * @returns {number} The calculated scheduled principal amount for this row
  */
-export function calculateScheduledPrincipal(methodology, principal, installmentCount) {
+export function calculateScheduledPrincipal(methodology, principal, installmentCount, emiAmount, roundedInterest) {
     
     // 1. STRAIGHT-LINE PRINCIPAL REDUCTION METHODS
     // Applies to: "Flat Interest" and "Reducing Balance - Equal Principal"
@@ -25,7 +25,7 @@ export function calculateScheduledPrincipal(methodology, principal, installmentC
     // Applies to standard amortizing loans where the total periodic payment is constant.
     if (methodology === "reducing-emi") {
         // Principal is the remainder of the fixed payment after covering this month's interest
-        return emiAmount - interestAmount;
+        return emiAmount - roundedInterest;
     }
 
     // 4. THE FALLBACK (ERROR HANDLING)
