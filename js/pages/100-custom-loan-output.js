@@ -19,7 +19,8 @@ import { calculateEMI } from "../utils_helpers/calculateEMI.js";
 import { getLoanData } from "../utils_helpers/getLoanData.js";
 import { prepareLoanParameters } from "../utils/101-loan-parameters.js";
 import { generateInstallmentDates } from "../utils/102-installment-dates.js";
-import { generatePrincipalInterestAmount } from "../utils/103-principal-interest-engine.js"
+import { generatePrincipalAmounts } from "../utils/103-principal-engine.js"
+import { generateInterestAmounts } from "../utils/104-interest-engine.js"
 
 const RAW_DATA_KEY = "LOAN_DATA";
 const FORM_PAGE_URL = "../index.html";
@@ -54,7 +55,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const emiAmount = calculateEMI(principal, periodicRate, loanParameters.numberOfInstallments);
 
     // Generate principal and interest amount using the prepared loan parameters and installmentDates.
-    const principalInterestAmount = generatePrincipalInterestAmount(loanParameters, installmentDates, totalFlatInterest, emiAmount);
+    const principalAmounts = generatePrincipalAmounts(loanParameters, installmentDates, totalFlatInterest, emiAmount);
+
+    // Generate interest amount using the prepared loan parameters, installmentDates and principalAmounts.
+    const nterestAmounts = generateInterestAmounts(loanParameters, installmentDates, principalAmounts,  totalFlatInterest);
+    
 
     // These functions must exist in your project.
     populateLoanCard(loanData, loanParameters);
