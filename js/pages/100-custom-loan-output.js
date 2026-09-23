@@ -67,6 +67,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Generate schedule
     const schedule = generateSchedule(loanParameters, installmentDates, principalAmounts, interestAmounts, installment);
+
+    const scheduleBody = document.getElementById("scheduleBody");
+    
+    scheduleBody.innerHTML = schedule.map(row => `
+        <tr>
+        <td>${row.installmentNumber}</td>
+        <td>${formatDate(row.finalDueDateAdjusted)}</td>
+        <td>₹${row.principalComponent.toLocaleString("en-IN")}</td>
+        <td>₹${row.interestComponent.toLocaleString("en-IN")}</td>
+        <td>₹${row.feesCharges.toLocaleString("en-IN")}</td>
+        <td>₹${row.finalInstallment.toLocaleString("en-IN")}</td>
+        <td>₹${row.closingPrincipal.toLocaleString("en-IN")}</td>
+        </tr>
+        `).join("");
     
 
     // These functions must exist in your project.
