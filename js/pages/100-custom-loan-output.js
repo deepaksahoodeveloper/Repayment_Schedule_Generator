@@ -21,6 +21,8 @@ import { prepareLoanParameters } from "../utils/101-loan-parameters.js";
 import { generateInstallmentDates } from "../utils/102-installment-dates.js";
 import { generatePrincipalAmounts } from "../utils/103-principal-engine.js"
 import { generateInterestAmounts } from "../utils/104-interest-engine.js"
+import { generateInstallment } from "../utils/105-installment-engine.js"
+import { generateSchedule } from "../utils/106-Schedule.js";
 
 const RAW_DATA_KEY = "LOAN_DATA";
 const FORM_PAGE_URL = "../index.html";
@@ -58,7 +60,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const principalAmounts = generatePrincipalAmounts(loanParameters, installmentDates, totalFlatInterest, emiAmount);
 
     // Generate interest amount using the prepared loan parameters, installmentDates and principalAmounts.
-    const nterestAmounts = generateInterestAmounts(loanParameters, installmentDates, principalAmounts,  totalFlatInterest);
+    const interestAmounts = generateInterestAmounts(loanParameters, installmentDates, principalAmounts,  totalFlatInterest);
+
+    // Generate installment
+    const installment = generateInstallment(loanParameters, installmentDates, principalAmounts, interestAmounts);
+
+    // Generate schedule
+    const schedule = generateSchedule(loanParameters, installmentDates, principalAmounts, interestAmounts, installment);
     
 
     // These functions must exist in your project.
