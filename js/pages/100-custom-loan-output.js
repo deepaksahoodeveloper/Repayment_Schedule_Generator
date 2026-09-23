@@ -73,7 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
     scheduleBody.innerHTML = schedule.map(row => `
         <tr>
         <td>${row.installmentNumber}</td>
-        <td>${formatDate(row.finalDueDateAdjusted)}</td>
+        <td>${row.finalDueDateAdjusted}</td>
         <td>₹${row.principalComponent.toLocaleString("en-IN")}</td>
         <td>₹${row.interestComponent.toLocaleString("en-IN")}</td>
         <td>₹${row.feesCharges.toLocaleString("en-IN")}</td>

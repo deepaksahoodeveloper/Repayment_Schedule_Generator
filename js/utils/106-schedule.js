@@ -1,3 +1,4 @@
+import { formatDate } from "../utils_helpers/formatDate.js";
 import { Logger } from "../utils_helpers/logger.js";
 
 export function  generateSchedule(LOAN_PARAMETERS, installmentDates, principalAmounts, interestAmounts, installment){
@@ -12,7 +13,7 @@ export function  generateSchedule(LOAN_PARAMETERS, installmentDates, principalAm
     ){
         const index = installmentNumber - 1;
 
-        const finalDueDateAdjusted = installmentDates[index].finalDueDateAdjusted;
+        const finalDueDateAdjusted = formatDate(installmentDates[index].finalDueDateAdjusted);
         const principalComponent = principalAmounts[index].actualPrincipal;
         const interestComponent = interestAmounts[index].roundedInterest;
         const feesCharges = 
