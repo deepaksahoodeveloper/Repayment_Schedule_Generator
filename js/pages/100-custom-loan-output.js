@@ -22,7 +22,7 @@ import { generateInstallmentDates } from "../utils/102-installment-dates.js";
 import { generatePrincipalAmounts } from "../utils/103-principal-engine.js"
 import { generateInterestAmounts } from "../utils/104-interest-engine.js"
 import { generateInstallment } from "../utils/105-installment-engine.js"
-import { generateSchedule } from "../utils/106-Schedule.js";
+import { generateSchedule } from "../utils/106-schedule.js";
 
 const RAW_DATA_KEY = "LOAN_DATA";
 const FORM_PAGE_URL = "../index.html";
