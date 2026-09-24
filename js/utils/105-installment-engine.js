@@ -10,6 +10,7 @@ export function generateInstallment(LOAN_PARAMETERS, installmentDates, principal
     const insuranceFeeAmount = LOAN_PARAMETERS.insuranceFeeAmount;
     const serviceFeeAmount = LOAN_PARAMETERS.serviceFee;
     const otherChargesAmount = LOAN_PARAMETERS.otherCharges;
+    const normalizedTaxRate = LOAN_PARAMETERS.taxRate / 100;
     const installment = [];
 
     for (
@@ -45,7 +46,7 @@ export function generateInstallment(LOAN_PARAMETERS, installmentDates, principal
             otherChargesAmount, 
             numberOfInstallments
         );
-        const taxonFees = LOAN_PARAMETERS.applyTax === "yes" ? (processingFee + insuranceFee + serviceFee + otherCharges) * LOAN_PARAMETERS.taxRate : 0;
+        const taxonFees = LOAN_PARAMETERS.applyTax === "yes" ? (processingFee + insuranceFee + serviceFee + otherCharges) * normalizedTaxRate : 0;
         const totalUnrounded = principalComponent + interestComponent + processingFee + insuranceFee + serviceFee + otherCharges + taxonFees;
         const roundingResidual = totalUnrounded - roundValue(totalUnrounded, LOAN_PARAMETERS.roundingRule, LOAN_PARAMETERS.roundingDecimalPlaces);
         const finalInstallment = roundValue(totalUnrounded, LOAN_PARAMETERS.roundingRule, LOAN_PARAMETERS.roundingDecimalPlaces);

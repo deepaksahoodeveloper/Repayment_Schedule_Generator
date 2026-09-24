@@ -14,6 +14,20 @@
 import { calculateNumberOfInstallments } from "../utils/calculateNumberOfInstallments.js";
 import { formDataToObject } from "../utils_helpers/formDataToObject.js"
 
+// Dropdown Values and populate
+import { populateDropdown } from "../utils_helpers/populateDropdown.js"
+import {CURRENCY_OPTIONS } from "../constants/dropdowns.js"
+import { TENURE_UNIT_OPTIONS } from "../constants/dropdowns.js"
+import { REPAYMENT_FREQUENCY_OPTIONS } from "../constants/dropdowns.js"
+import { REPAYMENT_METHOD_OPTIONS } from "../constants/dropdowns.js"
+import { DAY_COUNT_CONVENTION_OPTIONS } from "../constants/dropdowns.js"
+import { FEE_APPLICATION_TIMING_OPTIONS } from "../constants/dropdowns.js"
+import { FEE_TYPE_OPTIONS } from "../constants/dropdowns.js"
+import { TAX_OPTIONS } from "../constants/dropdowns.js"
+import { ROUNDING_DECIMAL_OPTIONS } from "../constants/dropdowns.js"
+import { ROUNDING_RULE_OPTIONS } from "../constants/dropdowns.js"
+import { WEEKEND_HOLIDAY_HANDLING_OPTIONS } from "../constants/dropdowns.js"
+
 // Where to send the user when submit the form
 const OUTPUT_PAGE_URL = "./100-custom-loan-output.html";
 const LOAN_DATA = "LOAN_DATA"
@@ -34,6 +48,9 @@ function initLoanForm() {
     const currency = document.getElementById("currency"); // value: "INR"
     const disbursementDate = document.getElementById("disbursementDate");
     const firstRepaymentDate = document.getElementById("firstRepaymentDate");
+    // 2.1 Populate Dropdown
+    populateDropdown(currency, CURRENCY_OPTIONS);
+
 
     // 3. REPAYMENT
     const tenureUnit = document.getElementById("tenureUnit"); // Value: "days", "weeks", "months", or "years"
@@ -41,10 +58,16 @@ function initLoanForm() {
     const repaymentFrequency = document.getElementById("repaymentFrequency"); // Value: "daily", "weekly", "biweekly", "monthly", or "quarterly" 
     const numberOfInstallments = document.getElementById("numberOfInstallments");
     const repaymentMethod = document.getElementById("repaymentMethod"); // Value: "flat-interest", "reducing-emi", "reducing-balance"
+    // 3.1 Populate Dropdown
+    populateDropdown(tenureUnit, TENURE_UNIT_OPTIONS);
+    populateDropdown(repaymentFrequency, REPAYMENT_FREQUENCY_OPTIONS);
+    populateDropdown(repaymentMethod, REPAYMENT_METHOD_OPTIONS );
 
     // 4. INTEREST
     const annualInterestRate = document.getElementById("annualInterestRate");
     const dayCountConvention = document.getElementById("dayCountConvention"); // Value: "actual365", "actual360", or "30_360"
+    // 4.1 Populate Dropdown
+    populateDropdown(dayCountConvention, DAY_COUNT_CONVENTION_OPTIONS)
 
     // 5. FEES & CHARGES
     const feeApplicationTiming = document.getElementById("feeApplicationTiming"); // Value: "upfront", "first-installment", or "spread"
@@ -58,11 +81,20 @@ function initLoanForm() {
     const otherCharges = document.getElementById("otherCharges");
     const applyTax = document.getElementById("applyTax"); // Value: "yes" or "no"
     const taxRate = document.getElementById("taxRate");
+    // 5.1 Populate Dropdown
+    populateDropdown(feeApplicationTiming, FEE_APPLICATION_TIMING_OPTIONS );
+    populateDropdown(processingFeeType, FEE_TYPE_OPTIONS );
+    populateDropdown(insuranceFeeType, FEE_TYPE_OPTIONS );
+    populateDropdown(applyTax, TAX_OPTIONS );
 
     // 6. ADVANCED SETTINGS
     const roundingDecimalPlaces = document.getElementById("roundingDecimalPlaces"); // Value: "2", "1", "0", "-1", or "-2"
     const roundingRule = document.getElementById("roundingRule"); // Value: "nearest", "up", or "down"
     const weekendHolidayHandling = document.getElementById("weekendHolidayHandling") // Value: "0", "-1", or "1"
+    // 6. Populate Dropdown
+    populateDropdown(roundingDecimalPlaces, ROUNDING_DECIMAL_OPTIONS);
+    populateDropdown(roundingRule, ROUNDING_RULE_OPTIONS );
+    populateDropdown(weekendHolidayHandling, WEEKEND_HOLIDAY_HANDLING_OPTIONS );
 
 
     // 3. REPAYMENT - Update Number Of Installments

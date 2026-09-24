@@ -17,23 +17,7 @@
         <p class="description">
             Enter the loan details and repayment configuration.
         </p>
-
-        <!-- Phase Banner -->
-        <div class="phase-banner">
-            <div class="phase-badge">
-                PHASE 1
-            </div>
-
-            <div class="phase-content">
-                <strong>Phase 1 is Live</strong>
-
-                <span>
-                    Phase 2 is currently in development and will be live by
-                    15 September 2026.
-                </span>
-            </div>
-        </div>
-
+        
         <form id="loanForm">
 
             <!-- =========================================
@@ -186,9 +170,6 @@
 
                         <select id="currency" name="currency" required>
                             <option value="">Select currency</option>
-                            <option value="INR">
-                                INR - Indian Rupee
-                            </option>
                         </select>
 
                         <span class="small-text">
@@ -260,10 +241,6 @@
                             required
                         >
                             <option value="">Select unit</option>
-                            <option value="days">Days</option>
-                            <option value="weeks">Weeks</option>
-                            <option value="months">Months</option>
-                            <option value="years">Years</option>
                         </select>
 
                         <span class="small-text">
@@ -306,11 +283,6 @@
                             required
                         >
                             <option value="">Select frequency</option>
-                            <option value="daily">Daily</option>
-                            <option value="weekly">Weekly</option>
-                            <option value="biweekly">Bi-weekly</option>
-                            <option value="monthly">Monthly</option>
-                            <option value="quarterly">Quarterly</option>
                         </select>
 
                         <span class="small-text">
@@ -371,9 +343,6 @@
                             required
                         >
                             <option value="">Select method</option>
-                            <option value="flat-interest">Flat Interest - Equal Installment</option>
-                            <option value="reducing-emi">Reducing Balance - EMI (Equal Installment)</option>
-                            <option value="reducing-balance">Reducing Balance - Equal Principal</option>
                         </select>
 
                         <span class="small-text">
@@ -430,9 +399,6 @@
                             required
                         >
                             <option value="">Select convention</option>
-                            <option value="actual365">Actual/365</option>
-                            <option value="actual360">Actual/360</option>
-                            <option value="30_360">30/360</option>
                         </select>
 
                         <span class="small-text">
@@ -466,18 +432,7 @@
                             name="feeApplicationTiming"
                             required
                         >
-                            <option value="">
-                                Select fee application timing
-                            </option>
-                            <option value="upfront">
-                                Upfront at Disbursement
-                            </option>
-                            <option value="first-installment">
-                                Added to First Installment
-                            </option>
-                            <option value="spread">
-                                Spread Equally Across Installments
-                            </option>
+                            <option value="">Select fee application timing</option>
                         </select>
 
                         <span class="small-text">
@@ -497,8 +452,6 @@
                             required
                         >
                             <option value="">Select fee type</option>
-                            <option value="percentage">% of Principal</option>
-                            <option value="flat">Flat Amount</option>
                         </select>
 
                         <span class="small-text">
@@ -543,8 +496,6 @@
                             required
                         >
                             <option value="">Select fee type</option>
-                            <option value="percentage">% of Principal</option>
-                            <option value="flat">Flat Amount</option>
                         </select>
 
                         <span class="small-text">
@@ -629,8 +580,6 @@
                             required
                         >
                             <option value="">Select option</option>
-                            <option value="no">No</option>
-                            <option value="yes">Yes</option>
                         </select>
 
                         <span class="small-text">
@@ -687,11 +636,6 @@
                             required
                         >
                             <option value="">Select decimal places</option>
-                            <option value="-2">Nearest ₹100</option>
-                            <option value="-1">Nearest ₹10</option>
-                            <option value="0">Nearest ₹1</option>
-                            <option value="1">Nearest ₹0.1</option>
-                            <option value="2">Nearest ₹0.01</option>
                         </select>
 
                         <span class="small-text">
@@ -712,15 +656,6 @@
                             required
                         >
                             <option value="">Select rule</option>
-                            <option value="nearest">
-                                Nearest - Closest amount
-                            </option>
-                            <option value="up">
-                                Round Up - Higher amount
-                            </option>
-                            <option value="down">
-                                Round Down - Lower amount
-                            </option>
                         </select>
 
                         <span class="small-text">
@@ -741,9 +676,6 @@
                             required
                         >
                             <option value="">Select option</option>
-                            <option value="0">No Adjustment</option>
-                            <option value="1">Move to Next Business Day</option>
-                            <option value="-1">Move to Previous Business Day</option>
                         </select>
 
                         <span class="small-text">
