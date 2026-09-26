@@ -1,0 +1,461 @@
+<!--
+    ============================================================
+    Custom Repayment Schedule Generator
+    ------------------------------------------------------------
+    Description : Output for custom repayment schedule generator  
+    File        : 100-custom-loan-output.html
+    ============================================================
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- =========================================================
+            Page Metadata
+    ========================================================== -->
+    <title>Custom Loan Output</title>
+    <link rel="icon" type="image/x-icon" href="../assets/icons/favicon.ico">
+
+    <!-- Open Graph metadata for social sharing and link previews -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Custom Repayment Schedule Generator">
+    <meta property="og:description" content="Create and generate loan repayment schedules.">
+    <meta property="og:url" content="https://repayment-schedule-generator.onrender.com/pages/100-custom-loan-input.html">
+
+    <!-- =========================================================
+         External Dependencies
+    ========================================================== -->
+    <!-- html2pdf.js -->
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js">
+    </script>
+
+    <!-- =========================================================
+         Application Assets
+    ========================================================== -->
+    <link rel="stylesheet" href="../css/100-custom-loan-output.css">
+
+</head>
+
+<body>
+
+    <!-- =========================================
+         Download Button
+         IMPORTANT:
+         Keep this OUTSIDE pdfContent
+    ========================================== -->
+
+    <div class="download-container">
+
+        <button id="downloadBtn" type="button">
+            Download As PDF
+        </button>
+
+    </div>
+
+    <!-- =========================================
+         A4 DOCUMENT
+
+         NOTE: none of the <span class="value"> elements below have
+         hardcoded text anymore. loan-card.js reads the data saved
+         by index.html (via localStorage) and fills every one of
+         them in on page load. If you're viewing this file's source
+         and wondering where the numbers are — they're not here.
+    ========================================== -->
+
+    <div id="pdfContent" class="page-container">
+
+        <!-- Header -->
+        <header class="page-header">
+
+            <div>
+                <h1>Loan Repayment Schedule</h1>
+
+                <p>
+                    Loan repayment details and installment schedule
+                </p>
+            </div>
+
+        </header>
+
+        <!-- =====================================
+            1. Loan & Borrower
+        ====================================== -->
+
+        <section class="card">
+
+            <div class="section-title">
+                <h2>Loan &amp; Borrower</h2>
+            </div>
+
+            <div class="info-grid">
+
+                <div class="info-item">
+                    <span class="label">
+                        Borrower Name
+                    </span>
+
+                    <span class="value" id="borrowerNameValue"></span>
+                </div>
+
+
+                <div class="info-item">
+                    <span class="label">
+                        Loan ID
+                    </span>
+
+                    <span class="value" id="loanIdValue"></span>
+                </div>
+
+
+                <div class="info-item">
+                    <span class="label">
+                        Borrower ID
+                    </span>
+
+                    <span class="value" id="borrowerIdValue"></span>
+                </div>
+
+
+                <div class="info-item">
+                    <span class="label">
+                        Product Name
+                    </span>
+
+                    <span class="value" id="productNameValue"></span>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================
+            2. Loan Amount & Dates
+        ====================================== -->
+
+        <section class="card">
+
+            <div class="section-title">
+                <h2>Loan Amount &amp; Dates</h2>
+            </div>
+
+            <div class="info-grid">
+
+                <div class="info-item">
+                    <span class="label">
+                        Loan Amount (Principal)
+                    </span>
+
+                    <span class="value amount" id="principalAmountValue"></span>
+                </div>
+
+
+                <div class="info-item">
+                    <span class="label">
+                        Currency
+                    </span>
+
+                    <span class="value" id="currencyValue"></span>
+                </div>
+
+
+                <div class="info-item">
+                    <span class="label">
+                        Disbursement Date
+                    </span>
+
+                    <span class="value" id="disbursementDateValue"></span>
+                </div>
+
+
+                <div class="info-item">
+                    <span class="label">
+                        First Repayment Date
+                    </span>
+
+                    <span class="value" id="firstRepaymentDateValue"></span>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================
+            3. Repayment
+        ====================================== -->
+
+        <section class="card">
+
+            <div class="section-title">
+                <h2>Repayment</h2>
+            </div>
+
+            <div class="info-grid">
+
+                <div class="info-item">
+                    <span class="label">
+                        Tenure Unit
+                    </span>
+
+                    <span class="value" id="tenureUnitValue"></span>
+                </div>
+
+
+                <div class="info-item">
+                    <span class="label">
+                        Tenure Value
+                    </span>
+
+                    <span class="value" id="tenureValueValue"></span>
+                </div>
+
+
+                <div class="info-item">
+                    <span class="label">
+                        Repayment Frequency
+                    </span>
+
+                    <span class="value" id="repaymentFrequencyValue"></span>
+                </div>
+
+
+                <div class="info-item">
+                    <span class="label">
+                        Number of Installments
+                    </span>
+
+                    <span class="value" id="numberOfInstallmentsValue"></span>
+                </div>
+
+
+                <div class="info-item">
+                    <span class="label">
+                        Interest / Repayment Method
+                    </span>
+
+                    <span class="value" id="repaymentMethodValue"></span>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================
+            4. Interest
+        ====================================== -->
+
+        <section class="card">
+
+            <div class="section-title">
+                <h2>Interest</h2>
+            </div>
+
+            <div class="info-grid">
+
+                <div class="info-item">
+                    <span class="label">
+                        Annual Interest Rate
+                    </span>
+
+                    <span class="value" id="annualInterestRateValue"></span>
+                </div>
+
+
+                <div class="info-item">
+                    <span class="label">
+                        Day Count Convention
+                    </span>
+
+                    <span class="value" id="dayCountConventionValue"></span>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================
+            5. Fees & Charges
+        ====================================== -->
+
+        <section class="card">
+
+            <div class="section-title">
+                <h2>Fees &amp; Charges</h2>
+            </div>
+
+            <div class="info-grid">
+
+                <div class="info-item">
+                    <span class="label">
+                        Fee Application Timing
+                    </span>
+
+                    <span class="value" id="feeApplicationTimingValue"></span>
+                </div>
+
+
+                <div class="info-item">
+                    <span class="label">
+                        Processing Fee Type
+                    </span>
+
+                    <span class="value" id="processingFeeTypeValue"></span>
+                </div>
+
+
+                <div class="info-item">
+                    <span class="label">
+                        Processing Fee Value
+                    </span>
+
+                    <span class="value" id="processingFeeValueValue"></span>
+                </div>
+
+
+                <div class="info-item">
+                    <span class="label">
+                        Insurance Fee Type
+                    </span>
+
+                    <span class="value" id="insuranceFeeTypeValue"></span>
+                </div>
+
+
+                <div class="info-item">
+                    <span class="label">
+                        Insurance Fee Value
+                    </span>
+
+                    <span class="value" id="insuranceFeeValueValue"></span>
+                </div>
+
+
+                <div class="info-item">
+                    <span class="label">
+                        Service Fee
+                    </span>
+
+                    <span class="value amount" id="serviceFeeValue"></span>
+                </div>
+
+
+                <div class="info-item">
+                    <span class="label">
+                        Other Charges
+                    </span>
+
+                    <span class="value amount" id="otherChargesValue"></span>
+                </div>
+
+
+                <div class="info-item">
+                    <span class="label">
+                        Apply Tax/GST on Fees?
+                    </span>
+
+                    <span class="value" id="applyTaxValue"></span>
+                </div>
+
+
+                <div class="info-item">
+                    <span class="label">
+                        Tax/GST Rate (%)
+                    </span>
+
+                    <span class="value" id="taxRateValue"></span>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================
+            6. Advanced Calculation Settings
+        ====================================== -->
+
+        <section class="card">
+
+            <div class="section-title">
+                <h2>Advanced Calculation Settings</h2>
+            </div>
+
+            <div class="info-grid">
+
+                <div class="info-item">
+                    <span class="label">
+                        Rounding Decimal Places
+                    </span>
+
+                    <span class="value" id="roundingDecimalPlacesValue"></span>
+                </div>
+
+
+                <div class="info-item">
+                    <span class="label">
+                        Rounding Rule
+                    </span>
+
+                    <span class="value" id="roundingRuleValue"></span>
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================================
+             Repayment Schedule
+
+             NOT WIRED UP YET — the 12 rows below are still sample
+             placeholder data, on purpose. The actual amortization
+             calculation (based on repayment method, rounding rule,
+             and holiday weekday adjustments from Page 1) is a
+             separate follow-up task.
+        ====================================== -->
+
+        <section class="card card--schedule">
+
+            <div class="section-title">
+                <h2>Repayment Schedule</h2>
+            </div>
+
+
+            <div class="schedule-wrapper">
+
+                <table class="schedule-table">
+
+                    <thead>
+                        <tr>
+                            <th>Installment</th>
+                            <th>Due Date</th>
+                            <th>Principal</th>
+                            <th>Interest</th>
+                            <th>Fees/Charges</th>
+                            <th>Total EMI</th>
+                            <th>Balance</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="scheduleBody"></tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </div>
+
+    <script type="module" src="../js/pages/100-custom-loan-output.js"></script>
+
+</body>
+
+</html>

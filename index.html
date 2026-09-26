@@ -1,11 +1,94 @@
+<!--
+    ============================================================
+    Repayment Schedule Generator
+    ------------------------------------------------------------
+    Description : Loan type selection and repayment schedule entry point
+    File        : index.html
+    ============================================================
+-->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- =========================================================
+         Page Metadata
+    ========================================================== -->
     <title>Repayment Schedule Generator</title>
+
+    <!-- Open Graph metadata for social sharing and link previews -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Repayment Schedule Generator">
+    <meta property="og:description" content="Create and generate loan repayment schedules.">
+    <meta property="og:url" content="https://repayment-schedule-generator.onrender.com/">
+
+    <!-- =========================================================
+         External Dependencies
+    ========================================================== -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet"
+    >
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- =========================================================
+         Application Assets
+    ========================================================== -->
+    <link rel="stylesheet" href="./css/index.css">
+    <link rel="icon" type="image/x-icon" href="./assets/icons/favicon.ico">
 </head>
+
 <body>
-    
+
+    <!-- =========================================================
+         Main Content
+    ========================================================== -->
+    <main class="container">
+
+        <!-- =====================================================
+             Page Introduction
+        ====================================================== -->
+        <section class="intro">
+            <span class="eyebrow">LOAN CARD GENERATOR</span>
+            <h1>Choose a loan type</h1>
+            <p>Select a loan type to get started.</p>
+        </section>
+
+        <!-- =====================================================
+             Loan Type Selection
+        ====================================================== -->
+        <section class="loan-grid" id="loanTypes" aria-label="Loan types">
+
+            <!-- Custom loan option -->
+            <a href="./pages/100-custom-loan-input.html" class="loan-card">
+
+                <!-- Loan type icon -->
+                <div class="loan-icon">
+                    <i data-lucide="plus"></i>
+                </div>
+
+                <!-- Loan type information -->
+                <div class="loan-info">
+                    <h2>Custom Loan</h2>
+                    <p>Create any other loan card</p>
+                </div>
+
+                <!-- Navigation indicator -->
+                <i data-lucide="arrow-up-right" class="arrow"></i>
+
+            </a>
+            
+        </section>
+
+    </main>
+
+    <!-- =========================================================
+         Page Scripts
+    ========================================================== -->
+    <script src="./js/pages/index.js"></script>
+
 </body>
+
 </html>
