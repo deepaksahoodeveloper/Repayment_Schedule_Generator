@@ -10,30 +10,32 @@
  *   - On submit, saves the form data to localStorage and moves to the
  *     results page.
  */
-
+// Import Util and Util helper
 import { calculateNumberOfInstallments } from "../utils/calculateNumberOfInstallments.js";
 import { formDataToObject } from "../utils_helpers/formDataToObject.js"
 
 // Dropdown Values and populate
 import { populateDropdown } from "../utils_helpers/populateDropdown.js"
-import { CURRENCY_OPTIONS } from "../constants/dropdowns.js"
-import { TENURE_UNIT_OPTIONS } from "../constants/dropdowns.js"
-import { REPAYMENT_FREQUENCY_OPTIONS } from "../constants/dropdowns.js"
-import { REPAYMENT_METHOD_OPTIONS } from "../constants/dropdowns.js"
-import { DAY_COUNT_CONVENTION_OPTIONS } from "../constants/dropdowns.js"
-import { FEE_APPLICATION_TIMING_OPTIONS } from "../constants/dropdowns.js"
-import { FEE_TYPE_OPTIONS } from "../constants/dropdowns.js"
-import { TAX_OPTIONS } from "../constants/dropdowns.js"
-import { ROUNDING_DECIMAL_OPTIONS } from "../constants/dropdowns.js"
-import { ROUNDING_RULE_OPTIONS } from "../constants/dropdowns.js"
-import { WEEKEND_HOLIDAY_HANDLING_OPTIONS } from "../constants/dropdowns.js"
+import { 
+    CURRENCY_OPTIONS,                   TENURE_UNIT_OPTIONS, 
+    REPAYMENT_FREQUENCY_OPTIONS,        REPAYMENT_METHOD_OPTIONS, 
+    DAY_COUNT_CONVENTION_OPTIONS,       FEE_APPLICATION_TIMING_OPTIONS, 
+    FEE_TYPE_OPTIONS, TAX_OPTIONS,      ROUNDING_DECIMAL_OPTIONS, 
+    ROUNDING_RULE_OPTIONS,              WEEKEND_HOLIDAY_HANDLING_OPTIONS, 
+    } from "../pages_helpers/constants/dropdowns.js";
 
-// Where to send the user when submit the form
+/* ------------------------------------------------------------------ * Constants * ------------------------------------------------------------------ */
 const OUTPUT_PAGE_URL = "./100-custom-loan-output.html";
 const LOAN_DATA = "LOAN_DATA"
 
+/* ------------------------------------------------------------------ * Initialization * ------------------------------------------------------------------ */
 document.addEventListener("DOMContentLoaded", initLoanForm);
 
+/** 
+ * Initializes the Loan Details form. *
+ * The form is initialized only after the DOM has been loaded so that 
+ * all required form elements are available. 
+ * */
 function initLoanForm() {
     const form = document.getElementById("loanForm");
 
