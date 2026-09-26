@@ -16,7 +16,7 @@ import { formDataToObject } from "../utils_helpers/formDataToObject.js"
 
 // Dropdown Values and populate
 import { populateDropdown } from "../utils_helpers/populateDropdown.js"
-import {CURRENCY_OPTIONS } from "../constants/dropdowns.js"
+import { CURRENCY_OPTIONS } from "../constants/dropdowns.js"
 import { TENURE_UNIT_OPTIONS } from "../constants/dropdowns.js"
 import { REPAYMENT_FREQUENCY_OPTIONS } from "../constants/dropdowns.js"
 import { REPAYMENT_METHOD_OPTIONS } from "../constants/dropdowns.js"

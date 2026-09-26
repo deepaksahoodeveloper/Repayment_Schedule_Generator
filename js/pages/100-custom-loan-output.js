@@ -25,7 +25,7 @@ import { generateInstallment } from "../utils/105-installment-engine.js"
 import { generateSchedule } from "../utils/106-schedule.js";
 
 const RAW_DATA_KEY = "LOAN_DATA";
-const FORM_PAGE_URL = "../index.html";
+const FORM_PAGE_URL = "./100-custom-loan-input.html";
 
 document.addEventListener("DOMContentLoaded", () => {
     const loanData = getLoanData(RAW_DATA_KEY);
