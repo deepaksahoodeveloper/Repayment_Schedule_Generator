@@ -60,7 +60,7 @@ function initLoanForm() {
     const repaymentFrequency = document.getElementById("repaymentFrequency"); // Value: "daily", "weekly", "biweekly", "monthly", or "quarterly" 
     const numberOfInstallments = document.getElementById("numberOfInstallments");
     const repaymentMethod = document.getElementById("repaymentMethod"); // Value: "flat-interest", "reducing-emi", "reducing-balance"
-    // 3.1 Populate Dropdown
+    // Populate Dropdown
     populateDropdown(tenureUnit, TENURE_UNIT_OPTIONS);
     populateDropdown(repaymentFrequency, REPAYMENT_FREQUENCY_OPTIONS);
     populateDropdown(repaymentMethod, REPAYMENT_METHOD_OPTIONS );
@@ -68,7 +68,7 @@ function initLoanForm() {
     // 4. INTEREST
     const annualInterestRate = document.getElementById("annualInterestRate");
     const dayCountConvention = document.getElementById("dayCountConvention"); // Value: "actual365", "actual360", or "30_360"
-    // 4.1 Populate Dropdown
+    // Populate Dropdown
     populateDropdown(dayCountConvention, DAY_COUNT_CONVENTION_OPTIONS)
 
     // 5. FEES & CHARGES
@@ -83,7 +83,7 @@ function initLoanForm() {
     const otherCharges = document.getElementById("otherCharges");
     const applyTax = document.getElementById("applyTax"); // Value: "yes" or "no"
     const taxRate = document.getElementById("taxRate");
-    // 5.1 Populate Dropdown
+    // Populate Dropdown
     populateDropdown(feeApplicationTiming, FEE_APPLICATION_TIMING_OPTIONS );
     populateDropdown(processingFeeType, FEE_TYPE_OPTIONS );
     populateDropdown(insuranceFeeType, FEE_TYPE_OPTIONS );
@@ -93,7 +93,7 @@ function initLoanForm() {
     const roundingDecimalPlaces = document.getElementById("roundingDecimalPlaces"); // Value: "2", "1", "0", "-1", or "-2"
     const roundingRule = document.getElementById("roundingRule"); // Value: "nearest", "up", or "down"
     const weekendHolidayHandling = document.getElementById("weekendHolidayHandling") // Value: "0", "-1", or "1"
-    // 6. Populate Dropdown
+    // Populate Dropdown
     populateDropdown(roundingDecimalPlaces, ROUNDING_DECIMAL_OPTIONS);
     populateDropdown(roundingRule, ROUNDING_RULE_OPTIONS );
     populateDropdown(weekendHolidayHandling, WEEKEND_HOLIDAY_HANDLING_OPTIONS );
@@ -109,7 +109,6 @@ function initLoanForm() {
 
         numberOfInstallments.value = calculateNumberOfInstallments(unit, value, frequency);
     }
-
     // Listen for changes to the tenure and repayment inputs and update
     // the number of installments accordingly.
     tenureUnit.addEventListener("change", updateNumberOfInstallments);
@@ -133,7 +132,6 @@ function initLoanForm() {
             processingFeeHelp.textContent = "Select a fee type to determine how the fee is calculated.";
         }
     }
-
     // Listen for changes to the insuranceFeeType and update
     // the processingFeeHelp of installments accordingly.
     processingFeeType.addEventListener("change", updateProcessingFee);
@@ -154,7 +152,6 @@ function initLoanForm() {
             insuranceFeeHelp.textContent = "Select a fee type to determine how the fee is calculated.";
         }
     }
-
     // Listen for changes to the insuranceFeeType and update
     // the processingFeeHelp of installments accordingly.
     insuranceFeeType.addEventListener("change", updateInsuranceFee);
@@ -172,7 +169,6 @@ function initLoanForm() {
             taxRate.placeholder = "Tax disabled";
         }
     }
-
     // Listen for changes to the applyTax and update
     // the taxRate accordingly.
     applyTax.addEventListener("change", updateTaxField);
@@ -191,7 +187,6 @@ function initLoanForm() {
             firstRepaymentDate.setCustomValidity("");
         }
     }
-
     // Listen for changes to the disbursementDate, firstRepaymentDate 
     // and update the setCustomValidity accordingly.
     disbursementDate.addEventListener("change", validateRepaymentDate);

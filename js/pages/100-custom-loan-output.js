@@ -36,13 +36,13 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
-    // Get calculated/processed loan parameters.
+    // Prepare loan parameters.
     const loanParameters = prepareLoanParameters(loanData);
 
     // Generate installment dates using the prepared loan parameters.
     const installmentDates = generateInstallmentDates(loanParameters);
     
-    // Total Tenure Days
+    // Total Tenure In Days.
     const lastInstallment = installmentDates[loanParameters.numberOfInstallments - 1].finalDueDateAdjusted;
     const totalTenureDays = getDateDifference(lastInstallment, loanParameters.disbursementDate);
 
@@ -82,7 +82,6 @@ document.addEventListener("DOMContentLoaded", () => {
         </tr>
         `).join("");
     
-
     // These functions must exist in your project.
     populateLoanCard(loanData, loanParameters);
     initDownloadButton();
