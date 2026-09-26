@@ -292,3 +292,145 @@ a {
         transition: none !important;
     }
 }
+
+/* =====================================================
+   PROJECT NOTE
+   ===================================================== */
+
+.project-note {
+    display: flex;
+    gap: 16px;
+
+    margin: 0 0 60px;
+    padding: 22px;
+
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+
+    background: #fafafa;
+}
+
+.project-note-icon {
+    flex: 0 0 34px;
+
+    width: 34px;
+    height: 34px;
+
+    display: grid;
+    place-items: center;
+
+    color: var(--text-secondary);
+    background: #f0f0f0;
+
+    border-radius: 9px;
+}
+
+.project-note-icon svg {
+    width: 16px;
+    height: 16px;
+
+    stroke-width: 1.7;
+}
+
+.project-note-content {
+    min-width: 0;
+}
+
+.project-note-label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: var(--text-muted);
+
+    font-size: 9px;
+    font-weight: 600;
+
+    letter-spacing: 0.12em;
+}
+
+.project-note-content h2 {
+    margin: 0;
+
+    font-size: 15px;
+    line-height: 1.4;
+    font-weight: 600;
+
+    letter-spacing: -0.02em;
+}
+
+.project-note-content p {
+    max-width: 680px;
+
+    margin: 7px 0 0;
+
+    color: var(--text-secondary);
+
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.project-note-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+
+    gap: 16px;
+
+    margin-top: 15px;
+}
+
+.project-link,
+.contact-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.project-link {
+    color: var(--text);
+}
+
+.project-link svg {
+    width: 13px;
+    height: 13px;
+
+    transition: transform 160ms ease;
+}
+
+.project-link:hover svg {
+    transform: translate(2px, -2px);
+}
+
+.contact-link {
+    color: var(--text-secondary);
+}
+
+.contact-link:hover {
+    color: var(--text);
+}
+
+
+/* =====================================================
+   PROJECT NOTE - MOBILE
+   ===================================================== */
+
+@media (max-width: 560px) {
+
+    .project-note {
+        gap: 12px;
+
+        padding: 18px;
+
+        margin-bottom: 40px;
+    }
+
+    .project-note-actions {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 10px;
+    }
+}
